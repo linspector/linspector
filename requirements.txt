@@ -1,0 +1,2 @@
+requests~=2.28.1 # used by speedtest type
+CherryPy~=18.8.0 # used by httpserver plugin
