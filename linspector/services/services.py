@@ -26,7 +26,7 @@ from logging import getLogger
 logger = getLogger('linspector')
 
 
-class Types:
+class Services:
 
     def __init__(self, configuration, environment):
         super().__init__()

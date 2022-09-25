@@ -28,7 +28,7 @@ logger = getLogger('linspector')
 
 
 # TODO: check for all required configuration options and set defaults if needed.
-class RedisPlugin(Task):
+class RedisTask(Task):
 
     def __init__(self, configuration, environment):
         super().__init__(configuration, environment)

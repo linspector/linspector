@@ -22,13 +22,13 @@ OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
 from logging import getLogger
-from linspector.monitors.monitor import Monitor
+from linspector.services.service import Service
 
 logger = getLogger('linspector')
 
 
 # TODO: check for all required configuration options and set defaults if needed.
-class FritzboxMonitor(Monitor):
+class FritzboxMonitor(Service):
 
     def __init__(self, configuration, environment):
         super().__init__(configuration, environment)

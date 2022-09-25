@@ -28,13 +28,13 @@ import time
 from logging import getLogger
 
 
-from linspector.monitors.monitor import Monitor
+from linspector.services.service import Service
 
 logger = getLogger('linspector')
 
 
 # TODO: check for all required configuration options and set defaults if needed.
-class SpeedtestMonitor(Monitor):
+class SpeedtestService(Service):
 
     def __init__(self, configuration, environment):
         super().__init__(configuration, environment)
