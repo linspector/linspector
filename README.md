@@ -1,6 +1,6 @@
 # Linspector Infrastructure and System Monitoring
 
-#### Linspector is not some program expecting computer to run...
+#### Linspector is not some program expecting computers to obviously run...
 
 The idea is based on a software I developed around 2010 or so. The name of the software is 
 [Linspector](https://linspector.org/) but the implementation was just too
