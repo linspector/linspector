@@ -38,13 +38,16 @@ class Configuration:
         self.__configuration = configparser.ConfigParser()
 
         if os.path.isfile(configuration_path + '/linspector.ini'):
-            self.__configuration.read(configuration_path + '/linspector.ini', 'utf-8')
+            try:
+                self.__configuration.read(configuration_path + '/linspector.ini', 'utf-8')
+            except Exception as err:
+                raise Exception('something went wrong reading the configuration file '
+                                'linspector.ini in the configuration root path! ({0})'.format(err))
         else:
             raise FileNotFoundError("configuration file linspector.ini not found in configuration "
                                     "root path!")
 
-        # add keys and values from notifications, plugins and types defined in their subdir ini
-        # files.
+        # add keys and values defined in sub dirs and configuration ini files.
         for target_section in ['notifications', 'plugins', 'services', 'tasks']:
             # check if section exists before adding content. if not exists add the section.
             if not self.__configuration.has_section(target_section):
