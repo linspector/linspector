@@ -65,7 +65,7 @@ According to: [https://wiki.unixpeople.org/linux_kernel_version_numbering](https
 
 ### MIT License
 
-Copyright (c) 2008 - 2022 Johannes Findeisen &lt;you@hanez.org&gt;
+Copyright (c) 2010 - 2022 Johannes Findeisen &lt;you@hanez.org&gt;
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
