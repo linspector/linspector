@@ -42,7 +42,7 @@ class Configuration:
 
         # add keys and values from notifications, plugins and types defined in their subdir ini
         # files.
-        for target_section in ['notifications', 'plugins', 'types']:
+        for target_section in ['notifications', 'plugins', 'services', 'tasks']:
             # check if section exists before adding content. if not exists add the section.
             if not self.__configuration.has_section(target_section):
                 self.__configuration.add_section(target_section)

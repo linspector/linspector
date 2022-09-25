@@ -27,7 +27,7 @@ from linspector.core.notification import Notification
 logger = getLogger('linspector')
 
 
-class SMSNotification(Notification):
+class TwitterNotification(Notification):
 
     def __init__(self, configuration, environment):
         super().__init__(configuration, environment)
