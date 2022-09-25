@@ -47,8 +47,9 @@ class Configuration:
             if not self.__configuration.has_section(target_section):
                 self.__configuration.add_section(target_section)
 
-            section_list = glob.glob(configuration_path + '/linspector/' + target_section + '/*')
+            section_list = glob.glob(configuration_path + '/' + target_section + '/*.ini')
             for section_file in section_list:
+                print("-->"+section_file)
                 configuration = configparser.ConfigParser()
                 configuration.read(section_file, 'utf-8')
                 for source_section in configuration.sections():
