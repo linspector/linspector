@@ -28,7 +28,7 @@ import time
 from logging import getLogger
 
 
-from linspector.core.monitor import Monitor
+from linspector.monitors.monitor import Monitor
 
 logger = getLogger('linspector')
 

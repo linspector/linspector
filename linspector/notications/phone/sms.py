@@ -22,12 +22,12 @@ OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
 from logging import getLogger
-from linspector.core.notification import Notification
+from linspector.notifications.notification import Notification
 
 logger = getLogger('linspector')
 
 
-class XMPPNotification(Notification):
+class SMSNotification(Notification):
 
     def __init__(self, configuration, environment):
         super().__init__(configuration, environment)

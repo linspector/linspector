@@ -22,13 +22,13 @@ OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
 from logging import getLogger
-from linspector.core.plugin import Plugin
+from linspector.monitors.monitor import Monitor
 
 logger = getLogger('linspector')
 
 
 # TODO: check for all required configuration options and set defaults if needed.
-class LishPlugin(Plugin):
+class PortType(Monitor):
 
     def __init__(self, configuration, environment):
         super().__init__(configuration, environment)
