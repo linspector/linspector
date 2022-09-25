@@ -39,6 +39,9 @@ class Configuration:
 
         if os.path.isfile(configuration_path + '/linspector.ini'):
             self.__configuration.read(configuration_path + '/linspector.ini', 'utf-8')
+        else:
+            raise FileNotFoundError("configuration file linspector.ini not found in configuration "
+                                    "root path!")
 
         # add keys and values from notifications, plugins and types defined in their subdir ini
         # files.
