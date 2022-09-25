@@ -1,13 +1,16 @@
 # Linspector Infrastructure and System Monitoring
 
-#### Linspector is not some program expecting computer to run.
+#### Linspector is not some program expecting computer to run...
 
-The idea is based on a software I developed in 2010 or so. The name of the software is 
+The idea is based on a software I developed around 2010 or so. The name of the software is 
 [Linspector](https://linspector.org/) but the implementation was just too
-complicated. The idea still remains so here the rebirth of Linspector.
+complicated. The idea still remains so here is the rebirth of Linspector. First commits 
+of this rewrite where done as a new project named 
+[monipy](https://git.unixpeople.org/linspector/monipy), but I moved to the name 
+Linspector because I believe it is the better and cooler name... Old Linspector code is 
+not available in any repository anymore, but I have archived it on my local disc.
 
-This is implemented in an old-fashioned way for easy understanding without cloud
-and such stuff... Hope it will become useful for someone at some day and not only for
+Hope this project it will become useful for someone at some day and not only for
 me. Just give me some amount of time for the first usable release... ;)
 
 ## About
