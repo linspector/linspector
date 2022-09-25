@@ -3,7 +3,7 @@
 #### Linspector is not some program expecting computers to obviously run...
 
 The idea is based on a software I developed around 2010 or so. The name of the software is 
-[Linspector](https://linspector.org/) but the implementation was just too
+[Linspector](http://linspector.org/) but the implementation was just too
 complicated. The idea still remains so here is the rebirth of Linspector. First commits 
 of this rewrite where done as a new project named 
 [monipy](https://git.unixpeople.org/linspector/monipy), but I moved to the name 
@@ -30,16 +30,11 @@ nearly does not exist.
 at the moment!
 
 ### Ideas
-
-- MAYBE rename this project to linspector and see it as an update. This is a nice idea 
-because [Linspector](https://linspector.org/) has its GitHub organisation, 
-domain etc. And all I do here is 
-a better Linspector. Even all nice and useful features and ideas from Linspector but 
-also uplink should be reimplemented here. - DONE!
-
+- 
 - Think about adding [APScheduler](https://pypi.org/project/APScheduler/) for 
 scheduling execution of the monitors instead of a self constructed thread
-structure... was very nice to get the job done in Linspector.
+structure... It was very nice to get the jobs done in Linspector using APScheduler 
+in the past.
 
 ### Manifest
 
