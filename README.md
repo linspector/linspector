@@ -2,11 +2,6 @@
 
 #### Linspector is not some program expecting computer to run.
 
-The code migration from [https://git.unixpeople.org/hanez/monipy](https://git.unixpeople.org/hanez/monipy) to 
-[https://git.unixpeople.org/linspector/linspector](https://git.unixpeople.org/linspector/linspector)
-
-LINSPECTOR is REBORN...! :)
-
 The idea is based on a software I developed in 2010 or so. The name of the software is 
 [Linspector](https://linspector.org/) but the implementation was just too
 complicated. The idea still remains so here the rebirth of Linspector.
