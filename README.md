@@ -30,7 +30,7 @@ nearly does not exist.
 at the moment!
 
 ### Ideas
-- 
+
 - Think about adding [APScheduler](https://pypi.org/project/APScheduler/) for 
 scheduling execution of the monitors instead of a self constructed thread
 structure... It was very nice to get the jobs done in Linspector using APScheduler 
