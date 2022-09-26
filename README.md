@@ -8,15 +8,17 @@ complicated. The idea still remains so here is the rebirth of Linspector. First 
 of this rewrite where done as a new project named 
 [monipy](https://git.unixpeople.org/linspector/monipy), but I moved to the name 
 Linspector because I believe it is the better and cooler name... Old Linspector code is 
-not available in any repository anymore, but I have archived it on my local disc.
+not available in this repository anymore, you can find it under 
+[https://git.unixpeople.org/linspector/linspector-old]().
 
-Hope this project it will become useful for someone at some day and not only for
+Hope this project will become useful for someone at some day and not only for
 me. Just give me some amount of time for the first usable release... ;)
 
 ## About
 
-**Linspector** contains some tools and a daemon to monitor your infrastructure. It
-collects data for statistics and sends alerts in case of errors.
+**Linspector** contains a daemon and some tools to monitor your infrastructure. It
+collects data for statistics and sends alerts in case of errors. When extending Linspector
+with plugins it for example can provide a web interface etc.
 
 This project is at a very early stage of development it is not able for usage.
 I design the software actually and try to convert my ideas to software. Code
@@ -60,6 +62,13 @@ According to: [https://wiki.unixpeople.org/linux_kernel_version_numbering](https
 - **MINOR** changes are "just-in-time" changes or small enhancements which _should_
   not affect the documentation and _must_ not break the API.
 - **FIXES** _must_ never affect anything else then stability or security.
+
+### Configuration file rules
+
+ - No inline comments so every available character can be used in values
+ - Values can be overridden in each monitor
+ - File names in etc/* are not important but section names and key names.
+ - Comments can be inserted using ';' or '#'
 
 ## License
 

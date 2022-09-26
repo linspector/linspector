@@ -84,9 +84,9 @@ class Configuration:
         else:
             return None
 
-    # this function can be called by notifications, plugins and types to set a default value if not
+    # this function can be called by notifications, plugins etc. to set their default values if not
     # configured. since all objects have access to the configuration this should not be done from
-    # any other place because it can break monipy.
+    # any other place because it can break linspector.
     # maybe it can be used for dynamic runtime configuration later but need to think about it.
     def set_option(self, section, option, value):
         if not self.__configuration.has_option(section, option):

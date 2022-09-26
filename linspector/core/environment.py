@@ -29,7 +29,7 @@ logger = getLogger('linspector')
 class Environment:
     """
     Object for storing environment variables at runtime. These variables must not affect the
-    stability of monipy.
+    stability or runtime of Linspector.
     """
     def __init__(self, configuration):
         self.__configuration = configuration
