@@ -35,7 +35,6 @@ from logging import getLogger
 from linspector.core.configuration import Configuration
 from linspector.core.environment import Environment
 from linspector.core.linspector import Linspector
-from linspector.core.linspectord import Linspectord
 from linspector.core.monitors import Monitors
 
 __version__ = '0.1'
@@ -80,8 +79,8 @@ def main():
     except Exception as err:
         logger.warning('[linspector] monitor initialization error: {0}'.format(err))
 
-    linspector = Linspector(configuration, environment, monitors)
-    #linspector.print_debug()
+    linspector = Linspector(configuration, environment, monitors, plugins)
+    linspector.print_debug()
 
     # so, if Linspector should start in Daemon mode, do it here...
     #Linspectord(configuration, environment, linspector).execute()

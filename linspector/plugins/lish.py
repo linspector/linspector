@@ -39,4 +39,4 @@ class LishPlugin:
         self.__linspector = linspector
 
     def run(self):
-        print('hello from Lish!')
+        return

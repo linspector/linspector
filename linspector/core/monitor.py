@@ -58,7 +58,7 @@ class Monitor:
             else:
                 notification_list = None
 
-            self.__notification_list = notification_list
+            self.__notification_list = notification_list.split(',')
 
             for notification_option in notification_list.split(','):
                 #print(__file__ + ' (64): ' + str(notification_option))
@@ -66,7 +66,7 @@ class Monitor:
                     notification_package = 'linspector.notifications.' + notification_option.lower()
                     notification_module = importlib.import_module(notification_package)
                     notification = notification_module.get(configuration, environment)
-                    notifications[notification_option] = notification
+                    notifications[notification_option.lower()] = notification
                     #print(__file__ + ' (70): ' + str(notifications))
 
         #print(__file__ + ' (72): ' + str(monitor_configuration))
@@ -77,7 +77,7 @@ class Monitor:
 
                 service_module = importlib.import_module(service_package)
                 service = service_module.get(configuration, environment)
-                services[monitor_configuration.get('monitor', 'service')] = service
+                services[monitor_configuration.get('monitor', 'service').lower()] = service
                 #print(__file__ + ' (81): ' + str(services))
 
             #service.execute(self)
@@ -97,7 +97,7 @@ class Monitor:
             else:
                 task_list = None
 
-            self.task_list = task_list
+            self.task_list = task_list.split(',')
 
             for task_option in task_list.split(','):
                 if task_option not in tasks:
@@ -105,7 +105,7 @@ class Monitor:
                     task_package = 'linspector.tasks.' + task_option.lower()
                     task_module = importlib.import_module(task_package)
                     task = task_module.get(configuration, environment)
-                    tasks[task_option] = task
+                    tasks[task_option.lower()] = task
 
             #print(__file__ + ' (110): ' + str(tasks))
 

@@ -20,6 +20,7 @@ OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF
 OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
+import importlib
 
 from logging import getLogger
 
@@ -28,16 +29,29 @@ logger = getLogger('linspector')
 
 class Linspector:
 
-    def __init__(self, configuration, environment, monitors):
+    def __init__(self, configuration, environment, monitors, plugins):
         self.__configuration = configuration
         self.__environment = environment
         self.__monitors = monitors
+        self.__plugin_list = None
+        self.__plugins = plugins
+
+        # load plugins
+        if configuration.get_option('linspector', 'plugins'):
+            plugin_list = configuration.get_option('linspector', 'plugins')
+            self.__plugin_list = plugin_list.split(',')
+            for plugin_option in plugin_list.split(','):
+                if plugin_option not in plugins:
+                    plugin_package = 'linspector.plugins.' + plugin_option.lower()
+                    plugin_module = importlib.import_module(plugin_package)
+                    plugin = plugin_module.get(configuration, environment, self)
+                    plugins[plugin_option.lower()] = plugin
 
     # this function is just for testing purposes and can be removed some day
     def print_debug(self):
         # example on how to access the monitor objects in monitors
         monitors = self.__monitors.get_monitors()
-        print(__file__ + ' (40): ' + str(monitors))
+        print(__file__ + ' (59): ' + str(monitors))
         for monitor in monitors:
-            print(__file__ + ' (42): ' + monitors.get(monitor).get_identifier())
-            print(__file__ + ' (43): ' + monitors.get(monitor).get_service())
+            print(__file__ + ' (61): ' + monitors.get(monitor).get_identifier())
+            print(__file__ + ' (62): ' + monitors.get(monitor).get_service())
