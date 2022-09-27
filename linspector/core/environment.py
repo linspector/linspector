@@ -31,9 +31,7 @@ class Environment:
     Object for storing environment variables at runtime. These variables must not affect the
     stability or runtime of Linspector.
     """
-    def __init__(self, configuration):
-        self.__configuration = configuration
-
+    def __init__(self):
         self.__env = {}
 
     def get_env_var(self, key):
@@ -51,6 +49,6 @@ class Environment:
 
     def set_env_var(self, key, value):
         if self.__env[key]:
-            logger.info('environment var "' + key + ' existed and was overwritten.')
+            logger.warning('environment var "' + key + ' existed and was overwritten!')
 
         self.__env[key] = value

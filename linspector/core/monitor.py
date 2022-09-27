@@ -21,16 +21,24 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF
 OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
+from linspector.core.notifications import Notifications
+from linspector.core.service import Service
+from linspector.core.services import Services
 from logging import getLogger
 
 logger = getLogger('linspector')
 
 
-# monitors could, should  be added (and maybe changed) at runtime to add new monitors without
-# restarting the daemon. maybe add a reset function to each monitor to reset the monitor at runtime
-# when changed dynamically.
-class Monitors:
+class Monitor:
 
-    def __init__(self, configuration, environment):
+    def __init__(self, configuration, environment, identifier, monitor_configuration, notifications,
+                 services):
         self.__configuration = configuration
-        self._environment = environment
+        self.__environment = environment
+        self.__identifier = identifier
+        self.__monitor_configuration = monitor_configuration
+        self.__notifications = notifications
+        self.__services = services
+
+    def get_identifier(self):
+        return self.__identifier

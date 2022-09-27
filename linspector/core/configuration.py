@@ -34,8 +34,10 @@ logger = getLogger('linspector')
 #  options in the "monipy" section of monipy.ini.
 class Configuration:
 
-    def __init__(self, configuration_path):
+    def __init__(self, configuration_path, environment):
         self.__configuration = configparser.ConfigParser()
+        self.__configuration_path = configuration_path
+        self.__environment = environment
 
         if os.path.isfile(configuration_path + '/linspector.ini'):
             try:
@@ -55,7 +57,7 @@ class Configuration:
 
             section_list = glob.glob(configuration_path + '/' + target_section + '/*.ini')
             for section_file in section_list:
-                print("-->"+section_file)
+                #print("-->"+section_file)
                 configuration = configparser.ConfigParser()
                 configuration.read(section_file, 'utf-8')
                 for source_section in configuration.sections():
@@ -78,16 +80,17 @@ class Configuration:
                 print(option + " = " + self.__configuration.get(section, option))
             i = 1
 
+    def get_configuration_path(self):
+        return self.__configuration_path
+
     def get_option(self, section, option):
         if self.__configuration.has_option(section, option):
             return self.__configuration.get(section, option)
         else:
             return None
 
-    # this function can be called by notifications, plugins etc. to set their default values if not
-    # configured. since all objects have access to the configuration this should not be done from
-    # any other place because it can break linspector.
-    # maybe it can be used for dynamic runtime configuration later but need to think about it.
+    # this function should be used with care because it edits the main configuration. maybe it can
+    # be used for dynamic runtime configuration later but i need to think about it.
     def set_option(self, section, option, value):
         if not self.__configuration.has_option(section, option):
             self.__configuration.set(section, option, value)

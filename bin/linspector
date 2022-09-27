@@ -31,6 +31,8 @@ from logging import getLogger
 from linspector.core.configuration import Configuration
 from linspector.core.environment import Environment
 from linspector.core.linspector import Linspector
+from linspector.core.linspectord import Linspectord
+from linspector.core.monitors import Monitors
 
 __version__ = '0.1'
 __author__ = 'Johannes Findeisen <you@hanez.org>'
@@ -55,15 +57,24 @@ def parse_args():
 def main():
     args = parse_args()
 
+    environment = Environment()
+    notifications = {}
+    services = {}
+
     try:
-        configuration = Configuration(args.configuration_path)
-        configuration.dump_to_ini()
+        configuration = Configuration(args.configuration_path, environment)
+        # configuration.dump_to_ini()
     except Exception as err:
         logger.error(str('[uplink] configuration error: {0}'.format(err)))
         sys.exit(1)
 
-    environment = Environment(configuration)
-    linspector = Linspector(configuration, environment)
+    monitors = Monitors(configuration, environment, notifications, services)
+
+    linspector = Linspector(configuration, environment, monitors)
+    #linspector.print_monitors_monitor_identifiers()
+
+    # so, if Linspector should start in Daemon mode, do thi here...
+    #Linspectord(configuration, environment, linspector).execute()
 
 
 if __name__ == '__main__':

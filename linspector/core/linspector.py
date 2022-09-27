@@ -28,6 +28,15 @@ logger = getLogger('linspector')
 
 class Linspector:
 
-    def __init__(self, configuration, environment):
+    def __init__(self, configuration, environment, monitors):
         self.__configuration = configuration
         self.__environment = environment
+        self.__monitors = monitors
+
+    # this function is just for testing purposes and can be removed some day
+    def print_monitors_monitor_identifiers(self):
+        # example on how to access the monitor objects in monitors
+        monitors = self.__monitors.get_monitors()
+        #print(monitors)
+        for monitor in monitors:
+            print(monitors.get(monitor).get_identifier())

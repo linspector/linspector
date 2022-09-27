@@ -27,9 +27,10 @@ from linspector.core.daemon import Daemon
 logger = getLogger('linspector')
 
 
-class Linspector(Daemon):
+class Linspectord(Daemon):
 
-    def __init__(self, configuration, environment):
+    def __init__(self, configuration, environment, linspector):
         super().__init__(configuration.get_option('linspector', 'pid_file'))
         self.__configuration = configuration
         self.__environment = environment
+        self.__linspector = linspector
