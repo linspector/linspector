@@ -36,64 +36,85 @@ class Monitor:
         self.__environment = environment
         self.__identifier = identifier
         self.__monitor_configuration = monitor_configuration
+        self.__notification_list = []
         self.__notifications = notifications
         self.__services = services
+        self.__task_list = []  # put tasks for the dedicated job here.
         self.__tasks = tasks
 
-        #print(__file__ + ' (43): ' + str(monitor_configuration))
+        if configuration.get_option('linspector', 'notifications') or \
+                monitor_configuration.get('monitor', 'notifications'):
+
+            if configuration.get_option('linspector', 'notifications') and \
+                    monitor_configuration.get('monitor', 'notifications'):
+
+                notification_list = \
+                    configuration.get_option('linspector', 'notifications') + ',' + \
+                    monitor_configuration.get('monitor', 'notifications')
+            elif configuration.get_option('linspector', 'notifications'):
+                notification_list = configuration.get_option('linspector', 'notifications')
+            elif monitor_configuration.get('monitor', 'notifications'):
+                notification_list = monitor_configuration.get('monitor', 'notifications')
+            else:
+                notification_list = None
+
+            self.__notification_list = notification_list
+
+            for notification_option in notification_list.split(','):
+                #print(__file__ + ' (64): ' + str(notification_option))
+                if notification_option not in notifications:
+                    notification_package = 'linspector.notifications.' + notification_option.lower()
+                    notification_module = importlib.import_module(notification_package)
+                    notification = getattr(notification_module, notification_option +
+                                           'Notification')
+
+                    notification.__init__(self, configuration, environment)
+                    notifications[notification_option] = notification
+                    #print(__file__ + ' (74): ' + str(notifications))
+
+        #print(__file__ + ' (75): ' + str(monitor_configuration))
         if self.__monitor_configuration.get('monitor', 'service'):
+            if monitor_configuration.get('monitor', 'service') not in services:
+                service_package = 'linspector.services.' + \
+                                  monitor_configuration.get('monitor', 'service').lower()
 
-            # TODO: the exception handling later!!!
-            #try:
-            service_package = 'linspector.services.' + \
-                              self.__monitor_configuration.get('monitor', 'service').lower()
-            service_module = importlib.import_module(service_package)
+                service_module = importlib.import_module(service_package)
+                service = getattr(service_module,
+                                  monitor_configuration.get('monitor', 'service') + 'Service')
 
-            service = getattr(service_module,
-                              self.__monitor_configuration.get('monitor', 'service') + 'Service')
-            service.__init__(self, configuration, environment)
-
-            if self.__monitor_configuration.get('monitor', 'service') not in services:
-                services[self.__monitor_configuration.get('monitor', 'service')] = service
-                #print(__file__ + ' (58): ' + str(services))
-            #else:
-            # do some logging
-
-            #except ModuleNotFoundError as err:
-            #    raise Exception('something went wrong when initializing a service. you are '
-            #                    'using an unknown service in your monitor configuration '
-            #                    'identified by: ' + identifier + '({0})'.format(err))
+                service.__init__(self, configuration, environment)
+                services[monitor_configuration.get('monitor', 'service')] = service
+                #print(__file__ + ' (87): ' + str(services))
 
             #service.execute(self)
 
-        if self.__monitor_configuration.get('monitor', 'notifications'):
-            for notification_option in self.__monitor_configuration.get('monitor',
-                                                                        'notifications').split(','):
+        if configuration.get_option('linspector', 'tasks') or \
+                monitor_configuration.get('monitor', 'tasks'):
 
-                #print(__file__ + ' (73): ' + str(notification_option))
-                notification_package = 'linspector.notifications.' + notification_option.lower()
-                notification_module = importlib.import_module(notification_package)
+            if configuration.get_option('linspector', 'tasks') and \
+                    monitor_configuration.get('monitor', 'tasks'):
 
-                notification = getattr(notification_module, notification_option + 'Notification')
-                notification.__init__(self, configuration, environment)
+                task_list = configuration.get_option('linspector', 'tasks') + ',' + \
+                            monitor_configuration.get('monitor', 'tasks')
+            elif configuration.get_option('linspector', 'tasks'):
+                task_list = configuration.get_option('linspector', 'tasks')
+            elif monitor_configuration.get('monitor', 'tasks'):
+                task_list = monitor_configuration.get('monitor', 'tasks')
+            else:
+                task_list = None
 
-                if notification_option not in notifications:
-                    notifications[notification_option] = notification
-                    #print(__file__ + ' (82): ' + str(notifications))
+            self.task_list = task_list
 
-        if self.__monitor_configuration.get('monitor', 'tasks'):
-            for task_option in self.__monitor_configuration.get('monitor',
-                                                                'tasks').split(','):
-                #print(__file__ + ' (87): ' + str(task_option))
-                task_package = 'linspector.tasks.' + task_option.lower()
-                task_module = importlib.import_module(task_package)
-
-                task = getattr(task_module, task_option + 'Task')
-                task.__init__(self, configuration, environment)
-
+            for task_option in task_list.split(','):
                 if task_option not in tasks:
+                    #print(__file__ + ' (110): ' + str(task_option))
+                    task_package = 'linspector.tasks.' + task_option.lower()
+                    task_module = importlib.import_module(task_package)
+                    task = getattr(task_module, task_option + 'Task')
+                    task.__init__(self, configuration, environment)
                     tasks[task_option] = task
-                    #print(__file__ + ' (96): ' + str(tasks))
+
+            #print(__file__ + ' (117): ' + str(tasks))
 
     def get_identifier(self):
         return self.__identifier

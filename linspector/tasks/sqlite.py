@@ -32,3 +32,4 @@ class SQLiteTask:
     def __init__(self, configuration, environment):
         self.__configuration = configuration
         self.__environment = environment
+
