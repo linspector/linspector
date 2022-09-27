@@ -1,6 +1,6 @@
 """
 This file is part of Linspector (https://linspector.org/)
-Copyright (c) 2022 Johannes Findeisen <you@hanez.org>
+Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,14 +22,12 @@ OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
 from logging import getLogger
-from linspector.notifications.notification import Notification
 
 logger = getLogger('linspector')
 
 
-class CallNotification(Notification):
+class CallNotification:
 
     def __init__(self, configuration, environment):
-        super().__init__(configuration, environment)
         self.__configuration = configuration
         self.__environment = environment

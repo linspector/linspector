@@ -1,6 +1,6 @@
 """
 This file is part of Linspector (https://linspector.org/)
-Copyright (c) 2022 Johannes Findeisen <you@hanez.org>
+Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -34,9 +34,10 @@ class Linspector:
         self.__monitors = monitors
 
     # this function is just for testing purposes and can be removed some day
-    def print_monitors_monitor_identifiers(self):
+    def print_debug(self):
         # example on how to access the monitor objects in monitors
         monitors = self.__monitors.get_monitors()
-        #print(monitors)
+        print(__file__ + ' (40): ' + str(monitors))
         for monitor in monitors:
-            print(monitors.get(monitor).get_identifier())
+            print(__file__ + ' (42): ' + monitors.get(monitor).get_identifier())
+            print(__file__ + ' (43): ' + monitors.get(monitor).get_service())

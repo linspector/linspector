@@ -1,6 +1,6 @@
 """
 This file is part of Linspector (https://linspector.org/)
-Copyright (c) 2022 Johannes Findeisen <you@hanez.org>
+Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,6 +22,7 @@ OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
 import configparser
+import copy
 import glob
 import os
 
@@ -43,21 +44,23 @@ class Monitors:
         self.__monitors = {}
 
         monitor_groups = os.listdir(self.__configuration.get_configuration_path() + '/monitors/')
-        print(monitor_groups)
+        #print(__file__ + ' (47): ' + str(monitor_groups))
+        monitor_configuration = configparser.ConfigParser()
         for monitor_group in monitor_groups:
             monitors_file_list = glob.glob(self.__configuration.get_configuration_path() +
                                            '/monitors/' + monitor_group + '/*.ini')
 
             for monitor_file in monitors_file_list:
-                monitor_configuration = configparser.ConfigParser()
                 monitor_configuration.read(monitor_file, 'utf-8')
 
                 identifier = monitor_group + '_' + os.path.splitext(os.path.basename(
                     monitor_file))[0]
 
+                # create Monitor() object and copy monitor_configuration for each instance because
+                # they else refer to the same object.
                 self.__monitors[identifier] = Monitor(configuration, environment, identifier,
-                                                      monitor_configuration, notifications,
-                                                      services)
+                                                      copy.deepcopy(monitor_configuration),
+                                                      notifications, services)
 
     def get_monitors(self):
         return self.__monitors

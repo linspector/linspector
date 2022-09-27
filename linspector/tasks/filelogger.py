@@ -1,6 +1,6 @@
 """
 This file is part of Linspector (https://linspector.org/)
-Copyright (c) 2022 Johannes Findeisen <you@hanez.org>
+Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,13 +22,13 @@ OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
 from logging import getLogger
-from linspector.services.service import Service
+from linspector.core.task import Task
 
 logger = getLogger('linspector')
 
 
 # TODO: check for all required configuration options and set defaults if needed.
-class FritzboxService(Service):
+class FileLoggerTask(Task):
 
     def __init__(self, configuration, environment):
         super().__init__(configuration, environment)

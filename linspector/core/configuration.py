@@ -1,6 +1,6 @@
 """
 This file is part of Linspector (https://linspector.org/)
-Copyright (c) 2022 Johannes Findeisen <you@hanez.org>
+Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -31,7 +31,7 @@ logger = getLogger('linspector')
 
 
 # TODO: check for all required configuration options and set defaults if needed. do this only for
-#  options in the "monipy" section of monipy.ini.
+#  options in the "linspector" section of linspector.ini.
 class Configuration:
 
     def __init__(self, configuration_path, environment):
@@ -57,7 +57,7 @@ class Configuration:
 
             section_list = glob.glob(configuration_path + '/' + target_section + '/*.ini')
             for section_file in section_list:
-                #print("-->"+section_file)
+                #print(__file__ + ' (60): ' + section_file)
                 configuration = configparser.ConfigParser()
                 configuration.read(section_file, 'utf-8')
                 for source_section in configuration.sections():

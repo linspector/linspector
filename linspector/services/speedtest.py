@@ -1,6 +1,6 @@
 """
 This file is part of Linspector (https://linspector.org/)
-Copyright (c) 2022 Johannes Findeisen <you@hanez.org>
+Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -27,17 +27,13 @@ import time
 
 from logging import getLogger
 
-
-from linspector.services.service import Service
-
 logger = getLogger('linspector')
 
 
 # TODO: check for all required configuration options and set defaults if needed.
-class SpeedtestService(Service):
+class SpeedtestService:
 
     def __init__(self, configuration, environment):
-        super().__init__(configuration, environment)
         self.__configuration = configuration
         self.__environment = environment
 

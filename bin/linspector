@@ -2,7 +2,7 @@
 
 """
 This file is part of Linspector (https://linspector.org/)
-Copyright (c) 2022 Johannes Findeisen <you@hanez.org>
+Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -22,6 +22,10 @@ OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF
 OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
+
+# TODO: implement error handling at all needed places! currently nearly no error handling is done!
+# TODO: make use of the logger wherever it us useful! and be verbose when information really helps
+#   debugging the application!
 
 import argparse
 import sys
@@ -58,22 +62,26 @@ def main():
     args = parse_args()
 
     environment = Environment()
+    monitors = None
     notifications = {}
     services = {}
 
     try:
         configuration = Configuration(args.configuration_path, environment)
-        # configuration.dump_to_ini()
+        #configuration.dump_to_ini()
     except Exception as err:
-        logger.error(str('[uplink] configuration error: {0}'.format(err)))
+        logger.error(str('[linspector] configuration error: {0}'.format(err)))
         sys.exit(1)
 
-    monitors = Monitors(configuration, environment, notifications, services)
+    try:
+        monitors = Monitors(configuration, environment, notifications, services)
+    except Exception as err:
+        logger.warning('[linspector] monitor initialization error: {0}'.format(err))
 
     linspector = Linspector(configuration, environment, monitors)
-    #linspector.print_monitors_monitor_identifiers()
+    #linspector.print_debug()
 
-    # so, if Linspector should start in Daemon mode, do thi here...
+    # so, if Linspector should start in Daemon mode, do it here...
     #Linspectord(configuration, environment, linspector).execute()
 
 
