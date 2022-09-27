@@ -70,7 +70,7 @@ class Monitor:
 
                     notification.__init__(self, configuration, environment)
                     notifications[notification_option] = notification
-                    #print(__file__ + ' (74): ' + str(notifications))
+                    #print(__file__ + ' (73): ' + str(notifications))
 
         #print(__file__ + ' (75): ' + str(monitor_configuration))
         if self.__monitor_configuration.get('monitor', 'service'):

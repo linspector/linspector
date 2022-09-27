@@ -64,6 +64,7 @@ def main():
     environment = Environment()
     monitors = None
     notifications = {}
+    plugins = {}
     services = {}
     tasks = {}
 
