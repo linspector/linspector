@@ -65,26 +65,20 @@ class Monitor:
                 if notification_option not in notifications:
                     notification_package = 'linspector.notifications.' + notification_option.lower()
                     notification_module = importlib.import_module(notification_package)
-                    notification = getattr(notification_module, notification_option +
-                                           'Notification')
-
-                    notification.__init__(self, configuration, environment)
+                    notification = notification_module.get(configuration, environment)
                     notifications[notification_option] = notification
-                    #print(__file__ + ' (73): ' + str(notifications))
+                    #print(__file__ + ' (70): ' + str(notifications))
 
-        #print(__file__ + ' (75): ' + str(monitor_configuration))
+        #print(__file__ + ' (72): ' + str(monitor_configuration))
         if self.__monitor_configuration.get('monitor', 'service'):
             if monitor_configuration.get('monitor', 'service') not in services:
                 service_package = 'linspector.services.' + \
                                   monitor_configuration.get('monitor', 'service').lower()
 
                 service_module = importlib.import_module(service_package)
-                service = getattr(service_module,
-                                  monitor_configuration.get('monitor', 'service') + 'Service')
-
-                service.__init__(self, configuration, environment)
+                service = service_module.get(configuration, environment)
                 services[monitor_configuration.get('monitor', 'service')] = service
-                #print(__file__ + ' (87): ' + str(services))
+                #print(__file__ + ' (81): ' + str(services))
 
             #service.execute(self)
 
@@ -107,14 +101,13 @@ class Monitor:
 
             for task_option in task_list.split(','):
                 if task_option not in tasks:
-                    #print(__file__ + ' (110): ' + str(task_option))
+                    #print(__file__ + ' (104): ' + str(task_option))
                     task_package = 'linspector.tasks.' + task_option.lower()
                     task_module = importlib.import_module(task_package)
-                    task = getattr(task_module, task_option + 'Task')
-                    task.__init__(self, configuration, environment)
+                    task = task_module.get(configuration, environment)
                     tasks[task_option] = task
 
-            #print(__file__ + ' (117): ' + str(tasks))
+            #print(__file__ + ' (110): ' + str(tasks))
 
     def get_identifier(self):
         return self.__identifier

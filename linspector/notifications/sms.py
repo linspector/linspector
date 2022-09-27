@@ -26,6 +26,10 @@ from logging import getLogger
 logger = getLogger('linspector')
 
 
+def get(configuration, environment):
+    return SMSNotification(configuration, environment)
+
+
 class SMSNotification:
 
     def __init__(self, configuration, environment):

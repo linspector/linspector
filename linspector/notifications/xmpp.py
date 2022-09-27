@@ -26,6 +26,10 @@ from logging import getLogger
 logger = getLogger('linspector')
 
 
+def get(configuration, environment):
+    return XMPPNotification(configuration, environment)
+
+
 class XMPPNotification:
 
     def __init__(self, configuration, environment):

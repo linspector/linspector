@@ -26,6 +26,10 @@ from logging import getLogger
 logger = getLogger('linspector')
 
 
+def get(configuration, environment):
+    return CallNotification(configuration, environment)
+
+
 class CallNotification:
 
     def __init__(self, configuration, environment):

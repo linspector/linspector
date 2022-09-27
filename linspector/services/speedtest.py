@@ -30,6 +30,10 @@ from logging import getLogger
 logger = getLogger('linspector')
 
 
+def get(configuration, environment):
+    return SpeedtestService(configuration, environment)
+
+
 # TODO: check for all required configuration options and set defaults if needed.
 class SpeedtestService:
 

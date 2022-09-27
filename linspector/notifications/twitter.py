@@ -26,6 +26,10 @@ from logging import getLogger
 logger = getLogger('linspector')
 
 
+def get(configuration, environment):
+    return TwitterNotification(configuration, environment)
+
+
 class TwitterNotification:
 
     def __init__(self, configuration, environment):

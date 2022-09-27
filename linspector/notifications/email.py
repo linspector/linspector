@@ -26,6 +26,10 @@ from logging import getLogger
 logger = getLogger('linspector')
 
 
+def get(configuration, environment):
+    return EmailNotification(configuration, environment)
+
+
 class EmailNotification:
 
     def __init__(self, configuration, environment):

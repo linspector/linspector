@@ -29,6 +29,10 @@ from logging import getLogger
 logger = getLogger('linspector')
 
 
+def get(configuration, environment):
+    return HTTPServerPlugin(configuration, environment)
+
+
 # TODO: check for all required configuration options and set defaults if needed.
 class HTTPServerPlugin:
 
