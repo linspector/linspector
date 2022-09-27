@@ -38,7 +38,7 @@ logger = getLogger('linspector')
 # when changed dynamically.
 class Monitors:
 
-    def __init__(self, configuration, environment, notifications, services):
+    def __init__(self, configuration, environment, notifications, services, tasks):
         self.__configuration = configuration
         self.__environment = environment
         self.__monitors = {}
@@ -60,7 +60,7 @@ class Monitors:
                 # they else refer to the same object.
                 self.__monitors[identifier] = Monitor(configuration, environment, identifier,
                                                       copy.deepcopy(monitor_configuration),
-                                                      notifications, services)
+                                                      notifications, services, tasks)
 
     def get_monitors(self):
         return self.__monitors

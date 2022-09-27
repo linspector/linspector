@@ -22,15 +22,13 @@ OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
 from logging import getLogger
-from linspector.core.task import Task
 
 logger = getLogger('linspector')
 
 
 # TODO: check for all required configuration options and set defaults if needed.
-class RedisTask(Task):
+class RedisTask:
 
     def __init__(self, configuration, environment):
-        super().__init__(configuration, environment)
         self.__configuration = configuration
         self.__environment = environment

@@ -65,6 +65,7 @@ def main():
     monitors = None
     notifications = {}
     services = {}
+    tasks = {}
 
     try:
         configuration = Configuration(args.configuration_path, environment)
@@ -74,7 +75,7 @@ def main():
         sys.exit(1)
 
     try:
-        monitors = Monitors(configuration, environment, notifications, services)
+        monitors = Monitors(configuration, environment, notifications, services, tasks)
     except Exception as err:
         logger.warning('[linspector] monitor initialization error: {0}'.format(err))
 

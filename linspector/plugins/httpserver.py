@@ -25,16 +25,14 @@ import cherrypy
 import json
 
 from logging import getLogger
-from linspector.core.plugin import Plugin
 
 logger = getLogger('linspector')
 
 
 # TODO: check for all required configuration options and set defaults if needed.
-class HTTPServerPlugin(Plugin):
+class HTTPServerPlugin:
 
     def __init__(self, configuration, environment):
-        super().__init__(configuration, environment)
         self.__configuration = configuration
         self.__environment = environment
 

@@ -31,15 +31,16 @@ logger = getLogger('linspector')
 class Monitor:
 
     def __init__(self, configuration, environment, identifier, monitor_configuration, notifications,
-                 services):
+                 services, tasks):
         self.__configuration = configuration
         self.__environment = environment
         self.__identifier = identifier
         self.__monitor_configuration = monitor_configuration
         self.__notifications = notifications
         self.__services = services
+        self.__tasks = tasks
 
-        #print(__file__ + ' (42): ' + str(monitor_configuration))
+        #print(__file__ + ' (43): ' + str(monitor_configuration))
         if self.__monitor_configuration.get('monitor', 'service'):
 
             # TODO: the exception handling later!!!
@@ -48,13 +49,13 @@ class Monitor:
                               self.__monitor_configuration.get('monitor', 'service').lower()
             service_module = importlib.import_module(service_package)
 
-            service = getattr(service_module, self.__monitor_configuration.get('monitor', 'service') +
-                              'Service')
+            service = getattr(service_module,
+                              self.__monitor_configuration.get('monitor', 'service') + 'Service')
             service.__init__(self, configuration, environment)
 
             if self.__monitor_configuration.get('monitor', 'service') not in services:
                 services[self.__monitor_configuration.get('monitor', 'service')] = service
-                #print(__file__ + ' (57): ' + str(services))
+                #print(__file__ + ' (58): ' + str(services))
             #else:
             # do some logging
 
@@ -69,7 +70,7 @@ class Monitor:
             for notification_option in self.__monitor_configuration.get('monitor',
                                                                         'notifications').split(','):
 
-                #print(__file__ + ' (72): ' + str(notification_option))
+                #print(__file__ + ' (73): ' + str(notification_option))
                 notification_package = 'linspector.notifications.' + notification_option.lower()
                 notification_module = importlib.import_module(notification_package)
 
@@ -78,7 +79,21 @@ class Monitor:
 
                 if notification_option not in notifications:
                     notifications[notification_option] = notification
-                    #print(__file__ + ' (81): ' + str(notifications))
+                    #print(__file__ + ' (82): ' + str(notifications))
+
+        if self.__monitor_configuration.get('monitor', 'tasks'):
+            for task_option in self.__monitor_configuration.get('monitor',
+                                                                'tasks').split(','):
+                #print(__file__ + ' (87): ' + str(task_option))
+                task_package = 'linspector.tasks.' + task_option.lower()
+                task_module = importlib.import_module(task_package)
+
+                task = getattr(task_module, task_option + 'Task')
+                task.__init__(self, configuration, environment)
+
+                if task_option not in tasks:
+                    tasks[task_option] = task
+                    #print(__file__ + ' (96): ' + str(tasks))
 
     def get_identifier(self):
         return self.__identifier
