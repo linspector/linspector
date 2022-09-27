@@ -29,16 +29,17 @@ from logging import getLogger
 logger = getLogger('linspector')
 
 
-def get(configuration, environment):
-    return HTTPServerPlugin(configuration, environment)
+def get(configuration, environment, linspector):
+    return HTTPServerPlugin(configuration, environment, linspector)
 
 
 # TODO: check for all required configuration options and set defaults if needed.
 class HTTPServerPlugin:
 
-    def __init__(self, configuration, environment):
+    def __init__(self, configuration, environment, linspector):
         self.__configuration = configuration
         self.__environment = environment
+        self.__linspector = linspector
 
     @cherrypy.expose
     def index(self):
@@ -68,7 +69,7 @@ class HTTPServerPlugin:
     def playground(self):
         return 'My Playground!'
 
-    def run_server(self):
+    def run(self):
         conf = {
             '/': {
                 #    'tools.sessions.on': True,

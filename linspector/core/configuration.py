@@ -39,9 +39,9 @@ class Configuration:
         self.__configuration_path = configuration_path
         self.__environment = environment
 
-        if os.path.isfile(configuration_path + '/linspector.ini'):
+        if os.path.isfile(configuration_path + '/linspector.conf'):
             try:
-                self.__configuration.read(configuration_path + '/linspector.ini', 'utf-8')
+                self.__configuration.read(configuration_path + '/linspector.conf', 'utf-8')
             except Exception as err:
                 raise Exception('something went wrong reading the configuration file '
                                 'linspector.ini in the configuration root path! ({0})'.format(err))
@@ -55,7 +55,7 @@ class Configuration:
             if not self.__configuration.has_section(target_section):
                 self.__configuration.add_section(target_section)
 
-            section_list = glob.glob(configuration_path + '/' + target_section + '/*.ini')
+            section_list = glob.glob(configuration_path + '/' + target_section + '/*.conf')
             for section_file in section_list:
                 #print(__file__ + ' (60): ' + section_file)
                 configuration = configparser.ConfigParser()

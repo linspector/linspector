@@ -26,13 +26,17 @@ from logging import getLogger
 logger = getLogger('linspector')
 
 
-def get(configuration, environment):
-    return LishPlugin(configuration, environment)
+def get(configuration, environment, linspector):
+    return LishPlugin(configuration, environment, linspector)
 
 
 # TODO: check for all required configuration options and set defaults if needed.
 class LishPlugin:
 
-    def __init__(self, configuration, environment):
+    def __init__(self, configuration, environment, linspector):
         self.__configuration = configuration
         self.__environment = environment
+        self.__linspector = linspector
+
+    def run(self):
+        print('hello from Lish!')

@@ -48,7 +48,7 @@ class Monitors:
         monitor_configuration = configparser.ConfigParser()
         for monitor_group in monitor_groups:
             monitors_file_list = glob.glob(self.__configuration.get_configuration_path() +
-                                           '/monitors/' + monitor_group + '/*.ini')
+                                           '/monitors/' + monitor_group + '/*.conf')
 
             for monitor_file in monitors_file_list:
                 monitor_configuration.read(monitor_file, 'utf-8')
