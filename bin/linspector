@@ -46,10 +46,16 @@ def parse_args():
     parser.add_argument('configuration_path', metavar='CONFIGURATION_PATH',
                         help='the configuration path to use')
 
-    mode = parser.add_mutually_exclusive_group()
+    #mode = parser.add_mutually_exclusive_group()
 
-    mode.add_argument('-d', '--daemon', default=False, dest='daemon', action='store_true',
-                      help='run linspector as native daemon (default: false)')
+    parser.add_argument('-d', '--daemon', default=False, dest='daemon', action='store_true',
+                        help='run linspector as native daemon (default: false)')
+
+    parser.add_argument('-k', '--kill', default=False, dest='kill', action='store_true',
+                        help='kill the daemon if it is running (default: false)')
+
+    parser.add_argument('-r', '--restart', default=False, dest='restart', action='store_true',
+                        help='restart the daemon if it is running(default: false)')
 
     parser.add_argument('-v', '--version', action='version', version='%(prog)s ' + str(__version__))
 
@@ -90,7 +96,12 @@ def main():
             from linspector.core.linspectord import Linspectord
             linspectord = Linspectord(configuration, environment, linspector)
             # do handling of restart, start and stop commands but for now "start" is enough... ;)
-            linspectord.start()
+            if args.kill:
+                linspectord.stop()
+            elif args.restart:
+                linspectord.restart()
+            else:
+                linspectord.start()
         except Exception as err:
             logger.error('[linspector] daemon initialization error: {0}'.format(err))
             sys.exit(1)

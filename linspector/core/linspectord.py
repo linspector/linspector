@@ -15,11 +15,15 @@ logger = getLogger('linspector')
 
 
 class Linspectord:
-    def __init__(self, pid_file, configuration, environment, linspector):
-        self.__pid_file = pid_file
+
+    def __init__(self, configuration, environment, linspector):
         self.__configuration = configuration
         self.__environment = environment
         self.__linspector = linspector
+        try:
+            self.__pid_file = configuration.get_option('linspector', 'pid_file')
+        except Exception as err:
+            logger.error(str('daemonize error (no pid_file set): {0}'.format(err)))
 
     def daemonize(self):
         # daemonize the class using the UNIX double fork mechanism.
@@ -123,7 +127,7 @@ class Linspectord:
         self.stop()
         self.start()
 
-    def run(self):
-        """
-        a good place to execute stuff after the process has been daemonized by start() or restart().
-        """
+    @staticmethod
+    def run():
+        while True:
+            pass
