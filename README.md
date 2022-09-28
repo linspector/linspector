@@ -32,6 +32,8 @@ nearly does not exist.
 away to get a first working codebase. If the core is running I believe adding features
 will happen from day to day... ;)
 
+See TODO for internal tasks.
+
 ### Ideas
 
 - **Thousands!** For now the goal is to implement most features from the old version
