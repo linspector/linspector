@@ -128,7 +128,7 @@ restart each instance in a native way.
 
 ## License
 
-### MIT License
+### MIT license
 
 Copyright (c) 2010 - 2022 Johannes Findeisen &lt;you@hanez.org&gt;
 
