@@ -46,9 +46,20 @@ alternative is available.
 - The core of Linspector should not use 3rd party libraries. only plugins,
 notifications and types may use other libraries. But coping code into the
 source tree is ok when respecting the license. Not using 3rd party libraries
-should always be preferred though.
+should always be preferred though. If adding 3rd party libraries to the Linspector 
+core all code **must** be included in the Linspector source tree. Not as Git
+submodule but as files imported into the Linspector Git repository!
 - Inline comment should be all lowercase. Descriptions and documentation comments
 must be natural language.
+
+### Included libraries
+
+Currently, the Linspector source tree contains the following 3rd party libraries:
+
+- [APScheduler](https://github.com/agronholm/apscheduler) (3.9.1) - This is the scheduler in Linspector for execution of monitors. I started 
+to use this library in very early versions of Linspector in 2011. Since the main task
+in Linspector is the execution of jobs in regularly intervals I believe it is the right 
+decision to include the code of APScheduler directly into the Linspector project.
 
 ### Version numbering
 
