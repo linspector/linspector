@@ -93,6 +93,39 @@ According to: [https://wiki.unixpeople.org/linux_kernel_version_numbering](https
  - File names in etc/* are not important but section names and key names.
  - Comments can be inserted using ';' or '#'
 
+## FAQ
+
+### Is Linspector usable already?
+
+No! Linspector is at a very early stage of development, but I believe it will become
+stable until the end of 2022. The old version of Linspector was usable and I ran it for
+monitoring a small amount of services for some years.
+
+### Should I try the old version of Linspector?
+
+I recommend not to use the old version of Linspector because the new version will 
+in no way become backward compatible. Features of the old version will nearly all be
+implemented in the new version so if you can wait a little then I recommend to wait 
+until I release the new version of Linspector.
+
+### Can I use an old configuration of Linspector in the new version?
+
+No! The new configuration does not use JSON files anymore but an INI file syntax based on 
+a directory tree.
+
+### Why should I use Linspecter even there are other mature and stable tools available already?
+
+Linpector aims to be very small and simple and even should work in home or small 
+environments. But Linspector also is useful in very large infrastructures for monitoring
+thousands of devices and services.
+
+### Can I run multiple instances of the Linspector daemon?
+
+Yes, of course. Since you add a configuration path when running Linspector you can 
+just pass a different path to a configuration tree to each instance. And since you
+can configure the PID file in each configuration you can even can start, stop or 
+restart each instance in a native way.
+
 ## License
 
 ### MIT License
