@@ -1,0 +1,12 @@
+Things to do in no particular order:
+
+- Implement error handling at all needed places! currently nearly no error handling is done!
+- Configure the logger
+- Make use of the logger wherever it us useful! and be informative when information really helps debugging the application!
+- Multicore support when scheduling jobs with APScheduler
+- Parent alerting (escalation)
+- Core error alerting to [linspector]->members on internal errors
+- Hostgroup parents (example: if the hostgroup "network" is down, don't alert for the hosts in that network)
+- Add more services
+- Add more tasks e.g. storage in mongodb or mariadb and some more notifications like XMPP and SMS
+- Check for all required configuration options and set defaults in services.

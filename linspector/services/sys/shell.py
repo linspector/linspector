@@ -11,10 +11,10 @@ logger = getLogger('linspector')
 
 
 def get(configuration, environment):
-    return DummyService(configuration, environment)
+    return ShellService(configuration, environment)
 
 
-class DummyService(Service):
+class ShellService(Service):
 
     def __init__(self, configuration, environment):
         super().__init__(configuration, environment)
@@ -23,3 +23,4 @@ class DummyService(Service):
 
     def execute(self):
         return
+

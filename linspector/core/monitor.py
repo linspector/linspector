@@ -1,24 +1,7 @@
 """
 This file is part of Linspector (https://linspector.org/)
 Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is furnished
-to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice (including the next
-paragraph) shall be included in all copies or substantial portions of the
-Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
-OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF
-OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+See LICENSE (MIT license)
 """
 import importlib
 
@@ -36,6 +19,7 @@ class Monitor:
         self.__identifier = identifier
         self.__monitor_configuration = monitor_configuration
         self.__notification_list = []
+        self.__service = None
         self.__notifications = notifications
         self.__services = services
         self.__task_list = []  # put tasks for the dedicated job here.
@@ -60,24 +44,21 @@ class Monitor:
             self.__notification_list = notification_list.split(',')
 
             for notification_option in notification_list.split(','):
-                #print(__file__ + ' (64): ' + str(notification_option))
                 if notification_option not in notifications:
                     notification_package = 'linspector.notifications.' + notification_option.lower()
                     notification_module = importlib.import_module(notification_package)
                     notification = notification_module.get(configuration, environment)
                     notifications[notification_option.lower()] = notification
-                    #print(__file__ + ' (70): ' + str(notifications))
 
-        #print(__file__ + ' (72): ' + str(monitor_configuration))
         if self.__monitor_configuration.get('monitor', 'service'):
             if monitor_configuration.get('monitor', 'service') not in services:
                 service_package = 'linspector.services.' + \
                                   monitor_configuration.get('monitor', 'service').lower()
 
                 service_module = importlib.import_module(service_package)
+                self.__service = monitor_configuration.get('monitor', 'service').lower()
                 service = service_module.get(configuration, environment)
                 services[monitor_configuration.get('monitor', 'service').lower()] = service
-                #print(__file__ + ' (81): ' + str(services))
 
             #service.execute(self)
 
@@ -100,13 +81,10 @@ class Monitor:
 
             for task_option in task_list.split(','):
                 if task_option not in tasks:
-                    #print(__file__ + ' (104): ' + str(task_option))
                     task_package = 'linspector.tasks.' + task_option.lower()
                     task_module = importlib.import_module(task_package)
                     task = task_module.get(configuration, environment)
                     tasks[task_option.lower()] = task
-
-            #print(__file__ + ' (110): ' + str(tasks))
 
     def get_identifier(self):
         return self.__identifier

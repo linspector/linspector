@@ -1,5 +1,4 @@
 #!/usr/bin/python3 -d
-
 """
 This file is part of Linspector (https://linspector.org/)
 Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
@@ -22,11 +21,6 @@ OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF
 OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
-
-# TODO: implement error handling at all needed places! currently nearly no error handling is done!
-# TODO: make use of the logger wherever it us useful! and be verbose when information really helps
-#   debugging the application!
-
 import argparse
 import sys
 
