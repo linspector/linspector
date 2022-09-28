@@ -84,11 +84,20 @@ def main():
     except Exception as err:
         logger.warning('[linspector] monitor initialization error: {0}'.format(err))
 
-    linspector = Linspector(configuration, environment, monitors, plugins)
-    linspector.print_debug()
+    try:
+        linspector = Linspector(configuration, environment, monitors, plugins)
+        #linspector.print_debug()
+    except Exception as err:
+        logger.error('[linspector] core initialization error: {0}'.format(err))
+        sys.exit(1)
 
-    # so, if Linspector should start in Daemon mode, do it here...
-    #Linspectord(configuration, environment, linspector).execute()
+    if args.daemon:
+        try:
+            from linspector.core.linspectord import Linspectord
+            #Linspectord(configuration, environment, linspector).execute()
+        except Exception as err:
+            logger.error('[linspector] daemon initialization error: {0}'.format(err))
+            sys.exit(1)
 
 
 if __name__ == '__main__':
