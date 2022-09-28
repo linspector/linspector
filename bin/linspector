@@ -52,6 +52,11 @@ def parse_args():
     parser.add_argument('configuration_path', metavar='CONFIGURATION_PATH',
                         help='the configuration path to use')
 
+    mode = parser.add_mutually_exclusive_group()
+
+    mode.add_argument('-d', '--daemon', default=False, dest='daemon', action='store_true',
+                      help='run linspector as native daemon (default: false)')
+
     parser.add_argument('-v', '--version', action='version', version='%(prog)s ' + str(__version__))
 
     return parser.parse_args()
