@@ -9,7 +9,7 @@ of this rewrite where done as a new project named
 [monipy](https://git.unixpeople.org/linspector/monipy), but I moved to the name 
 Linspector because I believe it is the better and cooler name... Old Linspector code is 
 not available in this repository anymore, you can find it under 
-[https://git.unixpeople.org/linspector/linspector-old]().
+[https://git.unixpeople.org/linspector/linspector-old](https://git.unixpeople.org/linspector/linspector-old).
 
 Hope this project will become useful for someone at some day and not only for
 me. Just give me some amount of time for the first usable release... ;)
@@ -28,12 +28,14 @@ nearly does not exist.
 
 ### To do
 
-**Everything!** :) Just outlining the idea and creating code and structure skeletons
-at the moment!
+- **Everything!** But the progress is fast and after some few days I am not far 
+away to get a first working codebase. If the core is running I believe adding features
+will happen from day to day... ;)
 
 ### Ideas
 
-- Thousands!
+- **Thousands!** For now the goal is to implement most features from the old version
+of Linspector. :)
 
 ### Manifest
 
