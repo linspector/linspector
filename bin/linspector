@@ -31,7 +31,7 @@ from linspector.core.environment import Environment
 from linspector.core.linspector import Linspector
 from linspector.core.monitors import Monitors
 
-__version__ = '0.1'
+__version__ = '0.18'
 __author__ = 'Johannes Findeisen <you@hanez.org>'
 
 logger = getLogger('linspector')
