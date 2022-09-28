@@ -2,6 +2,8 @@
 
 #### Linspector is not some program expecting computers to obviously run...
 
+## About
+
 The idea is based on a software I developed around 2010 or so. The name of the software was 
 [Linspector](http://linspector.org/) but the implementation was just too
 complicated. The idea still remains so here is the rebirth of Linspector. First commits 
@@ -13,8 +15,6 @@ not available in this repository anymore, you can find it under
 
 Hope this project will become useful for someone at some day and not only for
 me. Just give me some amount of time for the first usable release... ;)
-
-## About
 
 **Linspector** contains a daemon and some tools to monitor your infrastructure. It
 collects data for statistics and sends alerts in case of errors. When extending Linspector
