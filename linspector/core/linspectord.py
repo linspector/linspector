@@ -34,3 +34,6 @@ class Linspectord(Daemon):
         self.__configuration = configuration
         self.__environment = environment
         self.__linspector = linspector
+
+    def run(self):
+        return

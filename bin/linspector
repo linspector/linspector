@@ -76,7 +76,7 @@ def main():
         configuration = Configuration(args.configuration_path, environment)
         #configuration.dump_to_ini()
     except Exception as err:
-        logger.error(str('[linspector] configuration error: {0}'.format(err)))
+        logger.error('[linspector] configuration error: {0}'.format(err))
         sys.exit(1)
 
     try:
@@ -86,7 +86,6 @@ def main():
 
     try:
         linspector = Linspector(configuration, environment, monitors, plugins)
-        #linspector.print_debug()
     except Exception as err:
         logger.error('[linspector] core initialization error: {0}'.format(err))
         sys.exit(1)
@@ -94,7 +93,7 @@ def main():
     if args.daemon:
         try:
             from linspector.core.linspectord import Linspectord
-            #Linspectord(configuration, environment, linspector).execute()
+            Linspectord(configuration, environment, linspector).start()
         except Exception as err:
             logger.error('[linspector] daemon initialization error: {0}'.format(err))
             sys.exit(1)
