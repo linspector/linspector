@@ -84,10 +84,13 @@ def main():
         logger.error('[linspector] core initialization error: {0}'.format(err))
         sys.exit(1)
 
+    # daemon initialization
     if args.daemon:
         try:
             from linspector.core.linspectord import Linspectord
-            Linspectord(configuration, environment, linspector).start()
+            linspectord = Linspectord(configuration, environment, linspector)
+            # do handling of restart, start and stop commands but for now "start" is enough... ;)
+            linspectord.start()
         except Exception as err:
             logger.error('[linspector] daemon initialization error: {0}'.format(err))
             sys.exit(1)
