@@ -20,9 +20,8 @@ me. Just give me some amount of time for the first usable release... ;)
 collects data for statistics and sends alerts in case of errors. When extending Linspector
 with plugins it for example can provide a web interface etc.
 
-This project is at a very early stage of development it is not able for usage.
-I design the software actually and try to convert my ideas to software. Code
-nearly does not exist.
+Since this project is at a very early stage of development it is not ready for usage.
+I design the software actually and try to convert my ideas to software.
 
 ## Development
 
