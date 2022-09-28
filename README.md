@@ -2,7 +2,7 @@
 
 #### Linspector is not some program expecting computers to obviously run...
 
-The idea is based on a software I developed around 2010 or so. The name of the software is 
+The idea is based on a software I developed around 2010 or so. The name of the software was 
 [Linspector](http://linspector.org/) but the implementation was just too
 complicated. The idea still remains so here is the rebirth of Linspector. First commits 
 of this rewrite where done as a new project named 
