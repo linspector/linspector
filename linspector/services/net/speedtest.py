@@ -20,12 +20,13 @@ OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF
 OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
-
 import calendar
 import requests
 import time
 
 from logging import getLogger
+
+from linspector.core.service import Service
 
 logger = getLogger('linspector')
 
@@ -35,9 +36,10 @@ def get(configuration, environment):
 
 
 # TODO: check for all required configuration options and set defaults if needed.
-class SpeedtestService:
+class SpeedtestService(Service):
 
     def __init__(self, configuration, environment):
+        super().__init__(configuration, environment)
         self.__configuration = configuration
         self.__environment = environment
 
@@ -91,6 +93,3 @@ class SpeedtestService:
                 logger.warning('could not calculate download speed!')
 
             time.sleep(self.__configuration.get_speedtest_interval())
-
-    def write_to_db(self):
-        return

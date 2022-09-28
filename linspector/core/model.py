@@ -20,15 +20,15 @@ OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF
 OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
-
 from logging import getLogger
 
 logger = getLogger('linspector')
 
 
+# This class can maybe be used for a general data model for Linspector data processing. currently
+# the is no use for it and no place known where it could be used with sense.
 class Model:
 
     def __init__(self, configuration, environment):
-        super().__init__()
         self.__configuration = configuration
         self._environment = environment

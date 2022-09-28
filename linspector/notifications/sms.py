@@ -20,8 +20,9 @@ OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF
 OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
-
 from logging import getLogger
+
+from linspector.core.notification import Notification
 
 logger = getLogger('linspector')
 
@@ -30,8 +31,9 @@ def get(configuration, environment):
     return SMSNotification(configuration, environment)
 
 
-class SMSNotification:
+class SMSNotification(Notification):
 
     def __init__(self, configuration, environment):
+        super().__init__(configuration, environment)
         self.__configuration = configuration
         self.__environment = environment

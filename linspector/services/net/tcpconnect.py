@@ -22,32 +22,19 @@ OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 from logging import getLogger
 
+from linspector.core.service import Service
+
 logger = getLogger('linspector')
 
 
-class Environment:
-    """
-    Object for storing environment variables at runtime. These variables must not affect the
-    stability or runtime of Linspector.
-    """
-    def __init__(self):
-        self.__env = {}
+def get(configuration, environment):
+    return TCPConnectService(configuration, environment)
 
-    def get_env_var(self, key):
-        if key in self.__env:
-            return self.__env[key]
-        else:
-            logger.info('environment var "' + key + '" not found! could be that it is set later at '
-                                                    'runtime. if you encounter any errors '
-                                                    'executing monipyd, something is wrong in the '
-                                                    'logic of the code. please consider reporting '
-                                                    'this as a bug! btw. INFO is not an ERROR! '
-                                                    'monipyd should work even with missing '
-                                                    'environment variables.')
-            return None
 
-    def set_env_var(self, key, value):
-        if self.__env[key]:
-            logger.warning('environment var "' + key + ' existed and was overwritten!')
+# TODO: check for all required configuration options and set defaults if needed.
+class TCPConnectService(Service):
 
-        self.__env[key] = value
+    def __init__(self, configuration, environment):
+        super().__init__(configuration, environment)
+        self.__configuration = configuration
+        self.__environment = environment
