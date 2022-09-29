@@ -32,7 +32,7 @@ from linspector.core.environment import Environment
 from linspector.core.linspector import Linspector
 from linspector.core.monitors import Monitors
 
-__version__ = '0.19.4'
+__version__ = '0.19.6'
 __author__ = 'Johannes Findeisen <you@hanez.org>'
 
 logger = logging.getLogger('linspector')
@@ -46,8 +46,6 @@ def parse_args():
 
     parser.add_argument('configuration_path', metavar='CONFIGURATION_PATH',
                         help='the configuration path to use')
-
-    #mode = parser.add_mutually_exclusive_group()
 
     parser.add_argument('-d', '--daemon', default=False, dest='daemon', action='store_true',
                         help='run linspector as native daemon (default: false)')
