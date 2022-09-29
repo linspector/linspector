@@ -68,11 +68,11 @@ must be natural language.
 
 Currently, the Linspector core requires the following 3rd party libraries:
 
-- [APScheduler](https://github.com/agronholm/apscheduler) (3.9.1) - This is the scheduler in 
+- [APScheduler](https://github.com/agronholm/apscheduler) - This is the scheduler in 
 Linspector for execution of monitors. I started 
 to use this library in very early versions of Linspector in 2011. Since the main task
 in Linspector is the execution of jobs in regularly intervals I believe it is the right 
-decision to include the code of APScheduler directly into the Linspector project.
+decision to make use of APScheduler directly in the core of the Linspector project.
 
 ### Other used libraries
 
