@@ -70,7 +70,8 @@ must be natural language.
 
 Currently, the Linspector source tree contains the following 3rd party libraries:
 
-- [APScheduler](https://github.com/agronholm/apscheduler) (3.9.1) - This is the scheduler in Linspector for execution of monitors. I started 
+- [APScheduler](https://github.com/agronholm/apscheduler) (3.9.1) - This is the scheduler in 
+Linspector for execution of monitors. I started 
 to use this library in very early versions of Linspector in 2011. Since the main task
 in Linspector is the execution of jobs in regularly intervals I believe it is the right 
 decision to include the code of APScheduler directly into the Linspector project.
@@ -81,8 +82,10 @@ monitors, notifications, services or plugins sometimes need to make the use of
 3rd party libraries, but they are not required to run Linspector properly. Not installing 
 them may only affect parts of Linspector. Currently used libraries are:
 
-- [CherryPy](https://cherrypy.dev/) - CherryPy is a pythonic, object-oriented HTTP framework. Used by the HTTPServer plugin.
-- [requests](https://requests.readthedocs.io/en/latest/) - Requests is an elegant and simple HTTP library for Python, built for human beings. Used by the Speedtest service.
+- [CherryPy](https://cherrypy.dev/) - CherryPy is a pythonic, object-oriented HTTP framework. 
+Used by the HTTPServer plugin.
+- [requests](https://requests.readthedocs.io/en/latest/) - Requests is an elegant and simple 
+HTTP library for Python, built for human beings. Used by the Speedtest service.
 
 These libraries are not being delivered with the Linspector source code and maybe have 
 different and incompatible licenses. You need to install them using pip, your OS package
