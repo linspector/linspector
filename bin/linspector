@@ -32,7 +32,7 @@ from linspector.core.environment import Environment
 from linspector.core.linspector import Linspector
 from linspector.core.monitors import Monitors
 
-__version__ = '0.19.8'
+__version__ = '0.19.9'
 __author__ = 'Johannes Findeisen <you@hanez.org>'
 
 logger = logging.getLogger('linspector')
@@ -70,6 +70,7 @@ def main():
     monitors = None
     notifications = {}
     plugins = {}
+    scheduler = {}
     services = {}
     tasks = {}
 
@@ -123,7 +124,7 @@ def main():
         logger.warning('[linspector] monitor initialization error: {0}'.format(err))
 
     try:
-        linspector = Linspector(configuration, environment, monitors, plugins)
+        linspector = Linspector(configuration, environment, monitors, plugins, scheduler)
     except Exception as err:
         logger.critical('[linspector] core initialization error: {0}'.format(err))
         sys.exit(1)
