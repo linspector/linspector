@@ -25,6 +25,20 @@ I design the software actually and try to convert my ideas to software.
 
 ## Development
 
+### Environment
+
+My development environment is running using a virtual Python environment. I am using
+all packages defined in requirements.txt. 
+
+Linspector includes a Makefile for executing bin/linspector without writing the full 
+command with pretended PYTHONPATH. This makes my work a little easier.
+
+The IDE I am using is [IntelliJ IDEA Community Edition](https://www.jetbrains.com/idea/) 
+with Python plugin and / or  [PyCharm Community](https://www.jetbrains.com/pycharm/) from 
+[JetBrains](https://www.jetbrains.com/). I mention the IDE here because I am very thankful 
+to JetBrains for providing such a nice piece of software. I have never seen such a perfect 
+development environment.
+
 ### To do
 
 - **Everything!** But the progress is fast and after some few days I am not far 
