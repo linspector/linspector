@@ -57,7 +57,7 @@ of Linspector. :)
 - All of this project **must be MIT licensed**. When using 3rd party libraries make
 sure the license is compatible but MIT should always be preferred if an
 alternative is available.
-- The core of Linspector should not use 3rd party libraries. only plugins,
+- The core of Linspector should not use 3rd party libraries. Only plugins,
 notifications and types may use other libraries. But coping code into the
 source tree is ok when respecting the license. Not using 3rd party libraries
 should always be preferred though. If adding 3rd party libraries to the Linspector 
@@ -66,7 +66,7 @@ submodule but as files imported into the Linspector Git repository!
 - Inline comment should be all lowercase. Descriptions and documentation comments
 must be natural language.
 
-### Included libraries
+### Required libraries
 
 Currently, the Linspector source tree contains the following 3rd party libraries:
 
