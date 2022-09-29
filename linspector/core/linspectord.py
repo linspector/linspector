@@ -14,6 +14,7 @@ from logging import getLogger
 logger = getLogger('linspector')
 
 
+# TODO: there is a bug when stopping the daemon. the pid_file is not being deleted. NEEDS A FIX!
 class Linspectord:
 
     def __init__(self, configuration, environment, linspector):
@@ -23,7 +24,7 @@ class Linspectord:
         try:
             self.__pid_file = configuration.get_option('linspector', 'pid_file')
         except Exception as err:
-            logger.error(str('daemonize error (no pid_file set): {0}'.format(err)))
+            logger.critical(str('daemonize error (no pid_file set): {0}'.format(err)))
 
     def daemonize(self):
         # daemonize the class using the UNIX double fork mechanism.
@@ -35,7 +36,7 @@ class Linspectord:
                 # exit first parent.
                 sys.exit(0)
         except OSError as err:
-            logger.error(str('fork #1 failed: {0}'.format(err)))
+            logger.critical(str('fork #1 failed: {0}'.format(err)))
             sys.exit(1)
 
         # decouple from parent environment.
@@ -50,7 +51,7 @@ class Linspectord:
                 # Exit from second parent.
                 sys.exit(0)
         except OSError as err:
-            logger.error(str('fork #2 failed: {0}'.format(err)))
+            logger.critical(str('fork #2 failed: {0}'.format(err)))
             sys.exit(1)
 
         # redirect standard file descriptors.
@@ -76,7 +77,7 @@ class Linspectord:
 
     def start(self):
         # start the daemon. check for a pidfile to see if the daemon already runs before.
-
+        logger.info('starting daemon using pid_file: ' + self.__pid_file)
         try:
             with open(self.__pid_file, 'r') as pf:
                 pid = int(pf.read().strip())
@@ -85,7 +86,7 @@ class Linspectord:
 
         if pid:
             message = 'pid_file {0} already exist. daemon already running?'
-            logger.error(str(message.format(self.__pid_file)))
+            logger.critical(str(message.format(self.__pid_file)))
             sys.exit(1)
 
         # start the daemon.
@@ -94,7 +95,7 @@ class Linspectord:
 
     def stop(self):
         # stop the daemon.
-
+        logger.info('stopping daemon using pid_file: ' + self.__pid_file)
         # get the pid from the pid file.
         try:
             with open(self.__pid_file, 'r') as pf:
@@ -118,15 +119,18 @@ class Linspectord:
                 if os.path.exists(self.__pid_file):
                     os.remove(self.__pid_file)
             else:
-                logger.error(str(err.args))
+                logger.critical(str(err.args))
                 sys.exit(1)
 
     def restart(self):
         # restart the daemon.
-
+        logger.info('restarting daemon using pid_file: ' + self.__pid_file)
         self.stop()
         self.start()
 
+    # maybe this function can be removed in the future because Linspector should rund endless when
+    # starting scheduled jobs. need to cover this in the future. for now, it is useful for testing
+    # while development because the daemon even runs when internally is nothing to do.
     @staticmethod
     def run():
         while True:

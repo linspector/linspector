@@ -21,6 +21,7 @@ class Configuration:
         self.__configuration_path = configuration_path
         self.__environment = environment
 
+        logger.info('reading configuration file: ' + configuration_path + '/linspector.conf')
         if os.path.isfile(configuration_path + '/linspector.conf'):
             try:
                 self.__configuration.read(configuration_path + '/linspector.conf', 'utf-8')
@@ -39,7 +40,7 @@ class Configuration:
 
             section_list = glob.glob(configuration_path + '/' + target_section + '/*.conf')
             for section_file in section_list:
-                #print(__file__ + ' (60): ' + section_file)
+                #print(__file__ + ' (45): ' + section_file)
                 configuration = configparser.ConfigParser()
                 configuration.read(section_file, 'utf-8')
                 for source_section in configuration.sections():

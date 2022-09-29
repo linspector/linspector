@@ -24,11 +24,13 @@ class Linspector:
         self.__plugins = plugins
 
         # load plugins
+        logger.info('loading plugins...')
         if configuration.get_option('linspector', 'plugins'):
             plugin_list = configuration.get_option('linspector', 'plugins')
             self.__plugin_list = plugin_list.split(',')
             for plugin_option in plugin_list.split(','):
                 if plugin_option not in plugins:
+                    logger.info('loading plugin: ' + plugin_option)
                     plugin_package = 'linspector.plugins.' + plugin_option.lower()
                     plugin_module = importlib.import_module(plugin_package)
                     plugin = plugin_module.get(configuration, environment, self)
