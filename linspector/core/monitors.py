@@ -27,12 +27,12 @@ class Monitors:
         self.__monitors = {}
 
         monitor_groups = os.listdir(self.__configuration.get_configuration_path() + '/monitors/')
-        #print(__file__ + ' (47): ' + str(monitor_groups))
+        logger.debug('[' + __name__ + '] monitor groups: ' + str(monitor_groups))
         monitor_configuration = configparser.ConfigParser()
         for monitor_group in monitor_groups:
             monitors_file_list = glob.glob(self.__configuration.get_configuration_path() +
                                            '/monitors/' + monitor_group + '/*.conf')
-
+            logger.debug('[' + __name__ + '] monitor files: ' + str(monitors_file_list))
             for monitor_file in monitors_file_list:
                 monitor_configuration.read(monitor_file, 'utf-8')
 

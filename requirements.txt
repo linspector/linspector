@@ -1,2 +1,13 @@
-CherryPy~=18.8.0 # used by httpserver plugin
-requests~=2.28.1 # used by speedtest service
+six~=1.16.0 # used by apscheduler (required)
+pytz~=2022.1 # used by apscheduler (required)
+tzlocal~=2.1 # used by apscheduler (required)
+tornado~=6.2 # used by apscheduler (optional)
+redis~=4.3.4 # used by apscheduler (optional)
+SQLAlchemy~=1.4.40 # used by apscheduler (optional)
+PyQt5~=5.15.7 # used by apscheduler (optional)
+Twisted~=22.8.0 # used by apscheduler (optional)
+CherryPy~=18.8.0 # used by the httpserver plugin (optional)
+requests~=2.28.1 # used by the net.speedtest service (optional)
+paramiko~=2.11.0 # used by the net.ssh service (optional)
+fritzconnection~=1.9.1 # used by the net.firzboxuplink service (optional)
+pysnmp~=4.4.12 # used by the snmp.get service (optional)
