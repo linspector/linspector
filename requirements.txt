@@ -1,5 +1,5 @@
 APScheduler==3.9.1 # (required)
 CherryPy==18.6.1 # (optional)
 fritzconnection==1.10.3 # (optional)
-paramiko==2.9.1 # (optional)
+paramiko==2.9.3 # (optional)
 pysnmp==4.4.12 # (optional)
