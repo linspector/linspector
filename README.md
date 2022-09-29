@@ -93,20 +93,18 @@ manager or any other possible way.
 
 ### Version numbering
 
-According to: [https://wiki.unixpeople.org/linux_kernel_version_numbering](https://wiki.unixpeople.org/linux_kernel_version_numbering)
+To be compliant to Python packaging guidelines Linspector uses the following versioning
+scheme (See: [https://semver.org/](https://semver.org/)):
 
-**MAJOR**.**FEATURE**.**MINOR**.**FIXES**
+#### MAJOR.MINOR.MAINTENANCE
 
 - **MAJOR** changes _can_ change the API. The lesser, the better.
-- **MINOR** changes can, but _should_ not break the API. New features are placed
+- **MINOR** changes _must_ not break the API. New features are placed
   here. It _expects_ a complete documentation.
 - **MAINTENANCE** changes are "just-in-time" changes or small enhancements which _should_
   not affect the documentation and _must_ not break the API.
-- **FIXES** _must_ never affect anything else then stability or security.
 
-To be compliant to Python packaging guidelines Linspector uses the following versioning
-scheme. I Need to think about my current version scheme because it is not 100% compatible with
-the following (See: [https://semver.org/](https://semver.org/)):
+#### Examples:
 
 - 1.2.0.dev1 - Development release
 - 1.2.0a1 - Alpha Release
@@ -117,7 +115,8 @@ the following (See: [https://semver.org/](https://semver.org/)):
 - 15.10 - Date based release
 - 23 - Serial release
 
-[https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/#choosing-a-versioning-scheme](https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/#choosing-a-versioning-scheme)
+(More information: [https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/#choosing-a-versioning-scheme](https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/#choosing-a-versioning-scheme) & 
+[https://peps.python.org/pep-0440/#public-version-identifiers](https://peps.python.org/pep-0440/#public-version-identifiers))
 
 ### Configuration file rules
 
