@@ -95,11 +95,26 @@ According to: [https://wiki.unixpeople.org/linux_kernel_version_numbering](https
 **MAJOR**.**FEATURE**.**MINOR**.**FIXES**
 
 - **MAJOR** changes _can_ change the API. The lesser, the better.
-- **FEATURE** changes can, but _should_ not break the API. New features are placed
+- **MINOR** changes can, but _should_ not break the API. New features are placed
   here. It _expects_ a complete documentation.
-- **MINOR** changes are "just-in-time" changes or small enhancements which _should_
+- **MAINTENANCE** changes are "just-in-time" changes or small enhancements which _should_
   not affect the documentation and _must_ not break the API.
 - **FIXES** _must_ never affect anything else then stability or security.
+
+To be compliant to Python packaging guidelines Linspector uses the following versioning
+scheme. I Need to think about my current version scheme because it is not 100% compatible with
+the following:
+
+- 1.2.0.dev1 - Development release
+- 1.2.0a1 - Alpha Release
+- 1.2.0b1 - Beta Release
+- 1.2.0rc1 - Release Candidate
+- 1.2.0 - Final Release
+- 1.2.0.post1 - Post Release
+- 15.10 - Date based release
+- 23 - Serial release
+
+[https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/#choosing-a-versioning-scheme](https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/#choosing-a-versioning-scheme)
 
 ### Configuration file rules
 
