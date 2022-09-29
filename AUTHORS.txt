@@ -3,4 +3,4 @@
   Email: you@hanez.org
   Homepage: https://hanez.org/
   Git: https://git.unixpeople.org/hanez
-  GitHub: https://github.com/hanez/>
+  GitHub: https://github.com/hanez/
