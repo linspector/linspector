@@ -103,7 +103,7 @@ According to: [https://wiki.unixpeople.org/linux_kernel_version_numbering](https
 
 To be compliant to Python packaging guidelines Linspector uses the following versioning
 scheme. I Need to think about my current version scheme because it is not 100% compatible with
-the following:
+the following (See: [https://semver.org/](https://semver.org/)):
 
 - 1.2.0.dev1 - Development release
 - 1.2.0a1 - Alpha Release
