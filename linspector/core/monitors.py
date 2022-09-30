@@ -26,20 +26,32 @@ class Monitors:
         log('debug', __name__, 'monitor groups: ' + str(monitor_groups))
         monitor_configuration = configparser.ConfigParser()
         for monitor_group in monitor_groups:
+
             monitors_file_list = glob.glob(self.__configuration.get_configuration_path() +
                                            '/monitors/' + monitor_group + '/*.conf')
-            log('debug', __name__, 'monitor files: ' + str(monitors_file_list))
+            #log('debug', __name__, 'monitor files: ' + str(monitors_file_list))
             for monitor_file in monitors_file_list:
                 monitor_configuration.read(monitor_file, 'utf-8')
+
+                kwargs = {}
+                for option in monitor_configuration.options('args'):
+                    #print(option)
+                    value = monitor_configuration.get('args', option)
+                    kwargs[option] = value
+
+                print(monitor_group + ' ' + str(kwargs))
 
                 identifier = monitor_group + '_' + os.path.splitext(os.path.basename(
                     monitor_file))[0]
 
                 # create Monitor() object and copy monitor_configuration for each instance because
                 # they else refer to the same object.
-                self.__monitors[identifier] = copy.deepcopy(Monitor(configuration, environment, identifier,
+                self.__monitors[identifier] = Monitor(configuration, environment, identifier,
                                                       copy.deepcopy(monitor_configuration),
-                                                      notifications, services, tasks))
+                                                      notifications, services, tasks,
+                                                      copy.deepcopy(kwargs))
+
+                del kwargs
 
     def get_monitors(self):
         return self.__monitors

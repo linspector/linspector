@@ -9,16 +9,17 @@ from linspector.core.helpers import log
 from linspector.core.service import Service
 
 
-def create(configuration, environment):
-    return GetService(configuration, environment)
+def create(configuration, environment, **kwargs):
+    return GetService(configuration, environment, **kwargs)
 
 
 class GetService(Service):
 
-    def __init__(self, configuration, environment):
-        super().__init__(configuration, environment)
+    def __init__(self, configuration, environment, **kwargs):
+        super().__init__(configuration, environment, **kwargs)
         self.__configuration = configuration
         self.__environment = environment
+        self.__kwargs = kwargs
 
     def execute(self):
         return

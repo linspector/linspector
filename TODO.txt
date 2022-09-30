@@ -11,3 +11,4 @@ Things to do in no particular order:
 - Add more tasks e.g. storage in mongodb or mariadb and some more notifications like XMPP and SMS
 - Check for all required configuration options and set defaults in services.
 - Write documentation and inline documentation.
+- Add kwargs ro notifications, tasks and maybe plugins.

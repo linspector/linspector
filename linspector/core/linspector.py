@@ -46,10 +46,10 @@ class Linspector:
             'memory': MemoryJobStore()
         }
         executors = {
-            #'default': ThreadPoolExecutor(int(configuration.get_option('linspector',
-            #                                                           'max_threads'))),
-            'default': ProcessPoolExecutor(int(configuration.get_option('linspector',
-                                                                        'max_processes')))
+            'default': ThreadPoolExecutor(int(configuration.get_option('linspector',
+                                                                       'max_threads'))),
+            #'default': ProcessPoolExecutor(int(configuration.get_option('linspector',
+            #                                                            'max_processes')))
         }
         job_defaults = {
             'max_instances': 10000
@@ -59,7 +59,7 @@ class Linspector:
                                                              job_defaults=job_defaults)
 
         start_date = datetime.datetime.now()
-        log('debug', __name__, monitors.get_monitors())
+        #log('debug', __name__, monitors.get_monitors())
         monitors = self.__monitors.get_monitors()
         for monitor in monitors:
             time_delta = round(random.uniform(1.00, 10.00), 2)

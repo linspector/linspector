@@ -9,16 +9,17 @@ from linspector.core.helpers import log
 from linspector.core.service import Service
 
 
-def create(configuration, environment):
-    return PortService(configuration, environment)
+def create(configuration, environment, **kwargs):
+    return PortService(configuration, environment, **kwargs)
 
 
 class PortService(Service):
 
-    def __init__(self, configuration, environment):
-        super().__init__(configuration, environment)
+    def __init__(self, configuration, environment, **kwargs):
+        super().__init__(configuration, environment, **kwargs)
         self.__configuration = configuration
         self.__environment = environment
+        self.__kwargs = kwargs
 
     def execute(self, execution):
 

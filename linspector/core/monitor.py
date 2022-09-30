@@ -15,7 +15,8 @@ from linspector.core.task import Task, TaskExecutor
 class Monitor:
 
     def __init__(self, configuration, environment, identifier, monitor_configuration, notifications,
-                 services, tasks):
+                 services, tasks, kwargs):
+        self.__args = kwargs
         self.__configuration = configuration
         self.__environment = environment
         self.__identifier = identifier
@@ -29,7 +30,7 @@ class Monitor:
         self.__tasks = tasks
 
         self.service = self.__service
-        self.host = monitor_configuration.get('monitor', 'host')
+        #self.host = monitor_configuration.get('monitor', 'host')
         #self.members = members
         #self.core = core
         self.hostgroup = monitor_configuration.get('monitor', 'hostgroup')
@@ -48,8 +49,9 @@ class Monitor:
         """
         self.status = "NONE"
         self.last_execution = None
-        self.monitor_information = MonitorInformation(self.job_id, self.hostgroup, self.host,
-                                                      self.service)
+        #self.monitor_information = MonitorInformation(self.job_id, self.hostgroup, self.host,
+        #                                              self.service)
+        self.monitor_information = MonitorInformation(self.job_id, self.service)
 
         if configuration.get_option('linspector', 'notifications') or \
                 monitor_configuration.get('monitor', 'notifications'):
@@ -83,10 +85,8 @@ class Monitor:
 
                 service_module = importlib.import_module(service_package)
                 self.__service = monitor_configuration.get('monitor', 'service').lower()
-                service = service_module.create(configuration, environment)
-                services[monitor_configuration.get('monitor', 'service').lower()] = service
-
-            #service.execute(self)
+                service = service_module.create(configuration, environment, **self.__args)
+                self.__services[monitor_configuration.get('monitor', 'service').lower()] = service
 
         if configuration.get_option('linspector', 'tasks') or \
                 monitor_configuration.get('monitor', 'tasks'):
@@ -121,17 +121,11 @@ class Monitor:
     def get_service(self):
         return self.__service
 
-    # currently only used for testing but maybe i will add get functions for all known variables.
-    # but not all variables can be known because all monitors are different. only the service
-    # implementation can know all variables which are being used inside the service.
-    def get_service(self):
-        return self.__service
-
     def __str__(self):
         return str(self.__dict__)
 
     def __hex__(self):
-        return hex(crc32(bytes(self.hostgroup + self.host + self.service, 'utf-8')))
+        return hex(crc32(bytes(self.hostgroup + self.service, 'utf-8')))
 
     def hex_string(self):
         ret = self.__hex__()
@@ -186,6 +180,7 @@ class Monitor:
 
     def handle_call(self):
         log('info', __name__, "handle call to identifier: " + self.__identifier)
+        self.__services[self.__service].execute()
         #logger.debug("handle call")
         #logger.debug(self.service)
         if self.enabled:
@@ -201,7 +196,8 @@ class Monitor:
             self.handle_threshold(self.service.get_threshold(),
                                   self.last_execution.was_successful())
 
-            #logger.info("Job " + self.get_job_id() +
+            log('info', __name__, 'sadasd')
+            #log.info("Job " + self.get_job_id() +
             #            ", Code: " + str(self.last_execution.get_error_code()) +
             #            ", Message: " + str(self.last_execution.get_message()))
 
@@ -212,8 +208,8 @@ class Monitor:
         else:
             log('info', __name__, "job " + self.get_job_id() + " disabled")
 
-    def get_host(self):
-        return self.host
+    #def get_host(self):
+    #    return self.host
 
     def get_hostgroup(self):
         return self.hostgroup
@@ -262,10 +258,10 @@ class MonitorExecution:
 
 
 class MonitorInformation:
-    def __init__(self, job_id, hostgroup, host, service):
+    def __init__(self, job_id, service):
         self.job_id = job_id
-        self.hostgroup = hostgroup
-        self.host = host
+        #self.hostgroup = hostgroup
+        #self.host = host
         self.service = service
 
         self.response_massage = None
