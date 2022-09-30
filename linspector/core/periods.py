@@ -3,10 +3,9 @@ This file is part of Linspector (https://linspector.org/)
 Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
 See LICENSE (MIT license)
 """
-from logging import getLogger
 from apscheduler.util import convert_to_datetime
 
-logger = getLogger('linspector')
+from linspector.core.helpers import log
 
 
 class Period(object):

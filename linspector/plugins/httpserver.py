@@ -6,11 +6,8 @@ See LICENSE (MIT license)
 import cherrypy
 import json
 
-from logging import getLogger
-
+from linspector.core.helpers import log
 from linspector.core.plugin import Plugin
-
-logger = getLogger('linspector')
 
 
 def get(configuration, environment, linspector):

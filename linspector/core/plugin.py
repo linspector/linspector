@@ -3,9 +3,7 @@ This file is part of Linspector (https://linspector.org/)
 Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
 See LICENSE (MIT license)
 """
-from logging import getLogger
-
-logger = getLogger('linspector')
+from linspector.core.helpers import log
 
 
 class Plugin:

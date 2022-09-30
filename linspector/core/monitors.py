@@ -8,12 +8,8 @@ import copy
 import glob
 import os
 
-from logging import getLogger
-
 from linspector.core.monitor import Monitor
-
-
-logger = getLogger('linspector')
+from linspector.core.helpers import log
 
 
 # monitors may could / should be added (and maybe changed) at runtime to add new monitors without
@@ -27,12 +23,12 @@ class Monitors:
         self.__monitors = {}
 
         monitor_groups = os.listdir(self.__configuration.get_configuration_path() + '/monitors/')
-        logger.debug('[' + __name__ + '] monitor groups: ' + str(monitor_groups))
+        log('debug', __name__, 'monitor groups: ' + str(monitor_groups))
         monitor_configuration = configparser.ConfigParser()
         for monitor_group in monitor_groups:
             monitors_file_list = glob.glob(self.__configuration.get_configuration_path() +
                                            '/monitors/' + monitor_group + '/*.conf')
-            logger.debug('[' + __name__ + '] monitor files: ' + str(monitors_file_list))
+            log('debug', __name__, 'monitor files: ' + str(monitors_file_list))
             for monitor_file in monitors_file_list:
                 monitor_configuration.read(monitor_file, 'utf-8')
 
@@ -41,9 +37,9 @@ class Monitors:
 
                 # create Monitor() object and copy monitor_configuration for each instance because
                 # they else refer to the same object.
-                self.__monitors[identifier] = Monitor(configuration, environment, identifier,
+                self.__monitors[identifier] = copy.deepcopy(Monitor(configuration, environment, identifier,
                                                       copy.deepcopy(monitor_configuration),
-                                                      notifications, services, tasks)
+                                                      notifications, services, tasks))
 
     def get_monitors(self):
         return self.__monitors

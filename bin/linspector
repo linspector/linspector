@@ -32,7 +32,7 @@ from linspector.core.environment import Environment
 from linspector.core.linspector import Linspector
 from linspector.core.monitors import Monitors
 
-__version__ = '0.19.10'
+__version__ = '0.19.11.dev1'
 __author__ = 'Johannes Findeisen <you@hanez.org>'
 
 logger = logging.getLogger('linspector')
@@ -125,6 +125,7 @@ def main():
 
     try:
         linspector = Linspector(configuration, environment, monitors, plugins, scheduler)
+        #linspector.print_debug()
     except Exception as err:
         logger.critical('[linspector] core initialization error: {0}'.format(err))
         sys.exit(1)

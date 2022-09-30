@@ -4,14 +4,12 @@ Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
 See LICENSE (MIT)
 """
 from fritzconnection.lib.fritzstatus import FritzStatus
-from logging import getLogger
 
+from linspector.core.helpers import log
 from linspector.core.service import Service
 
-logger = getLogger('linspector')
 
-
-def get(configuration, environment):
+def create(configuration, environment):
     return FritzboxUplinkService(configuration, environment)
 
 

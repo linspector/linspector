@@ -3,14 +3,13 @@ This file is part of Linspector (https://linspector.org/)
 Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
 See LICENSE (MIT license)
 """
-from logging import getLogger
+import gammu
 
+from linspector.core.helpers import log
 from linspector.core.notification import Notification
 
-logger = getLogger('linspector')
 
-
-def get(configuration, environment):
+def create(configuration, environment):
     return SMSNotification(configuration, environment)
 
 

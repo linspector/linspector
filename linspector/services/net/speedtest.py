@@ -7,14 +7,11 @@ import calendar
 import requests
 import time
 
-from logging import getLogger
-
+from linspector.core.helpers import log
 from linspector.core.service import Service
 
-logger = getLogger('linspector')
 
-
-def get(configuration, environment):
+def create(configuration, environment):
     return SpeedtestService(configuration, environment)
 
 

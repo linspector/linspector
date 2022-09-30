@@ -5,9 +5,11 @@ See LICENSE (MIT license)
 """
 import importlib
 
-from logging import getLogger
+from datetime import datetime
+from binascii import crc32
 
-logger = getLogger('linspector')
+from linspector.core.helpers import log
+from linspector.core.task import Task, TaskExecutor
 
 
 class Monitor:
@@ -17,13 +19,37 @@ class Monitor:
         self.__configuration = configuration
         self.__environment = environment
         self.__identifier = identifier
+        self.__interval = int(monitor_configuration.get('monitor', 'interval'))
         self.__monitor_configuration = monitor_configuration
         self.__notification_list = []
-        self.__service = None
+        self.__service = monitor_configuration.get('monitor', 'service')
         self.__notifications = notifications
         self.__services = services
         self.__task_list = []  # put tasks for the dedicated job here.
         self.__tasks = tasks
+
+        self.service = self.__service
+        self.host = monitor_configuration.get('monitor', 'host')
+        #self.members = members
+        #self.core = core
+        self.hostgroup = monitor_configuration.get('monitor', 'hostgroup')
+        self.job_threshold = 0
+        self.enabled = True
+        self.scheduler_job = None
+        self.job_id = self.hex_string()
+
+        """
+        NONE     job was not executed
+        OK       when everything is fine
+        WARNING  when a job has errors but not the threshold overridden
+        RECOVER  when a job recovers e.g. the threshold decrements (not implemented)
+        ERROR    when a jobs threshold is overridden
+        UNKNOWN  when a job throws an exception which is not handled by the job itself (not implemented)
+        """
+        self.status = "NONE"
+        self.last_execution = None
+        self.monitor_information = MonitorInformation(self.job_id, self.hostgroup, self.host,
+                                                      self.service)
 
         if configuration.get_option('linspector', 'notifications') or \
                 monitor_configuration.get('monitor', 'notifications'):
@@ -47,7 +73,7 @@ class Monitor:
                 if notification_option not in notifications:
                     notification_package = 'linspector.notifications.' + notification_option.lower()
                     notification_module = importlib.import_module(notification_package)
-                    notification = notification_module.get(configuration, environment)
+                    notification = notification_module.create(configuration, environment)
                     notifications[notification_option.lower()] = notification
 
         if self.__monitor_configuration.get('monitor', 'service'):
@@ -57,7 +83,7 @@ class Monitor:
 
                 service_module = importlib.import_module(service_package)
                 self.__service = monitor_configuration.get('monitor', 'service').lower()
-                service = service_module.get(configuration, environment)
+                service = service_module.create(configuration, environment)
                 services[monitor_configuration.get('monitor', 'service').lower()] = service
 
             #service.execute(self)
@@ -83,14 +109,201 @@ class Monitor:
                 if task_option not in tasks:
                     task_package = 'linspector.tasks.' + task_option.lower()
                     task_module = importlib.import_module(task_package)
-                    task = task_module.get(configuration, environment)
+                    task = task_module.create(configuration, environment)
                     tasks[task_option.lower()] = task
 
     def get_identifier(self):
         return self.__identifier
 
+    def get_interval(self):
+        return self.__interval
+
+    def get_service(self):
+        return self.__service
+
     # currently only used for testing but maybe i will add get functions for all known variables.
     # but not all variables can be known because all monitors are different. only the service
     # implementation can know all variables which are being used inside the service.
     def get_service(self):
-        return self.__monitor_configuration.get('monitor', 'service')
+        return self.__service
+
+    def __str__(self):
+        return str(self.__dict__)
+
+    def __hex__(self):
+        return hex(crc32(bytes(self.hostgroup + self.host + self.service, 'utf-8')))
+
+    def hex_string(self):
+        ret = self.__hex__()
+        if ret[0] == "-":
+            ret = ret[3:]
+        else:
+            ret = ret[2:]
+        while len(ret) < 8:
+            ret = "0" + ret
+        return ret
+
+    def get_job_id(self):
+        return self.job_id
+
+    def set_job(self, scheduler_job):
+        self.scheduler_job = scheduler_job
+
+    def set_enabled(self, enabled=True):
+        self.enabled = enabled
+
+    def handle_threshold(self, service_threshold, execution_successful):
+        if execution_successful:
+            if self.job_threshold > 0:
+                if "threshold_reset" in self.core and self.core["threshold_reset"]:
+                    #logger.info("Job " + self.get_job_id() + ", Threshold Reset")
+                    self.job_threshold = 0
+                else:
+                    #logger.info("Job " + self.get_job_id() + ", Threshold Decrement")
+                    self.job_threshold -= 1
+
+            self.status = "OK"
+            self.monitor_information.set_status(self.status)
+            self.monitor_information.inc_job_overall_wins()
+        else:
+            self.status = "WARNING"
+            self.monitor_information.set_status(self.status)
+            self.monitor_information.inc_job_overall_fails()
+            self.job_threshold += 1
+
+        if self.job_threshold >= service_threshold:
+            #logger.info("Job " + self.get_job_id() + ", Threshold reached!")
+            self.status = "ERROR"
+            self.monitor_information.set_status(self.status)
+
+    def handle_tasks(self, monitor_information):
+        for task in self.__tasks:
+            if self.status.lower() in task.get_task_type().lower():
+                log('debug', __name__, 'executing task of type: ' + self.status)
+                # tasks can but should not be executed here. putting them in a queue is the better
+                # solution to execute them in a serial process.
+                #TaskExecutor.instance().schedule_task(monitor_information, task)
+
+    def handle_call(self):
+        log('info', __name__, "handle call to identifier: " + self.__identifier)
+        #logger.debug("handle call")
+        #logger.debug(self.service)
+        if self.enabled:
+            self.last_execution = None
+            try:
+                self.last_execution = MonitorExecution(self.get_host())
+                self.service.execute(self.last_execution)
+            except Exception as err:
+                log.debug('debug', __name__, err)
+
+            self.last_execution.set_execution_end()
+
+            self.handle_threshold(self.service.get_threshold(),
+                                  self.last_execution.was_successful())
+
+            #logger.info("Job " + self.get_job_id() +
+            #            ", Code: " + str(self.last_execution.get_error_code()) +
+            #            ", Message: " + str(self.last_execution.get_message()))
+
+            self.monitor_information.set_response_message(
+                self.last_execution.get_response_message(self))
+
+            self.handle_tasks(self.monitor_information)
+        else:
+            log('info', __name__, "job " + self.get_job_id() + " disabled")
+
+    def get_host(self):
+        return self.host
+
+    def get_hostgroup(self):
+        return self.hostgroup
+
+
+class MonitorExecution:
+    def __init__(self, host):
+        self.execution_start = datetime.now()
+        self.execution_end = -1
+        self.host = host
+        self.error_code = -1
+        self.message = None
+        self.kwargs = None
+
+    def get_host_name(self):
+        return self.host
+
+    def get_message(self):
+        return self.message
+
+    def get_kwargs(self):
+        return self.kwargs
+
+    def set_execution_end(self):
+        self.execution_end = datetime.now()
+
+    def get_error_code(self):
+        return self.error_code
+
+    def was_successful(self):
+        return self.get_error_code() == 0
+
+    def set_result(self, error_code=0, message="", kwargs=None):
+        self.error_code = error_code
+        self.message = message
+        self.kwargs = kwargs
+
+    def get_response_message(self, job):
+        msg = str(job.status) + " [" + job.service.get_config_name() + ": " + str(job.get_job_id()) + "] " + \
+              str(job.get_hostgroup()) + " " + str(job.get_host())
+        if self.get_message() is not None:
+            msg += " " + str(self.get_message())
+        if self.get_kwargs() is not None:
+            msg += " " + str(self.get_kwargs())
+        return msg
+
+
+class MonitorInformation:
+    def __init__(self, job_id, hostgroup, host, service):
+        self.job_id = job_id
+        self.hostgroup = hostgroup
+        self.host = host
+        self.service = service
+
+        self.response_massage = None
+        self.period = None
+        self.next_run = None
+        self.runs = 0
+        self.enabled = None
+        self.threshold = 0
+        self.fails = 0
+        self.job_overall_fails = 0
+        self.job_overall_wins = 0
+        self.last_execution = None
+        self.last_run = None
+        self.last_fail = None
+        self.last_success = None
+        self.last_disabled = None
+        self.last_enabled = None
+        self.last_threshold_override = None
+        self.last_escalation = None
+        self.status = "NONE"
+
+    def inc_job_overall_fails(self):
+        self.job_overall_fails += 1
+
+    def inc_job_overall_wins(self):
+        self.job_overall_wins += 1
+
+    def get_job_id(self):
+        return self.job_id
+
+    def get_response_message(self):
+        return self.response_massage
+
+    def set_response_message(self, msg):
+        self.response_massage = msg
+
+    def get_status(self):
+        return self.status
+
+    def set_status(self, status):
+        self.status = status

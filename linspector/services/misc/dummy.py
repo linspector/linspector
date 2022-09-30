@@ -3,14 +3,11 @@ This file is part of Linspector (https://linspector.org/)
 Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
 See LICENSE (MIT license)
 """
-from logging import getLogger
-
+from linspector.core.helpers import log
 from linspector.core.service import Service
 
-logger = getLogger('linspector')
 
-
-def get(configuration, environment):
+def create(configuration, environment):
     return DummyService(configuration, environment)
 
 
@@ -22,4 +19,5 @@ class DummyService(Service):
         self.__environment = environment
 
     def execute(self):
+        log('debug', __name__, 'dummy object @' + str(self))
         return
