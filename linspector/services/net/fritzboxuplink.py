@@ -21,5 +21,5 @@ class FritzboxUplinkService(Service):
         self.__environment = environment
 
     def execute(self, **kwargs):
-        log('debug', 'fritzboxuplink object @' + str(self))
+        log('debug', 'fritzboxuplink object ' + str(self))
         return

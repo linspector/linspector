@@ -32,9 +32,9 @@ from linspector.core.environment import Environment
 from linspector.core.linspector import Linspector
 from linspector.core.monitors import Monitors
 
-# i currently only set the 3rd number because the goal is that 0.19 will become the first stable
-# version.
-__version__ = '0.19.17.dev1'
+# i currently only increase the 3rd number because the goal is that 0.19 will become the first
+# stable version.
+__version__ = '0.19.19.dev1'
 __author__ = 'Johannes Findeisen <you@hanez.org>'
 
 logger = logging.getLogger('linspector')
@@ -72,6 +72,8 @@ def main():
     monitors = None
     notifications = {}
     plugins = {}
+    # the scheduler is a dict to make it possible in the future to run more than one scheduler in
+    # one linspector daemon. need to think about it a little more...
     scheduler = {}
     services = {}
     tasks = {}
@@ -105,6 +107,7 @@ def main():
                                                                 backupCount=int(
                                                                     configuration.get_option(
                                                                         'linspector', 'log_count')))
+
         log_file_handler.setFormatter(log_file_formatter)
         logger.addHandler(log_file_handler)
 

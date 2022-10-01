@@ -12,10 +12,10 @@ def log(level, msg):
     # only use inspect when log level NOTSET or DEBUG  is enabled.
     if logger.isEnabledFor(0) or logger.isEnabledFor(10):
         import inspect
-        frm = inspect.stack()[1]
-        function_name = frm.function
-        module_name = inspect.getmodule(frm[0]).__name__
-        line_number = str(frm.lineno)
+        from_stack = inspect.stack()[1]
+        function_name = from_stack.function
+        module_name = inspect.getmodule(from_stack[0]).__name__
+        line_number = str(from_stack.lineno)
         if level == 'critical':
             logger.critical('[' + module_name + ']:[' + function_name + ']:[' + line_number + '] ' +
                             str(msg))
