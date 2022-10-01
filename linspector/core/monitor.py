@@ -200,14 +200,14 @@ class Monitor:
 
     def handle_call(self):
         log('info', "handle call to identifier: " + self.__identifier)
-        self.__services[self.__service].execute()
         #logger.debug("handle call")
         #logger.debug(self.service)
         if self.enabled:
             self.last_execution = None
             try:
                 self.last_execution = MonitorExecution(self.get_host())
-                self.service.execute(self.last_execution)
+                #self.__services[self.__service].execute(self.last_execution)
+                self.__services[self.__service].execute()
             except Exception as err:
                 log('error', err)
 
