@@ -3,6 +3,8 @@ This file is part of Linspector (https://linspector.org/)
 Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
 See LICENSE (MIT license)
 """
+import configparser
+import hashlib
 import importlib
 
 from datetime import datetime
@@ -23,21 +25,25 @@ class Monitor:
         self.__interval = int(monitor_configuration.get('monitor', 'interval'))
         self.__monitor_configuration = monitor_configuration
         self.__notification_list = []
-        self.__service = monitor_configuration.get('monitor', 'service')
         self.__notifications = notifications
+        self.__service = monitor_configuration.get('monitor', 'service')
         self.__services = services
         self.__task_list = []  # put tasks for the dedicated job here.
         self.__tasks = tasks
 
         self.service = self.__service
-        #self.host = monitor_configuration.get('monitor', 'host')
-        #self.members = members
-        #self.core = core
-        self.hostgroup = monitor_configuration.get('monitor', 'hostgroup')
+        self.host = monitor_configuration.get('monitor', 'hosts')
+
+        try:
+            self.hostgroups = monitor_configuration.get('monitor', 'hostgroups')
+        except configparser.NoOptionError as err:
+            self.hostgroups = "None"
+
         self.job_threshold = 0
         self.enabled = True
         self.scheduler_job = None
-        self.job_id = self.hex_string()
+        # the job_id is a sha256 string.
+        self.job_id = self.generate_job_id()
 
         """
         NONE     job was not executed
@@ -53,23 +59,24 @@ class Monitor:
         #                                              self.service)
         self.monitor_information = MonitorInformation(self.job_id, self.service)
 
-        if configuration.get_option('linspector', 'notifications') or \
-                monitor_configuration.get('monitor', 'notifications'):
-
-            if configuration.get_option('linspector', 'notifications') and \
+        try:
+            if configuration.get_option('linspector', 'notifications') or \
                     monitor_configuration.get('monitor', 'notifications'):
 
-                notification_list = \
-                    configuration.get_option('linspector', 'notifications') + ',' + \
-                    monitor_configuration.get('monitor', 'notifications')
-            elif configuration.get_option('linspector', 'notifications'):
-                notification_list = configuration.get_option('linspector', 'notifications')
-            elif monitor_configuration.get('monitor', 'notifications'):
-                notification_list = monitor_configuration.get('monitor', 'notifications')
-            else:
-                notification_list = None
+                if configuration.get_option('linspector', 'notifications') and \
+                        monitor_configuration.get('monitor', 'notifications'):
 
-            self.__notification_list = notification_list.split(',')
+                    notification_list = \
+                        configuration.get_option('linspector', 'notifications') + ',' + \
+                        monitor_configuration.get('monitor', 'notifications')
+                elif configuration.get_option('linspector', 'notifications'):
+                    notification_list = configuration.get_option('linspector', 'notifications')
+                elif monitor_configuration.get('monitor', 'notifications'):
+                    notification_list = monitor_configuration.get('monitor', 'notifications')
+                else:
+                    notification_list = None
+
+                self.__notification_list = notification_list.split(',')
 
             for notification_option in notification_list.split(','):
                 if notification_option not in notifications:
@@ -77,6 +84,8 @@ class Monitor:
                     notification_module = importlib.import_module(notification_package)
                     notification = notification_module.create(configuration, environment)
                     notifications[notification_option.lower()] = notification
+        except configparser.NoOptionError as err:
+            self.__notifications = notifications
 
         if self.__monitor_configuration.get('monitor', 'service'):
             if monitor_configuration.get('monitor', 'service') not in services:
@@ -87,30 +96,32 @@ class Monitor:
                 self.__service = monitor_configuration.get('monitor', 'service').lower()
                 service = service_module.create(configuration, environment, **self.__args)
                 self.__services[monitor_configuration.get('monitor', 'service').lower()] = service
+        try:
+            if configuration.get_option('linspector', 'tasks') or \
+                    monitor_configuration.get('args', 'tasks'):
 
-        if configuration.get_option('linspector', 'tasks') or \
-                monitor_configuration.get('monitor', 'tasks'):
+                if configuration.get_option('linspector', 'tasks') and \
+                        monitor_configuration.get('args', 'tasks'):
 
-            if configuration.get_option('linspector', 'tasks') and \
-                    monitor_configuration.get('monitor', 'tasks'):
+                    task_list = configuration.get_option('linspector', 'tasks') + ',' + \
+                                monitor_configuration.get('args', 'tasks')
+                elif configuration.get_option('linspector', 'tasks'):
+                    task_list = configuration.get_option('linspector', 'tasks')
+                elif monitor_configuration.get('args', 'tasks'):
+                    task_list = monitor_configuration.get('args', 'tasks')
+                else:
+                    task_list = None
 
-                task_list = configuration.get_option('linspector', 'tasks') + ',' + \
-                            monitor_configuration.get('monitor', 'tasks')
-            elif configuration.get_option('linspector', 'tasks'):
-                task_list = configuration.get_option('linspector', 'tasks')
-            elif monitor_configuration.get('monitor', 'tasks'):
-                task_list = monitor_configuration.get('monitor', 'tasks')
-            else:
-                task_list = None
+                self.__task_list = task_list.split(',')
 
-            self.task_list = task_list.split(',')
-
-            for task_option in task_list.split(','):
-                if task_option not in tasks:
-                    task_package = 'linspector.tasks.' + task_option.lower()
-                    task_module = importlib.import_module(task_package)
-                    task = task_module.create(configuration, environment)
-                    tasks[task_option.lower()] = task
+                for task_option in task_list.split(','):
+                    if task_option not in tasks:
+                        task_package = 'linspector.tasks.' + task_option.lower()
+                        task_module = importlib.import_module(task_package)
+                        task = task_module.create(configuration, environment)
+                        tasks[task_option.lower()] = task
+        except configparser.NoOptionError:
+            self.__tasks = tasks
 
     def get_identifier(self):
         return self.__identifier
@@ -124,11 +135,9 @@ class Monitor:
     def __str__(self):
         return str(self.__dict__)
 
-    def __hex__(self):
-        return hex(crc32(bytes(self.hostgroup + self.service, 'utf-8')))
-
     def hex_string(self):
-        ret = self.__hex__()
+        ret = hex(crc32(bytes(self.host + self.hostgroups + self.service, 'utf-8')))
+        #ret = self.__hex__()
         if ret[0] == "-":
             ret = ret[3:]
         else:
@@ -137,8 +146,9 @@ class Monitor:
             ret = "0" + ret
         return ret
 
-    def get_job_id(self):
-        return self.job_id
+    def generate_job_id(self):
+        return hashlib.sha256(bytes(self.__identifier + self.host + self.hostgroups + self.service,
+                                    'utf-8')).hexdigest()
 
     def set_job(self, scheduler_job):
         self.scheduler_job = scheduler_job
@@ -179,7 +189,7 @@ class Monitor:
                 #TaskExecutor.instance().schedule_task(monitor_information, task)
 
     def handle_call(self):
-        log('info', __name__, "handle call to identifier: " + self.__identifier)
+        #log('info', __name__, "handle call to identifier: " + self.__identifier)
         self.__services[self.__service].execute()
         #logger.debug("handle call")
         #logger.debug(self.service)
@@ -211,8 +221,8 @@ class Monitor:
     #def get_host(self):
     #    return self.host
 
-    def get_hostgroup(self):
-        return self.hostgroup
+    def get_hostgroups(self):
+        return self.hostgroups
 
 
 class MonitorExecution:

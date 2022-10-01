@@ -32,7 +32,9 @@ from linspector.core.environment import Environment
 from linspector.core.linspector import Linspector
 from linspector.core.monitors import Monitors
 
-__version__ = '0.19.12.dev1'
+# i currently only set the 3rd number because the goal is that 0.19 will become the first stable
+# version.
+__version__ = '0.19.13.dev1'
 __author__ = 'Johannes Findeisen <you@hanez.org>'
 
 logger = logging.getLogger('linspector')
@@ -40,7 +42,7 @@ logger = logging.getLogger('linspector')
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description='linspector is a infrastructure monitoring daemon and toolchain.',
+        description='linspector is a infrastructure and system monitoring daemon and toolchain.',
         epilog='author: ' + __author__,
         prog='linspector')
 

@@ -15,6 +15,7 @@ from linspector.core.helpers import log
 
 
 def job_function(monitor):
+    log('debug', __name__, monitor)
     monitor.handle_call()
 
 
@@ -59,10 +60,15 @@ class Linspector:
                                                              job_defaults=job_defaults)
 
         start_date = datetime.datetime.now()
-        #log('debug', __name__, monitors.get_monitors())
+        log('debug', __name__, monitors.get_monitors())
         monitors = self.__monitors.get_monitors()
         for monitor in monitors:
-            time_delta = round(random.uniform(1.00, 10.00), 2)
+            log('debug', __name__, monitor)
+            if configuration.get_option('linspector', 'delta_range'):
+                time_delta = round(random.uniform(0.00, float(configuration.get_option('linspector', 'delta_range'))), 2)
+            else:
+                time_delta = round(random.uniform(0.00, 60.00), 2)
+
             new_start_date = start_date + datetime.timedelta(seconds=time_delta)
             monitor_job = monitors.get(monitor)
             interval = monitor_job.get_interval()
@@ -74,7 +80,7 @@ class Linspector:
             monitor_job.set_job(scheduler_job)
             self.__jobs.append(monitor_job)
             log('info', __name__, 'scheduling job ' + monitor + ' with delta ' + str(time_delta) +
-                ' @' + str(new_start_date) + ' running service ')
+                ' @' + str(new_start_date) + ' running service ' + monitor_job.get_service())
 
         if configuration.get_option('linspector', 'start_scheduler') == 'true':
             self.__scheduler['linspector'].start()
