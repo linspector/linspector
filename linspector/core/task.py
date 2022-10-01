@@ -7,7 +7,7 @@ from queue import Queue
 from threading import Event, Thread
 
 from linspector.core.helpers import log
-from linspector.utils.singleton import Singleton
+from linspector.core.singleton import Singleton
 
 KEY_TYPE = "type"
 KEY_ARGS = "args"
