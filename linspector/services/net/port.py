@@ -9,19 +9,18 @@ from linspector.core.helpers import log
 from linspector.core.service import Service
 
 
-def create(configuration, environment, **kwargs):
-    return PortService(configuration, environment, **kwargs)
+def create(configuration, environment):
+    return PortService(configuration, environment)
 
 
 class PortService(Service):
 
-    def __init__(self, configuration, environment, **kwargs):
-        super().__init__(configuration, environment, **kwargs)
+    def __init__(self, configuration, environment):
+        super().__init__(configuration, environment)
         self.__configuration = configuration
         self.__environment = environment
-        self.__kwargs = kwargs
 
-    def execute(self, execution):
+    def execute(self, execution, **kwargs):
 
         error_code = 0
         msg = "Connection successful established"

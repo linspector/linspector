@@ -8,7 +8,6 @@ from linspector.core.helpers import log
 
 class Service:
 
-    def __init__(self, configuration, environment, **kwargs):
+    def __init__(self, configuration, environment):
         self.__configuration = configuration
         self._environment = environment
-        self.__kwargs = kwargs

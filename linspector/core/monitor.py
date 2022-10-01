@@ -51,7 +51,8 @@ class Monitor:
         WARNING  when a job has errors but not the threshold overridden
         RECOVER  when a job recovers e.g. the threshold decrements (not implemented)
         ERROR    when a jobs threshold is overridden
-        UNKNOWN  when a job throws an exception which is not handled by the job itself (not implemented)
+        UNKNOWN  when a job throws an exception which is not handled by the job itself (not 
+        implemented)
         """
         self.status = "NONE"
         self.last_execution = None
@@ -94,7 +95,7 @@ class Monitor:
 
                 service_module = importlib.import_module(service_package)
                 self.__service = monitor_configuration.get('monitor', 'service').lower()
-                service = service_module.create(configuration, environment, **self.__args)
+                service = service_module.create(configuration, environment)
                 self.__services[monitor_configuration.get('monitor', 'service').lower()] = service
         try:
             if configuration.get_option('linspector', 'tasks') or \
@@ -199,7 +200,7 @@ class Monitor:
                 #TaskExecutor.instance().schedule_task(monitor_information, task)
 
     def handle_call(self):
-        log('info', "handle call to identifier: " + self.__identifier)
+        log('info', 'handle call to monitor with identifier: ' + self.__identifier)
         #logger.debug("handle call")
         #logger.debug(self.service)
         if self.enabled:
@@ -207,7 +208,7 @@ class Monitor:
             try:
                 self.last_execution = MonitorExecution(self.get_host())
                 #self.__services[self.__service].execute(self.last_execution)
-                self.__services[self.__service].execute()
+                self.__services[self.__service].execute(**self.__args)
             except Exception as err:
                 log('error', err)
 
