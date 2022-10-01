@@ -209,26 +209,26 @@ class Monitor:
                 self.last_execution = MonitorExecution(self.get_host())
                 self.service.execute(self.last_execution)
             except Exception as err:
-                log.debug('debug', err)
+                log('error', err)
 
-            self.last_execution.set_execution_end()
+            #self.last_execution.set_execution_end()
 
-            self.handle_threshold(self.service.get_threshold(),
-                                  self.last_execution.was_successful())
+            #self.handle_threshold(self.service.get_threshold(),
+            #                      self.last_execution.was_successful())
 
             #log.info("Job " + self.get_job_id() +
             #            ", Code: " + str(self.last_execution.get_error_code()) +
             #            ", Message: " + str(self.last_execution.get_message()))
 
-            self.monitor_information.set_response_message(
-                self.last_execution.get_response_message(self))
+            #self.monitor_information.set_response_message(
+            #    self.last_execution.get_response_message(self))
 
-            self.handle_tasks(self.monitor_information)
+            #self.handle_tasks(self.monitor_information)
         else:
             log('info', "job " + self.get_job_id() + " disabled")
 
-    #def get_host(self):
-    #    return self.host
+    def get_host(self):
+        return self.host
 
     def get_hostgroups(self):
         return self.hostgroups

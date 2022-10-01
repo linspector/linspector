@@ -20,5 +20,6 @@ class DummyService(Service):
         self.__kwargs = kwargs
 
     def execute(self):
-        log('debug', 'dummy object @' + str(self) + str(self.__kwargs['foo']))
+        log('debug', 'dummy object @' + str(self))
+        #log('debug', 'dummy object @' + str(self) + str(self.__kwargs['foo']))
         return

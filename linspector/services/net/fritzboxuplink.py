@@ -22,5 +22,5 @@ class FritzboxUplinkService(Service):
         self.__kwargs = kwargs
 
     def execute(self):
-        log('debug', __name__, 'fritzboxuplink object @' + str(self))
+        log('debug', 'fritzboxuplink object @' + str(self))
         return
