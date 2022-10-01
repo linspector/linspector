@@ -15,7 +15,6 @@ from linspector.core.helpers import log
 
 
 def job_function(monitor):
-    #log('debug', monitor)
     monitor.handle_call()
 
 
@@ -70,11 +69,6 @@ class Linspector:
             else:
                 time_delta = round(random.uniform(0.00, 60.00), 2)
 
-            #x = monitors.get(monitor).get_monitor_configuration_option('args', 'start_date')
-            #y = x.get_monitor_configuration_option('args', 'start_date')
-            #z = y.get_option('args', 'start_date')
-            #a =
-            #print(x)
             if monitors.get(monitor).get_monitor_configuration_option('args', 'start_date'):
                 new_start_date = \
                     monitors.get(monitor).get_monitor_configuration_option('args', 'start_date')
