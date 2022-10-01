@@ -129,6 +129,16 @@ class Monitor:
     def get_interval(self):
         return self.__interval
 
+    def get_monitor_configuration(self):
+        return self.__monitor_configuration
+
+    def get_monitor_configuration_option(self, section, option):
+        if self.__monitor_configuration.has_option(section, option):
+            return self.__monitor_configuration.get(section, option)
+        else:
+            return None
+        return self.__monitor_configuration
+
     def get_service(self):
         return self.__service
 
@@ -183,13 +193,13 @@ class Monitor:
     def handle_tasks(self, monitor_information):
         for task in self.__tasks:
             if self.status.lower() in task.get_task_type().lower():
-                log('debug', __name__, 'executing task of type: ' + self.status)
+                log('debug', 'executing task of type: ' + self.status)
                 # tasks can but should not be executed here. putting them in a queue is the better
                 # solution to execute them in a serial process.
                 #TaskExecutor.instance().schedule_task(monitor_information, task)
 
     def handle_call(self):
-        #log('info', __name__, "handle call to identifier: " + self.__identifier)
+        log('info', "handle call to identifier: " + self.__identifier)
         self.__services[self.__service].execute()
         #logger.debug("handle call")
         #logger.debug(self.service)
@@ -199,14 +209,13 @@ class Monitor:
                 self.last_execution = MonitorExecution(self.get_host())
                 self.service.execute(self.last_execution)
             except Exception as err:
-                log.debug('debug', __name__, err)
+                log.debug('debug', err)
 
             self.last_execution.set_execution_end()
 
             self.handle_threshold(self.service.get_threshold(),
                                   self.last_execution.was_successful())
 
-            log('info', __name__, 'sadasd')
             #log.info("Job " + self.get_job_id() +
             #            ", Code: " + str(self.last_execution.get_error_code()) +
             #            ", Message: " + str(self.last_execution.get_message()))
@@ -216,7 +225,7 @@ class Monitor:
 
             self.handle_tasks(self.monitor_information)
         else:
-            log('info', __name__, "job " + self.get_job_id() + " disabled")
+            log('info', "job " + self.get_job_id() + " disabled")
 
     #def get_host(self):
     #    return self.host

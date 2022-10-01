@@ -19,8 +19,7 @@ class Configuration:
         self.__configuration_path = configuration_path
         self.__environment = environment
 
-        log('info', __name__, 'reading configuration file: ' + configuration_path +
-            '/linspector.conf')
+        log('info', 'reading configuration file: ' + configuration_path + '/linspector.conf')
         if os.path.isfile(configuration_path + '/linspector.conf'):
             try:
                 self.__configuration.read(configuration_path + '/linspector.conf', 'utf-8')

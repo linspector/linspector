@@ -15,7 +15,7 @@ from linspector.core.helpers import log
 
 
 def job_function(monitor):
-    log('debug', __name__, monitor)
+    #log('debug', monitor)
     monitor.handle_call()
 
 
@@ -31,13 +31,13 @@ class Linspector:
         self.__scheduler = scheduler
 
         # load plugins
-        log('info', __name__, 'loading plugins...')
+        log('info', 'loading plugins...')
         if configuration.get_option('linspector', 'plugins'):
             plugin_list = configuration.get_option('linspector', 'plugins')
             self.__plugin_list = plugin_list.split(',')
             for plugin_option in plugin_list.split(','):
                 if plugin_option not in plugins:
-                    log('info', __name__, 'loading plugin: ' + plugin_option)
+                    log('info', 'loading plugin: ' + plugin_option)
                     plugin_package = 'linspector.plugins.' + plugin_option.lower()
                     plugin_module = importlib.import_module(plugin_package)
                     plugin = plugin_module.get(configuration, environment, self)
@@ -60,26 +60,42 @@ class Linspector:
                                                              job_defaults=job_defaults)
 
         start_date = datetime.datetime.now()
-        log('debug', __name__, monitors.get_monitors())
+        log('debug', monitors.get_monitors())
         monitors = self.__monitors.get_monitors()
         for monitor in monitors:
-            log('debug', __name__, monitor)
+            log('debug', monitor)
             if configuration.get_option('linspector', 'delta_range'):
-                time_delta = round(random.uniform(0.00, float(configuration.get_option('linspector', 'delta_range'))), 2)
+                time_delta = round(random.uniform(0.00, float(
+                    configuration.get_option('linspector', 'delta_range'))), 2)
             else:
                 time_delta = round(random.uniform(0.00, 60.00), 2)
 
-            new_start_date = start_date + datetime.timedelta(seconds=time_delta)
+            #x = monitors.get(monitor).get_monitor_configuration_option('args', 'start_date')
+            #y = x.get_monitor_configuration_option('args', 'start_date')
+            #z = y.get_option('args', 'start_date')
+            #a =
+            #print(x)
+            if monitors.get(monitor).get_monitor_configuration_option('args', 'start_date'):
+                new_start_date = \
+                    monitors.get(monitor).get_monitor_configuration_option('args', 'start_date')
+            else:
+                new_start_date = start_date + datetime.timedelta(seconds=time_delta)
+
             monitor_job = monitors.get(monitor)
             interval = monitor_job.get_interval()
+            if configuration.get_option('linspector', 'timezone'):
+                timezone = configuration.get_option('linspector', 'timezone')
+            else:
+                timezone = 'UTC'
+
             scheduler_job = scheduler['linspector'].add_job(job_function, 'interval',
                                                             start_date=new_start_date,
-                                                            seconds=interval, timezone="CET",
+                                                            seconds=interval, timezone=timezone,
                                                             args=[monitors.get(monitor)])
 
             monitor_job.set_job(scheduler_job)
             self.__jobs.append(monitor_job)
-            log('info', __name__, 'scheduling job ' + monitor + ' with delta ' + str(time_delta) +
+            log('info', 'scheduling job ' + monitor + ' with delta ' + str(time_delta) +
                 ' @' + str(new_start_date) + ' running service ' + monitor_job.get_service())
 
         if configuration.get_option('linspector', 'start_scheduler') == 'true':
