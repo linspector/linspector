@@ -34,7 +34,7 @@ from linspector.core.monitors import Monitors
 
 # i currently only increase the 3rd number because the goal is that 0.19 will become the first
 # stable version.
-__version__ = '0.19.19.dev1'
+__version__ = '0.19.20.dev1'
 __author__ = 'Johannes Findeisen <you@hanez.org>'
 
 logger = logging.getLogger('linspector')
@@ -151,6 +151,12 @@ def main():
         except Exception as err:
             logger.critical('[linspector] daemon error: {0}'.format(err))
             sys.exit(1)
+    else:
+        try:
+            while True:
+                pass
+        except KeyboardInterrupt:
+            logger.info('[linspector] program terminated by user!')
 
 
 if __name__ == '__main__':
