@@ -158,9 +158,11 @@ restart each instance in a native way.
 
 ## License
 
+Linspector is open-source and completely free and will always be.
+
 ### MIT license
 
-Copyright (c) 2010 - 2022 Johannes Findeisen &lt;you@hanez.org&gt;
+Copyright (c) 2013 - 2022 Johannes Findeisen
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
