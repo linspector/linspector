@@ -73,7 +73,7 @@ def main():
     notifications = {}
     plugins = {}
     # the scheduler is a dict to make it possible in the future to run more than one scheduler in
-    # one linspector daemon. need to think about it a little more...
+    # one linspector instance. need to think about it a little more...
     scheduler = {}
     services = {}
     tasks = {}
