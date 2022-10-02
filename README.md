@@ -96,9 +96,9 @@ scheme (See: [https://semver.org/](https://semver.org/)):
 
 #### MAJOR.MINOR.MAINTENANCE
 
-- **MAJOR** changes _can_ change the API. The lesser, the better.
-- **MINOR** changes _must_ not break the API. New features are placed
-  here. It _expects_ a complete documentation.
+- **MAJOR** changes _can_ change the API. The lesser, the better. It _expects_ a 
+complete documentation.
+- **MINOR** changes _must_ not break the API. New features are placed here. 
 - **MAINTENANCE** changes are "just-in-time" changes or small enhancements which _should_
   not affect the documentation and _must_ not break the API.
 
