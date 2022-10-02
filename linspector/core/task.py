@@ -61,6 +61,9 @@ class Task:
             raise e
 
 
+# i believe the singleton pattern is not required here because all tasks are stored as singleton in
+# a dict already, and they can be executed directly in the equivalent monitor. need to discover this
+# when tasks are being implemented.
 @Singleton
 class TaskExecutor:
     def __init__(self):
