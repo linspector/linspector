@@ -25,7 +25,7 @@ class Linspector:
         self.__environment = environment
         self.__jobs = []
         self.__monitors = monitors
-        self.__plugin_list = None
+        self.__plugin_list = []
         self.__plugins = plugins
         self.__scheduler = scheduler
 
