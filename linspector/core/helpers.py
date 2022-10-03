@@ -14,8 +14,8 @@ def log(level, msg):
         import inspect
         from_stack = inspect.stack()[1]
         function_name = from_stack.function
-        module_name = inspect.getmodule(from_stack[0]).__name__
         line_number = str(from_stack.lineno)
+        module_name = inspect.getmodule(from_stack[0]).__name__
         if level == 'critical':
             logger.critical('[' + module_name + ']:[' + function_name + ']:[' + line_number + '] ' +
                             str(msg))
