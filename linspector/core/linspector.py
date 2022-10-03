@@ -80,6 +80,8 @@ class Linspector:
             else:
                 time_delta = round(random.uniform(0.00, 60.000), 3)
 
+            # TODO: write get functions in the monitor to get options. do not call
+            #  get_monitor_configuration_option() here (example: get_start_date()).
             if monitors.get(monitor).get_monitor_configuration_option('args', 'start_date'):
                 new_start_date = \
                     monitors.get(monitor).get_monitor_configuration_option('args', 'start_date')
@@ -88,11 +90,14 @@ class Linspector:
 
             monitor_job = monitors.get(monitor)
             interval = monitor_job.get_interval()
+
             if configuration.get_option('linspector', 'timezone'):
                 timezone = configuration.get_option('linspector', 'timezone')
             else:
                 timezone = 'UTC'
 
+            # add cron and one time run jobs to Linspector. not only "interval" jobs should be
+            # supported.
             scheduler_job = scheduler['linspector'].add_job(job_function, 'interval',
                                                             start_date=new_start_date,
                                                             seconds=interval, timezone=timezone,
