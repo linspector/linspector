@@ -1,3 +1,7 @@
+# Linspector
+log/*.log
+log/*.log.*
+
 # ---> Python
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -133,7 +137,6 @@ dmypy.json
 .idea/
 *.iml
 out/
-
 
 # ---> Lua
 # Compiled Lua sources

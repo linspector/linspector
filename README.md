@@ -1,4 +1,4 @@
-# Linspector Infrastructure and System Monitoring
+# Linspector System Monitoring
 
 #### Linspector is not some program expecting computers to obviously run...
 
