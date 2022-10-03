@@ -34,7 +34,7 @@ class Linspector:
         if configuration.get_option('linspector', 'plugins'):
             plugin_list = configuration.get_option('linspector', 'plugins')
             self.__plugin_list = plugin_list.split(',')
-            for plugin_option in plugin_list.split(','):
+            for plugin_option in self.__plugin_list:
                 if plugin_option not in plugins:
                     log('info', 'loading plugin: ' + plugin_option)
                     plugin_package = 'linspector.plugins.' + plugin_option.lower()
