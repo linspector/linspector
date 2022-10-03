@@ -76,9 +76,9 @@ class Linspector:
             log('debug', monitor)
             if configuration.get_option('linspector', 'delta_range'):
                 time_delta = round(random.uniform(0.00, float(
-                    configuration.get_option('linspector', 'delta_range'))), 2)
+                    configuration.get_option('linspector', 'delta_range'))), 3)
             else:
-                time_delta = round(random.uniform(0.00, 60.00), 2)
+                time_delta = round(random.uniform(0.00, 60.000), 3)
 
             if monitors.get(monitor).get_monitor_configuration_option('args', 'start_date'):
                 new_start_date = \
