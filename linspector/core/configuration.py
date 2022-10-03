@@ -25,7 +25,7 @@ class Configuration:
                 self.__configuration.read(configuration_path + '/linspector.conf', 'utf-8')
             except Exception as err:
                 raise Exception('something went wrong reading the configuration file '
-                                'linspector.ini in the configuration root path! ({0})'.format(err))
+                                'linspector.conf in the configuration root path! ({0})'.format(err))
         else:
             raise FileNotFoundError("configuration file linspector.ini not found in configuration "
                                     "root path!")

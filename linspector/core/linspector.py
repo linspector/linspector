@@ -45,14 +45,25 @@ class Linspector:
         jobstores = {
             'memory': MemoryJobStore()
         }
-        executors = {
-            'default': ThreadPoolExecutor(int(configuration.get_option('linspector',
-                                                                       'max_threads'))),
-            #'default': ProcessPoolExecutor(int(configuration.get_option('linspector',
-            #                                                            'max_processes')))
-        }
+        if configuration.get_option('linspector', 'max_threads') and not \
+                configuration.get_option('linspector', 'scheduler_mode') == 'process':
+            executors = {
+                'default': ThreadPoolExecutor(int(configuration.get_option('linspector',
+                                                                           'max_threads')))
+            }
+        else:
+            executors = {
+                'default': ThreadPoolExecutor(1024)
+            }
+        if configuration.get_option('linspector', 'scheduler_mode'):
+            if configuration.get_option('linspector', 'scheduler_mode') == 'process':
+                executors = {
+                    'default': ProcessPoolExecutor(int(configuration.get_option('linspector',
+                                                                                'max_processes')))
+                }
         job_defaults = {
-            'max_instances': 10000
+            # every scheduler job (monitor) must only exist once.
+            'max_instances': 1
         }
         self.__scheduler['linspector'] = BackgroundScheduler(jobstores=jobstores,
                                                              executors=executors,
