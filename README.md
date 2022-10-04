@@ -5,7 +5,7 @@
 ## About
 
 The idea is based on a software I developed around 2010 or so. The name of the software was 
-[Linspector](http://linspector.org/) but the implementation was just too
+[Linspector](https://linspector.org/) but the implementation was just too
 complicated. The idea still remains so here is the rebirth of Linspector. First commits 
 of this rewrite where done as a new project named 
 [monipy](https://git.unixpeople.org/linspector/monipy), but I moved to the name 
