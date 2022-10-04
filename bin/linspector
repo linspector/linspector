@@ -34,7 +34,7 @@ from linspector.core.monitors import Monitors
 
 # i currently only increase the 3rd number because the goal is that 0.19 will become the first
 # stable version.
-__version__ = '0.19.28.dev1'
+__version__ = '0.19.29.dev1'
 __author__ = 'Johannes Findeisen <you@hanez.org>'
 
 logger = logging.getLogger('linspector')
@@ -103,22 +103,25 @@ def main():
             logging.Formatter('[%(asctime)s]:[%(levelname)s]:[%(name)s]:%(message)s')
 
         if configuration.get_option('linspector', 'log_file_size'):
-            log_file_size_mb = float(configuration.get_option('linspector', 'log_file_size'))
+            log_file_size_mb = int(configuration.get_option('linspector', 'log_file_size'))
             b = 1000000
-            log_file_size_bytes = log_file_size_mb * b
+            log_file_size_bytes = int(log_file_size_mb * b)
+        elif configuration.get_option('linspector', 'log_file_size_bytes'):
+            log_file_size_bytes = int(configuration.get_option('linspector',
+                                                               'log_file_size_bytes'))
         else:
             # default log file size is 10MB
             log_file_size_bytes = 10485760
 
         if configuration.get_option('linspector', 'log_file_count'):
-            log_file_count = configuration.get_option('linspector', 'log_file_count')
+            log_file_count = int(configuration.get_option('linspector', 'log_file_count'))
         else:
             # default log file count is 1.
             log_file_count = 1
 
         log_file_handler = logging.handlers.RotatingFileHandler(log_file,
-                                                                maxBytes=int(log_file_size_bytes),
-                                                                backupCount=int(log_file_count))
+                                                                maxBytes=log_file_size_bytes,
+                                                                backupCount=log_file_count)
 
         log_file_handler.setFormatter(log_file_formatter)
         logger.addHandler(log_file_handler)
