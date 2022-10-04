@@ -19,6 +19,6 @@ class DummyService(Service):
         self.__environment = environment
 
     def execute(self, **kwargs):
-        log('debug', 'dummy object ' + str(self))
+        log('debug', 'DummyService object ' + str(self))
         #log('debug', 'dummy object @' + str(self) + str(self.__kwargs['foo']))
         return

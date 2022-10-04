@@ -10,10 +10,10 @@ from linspector.core.service import Service
 
 
 def create(configuration, environment):
-    return FritzboxUplinkService(configuration, environment)
+    return FritzboxPhoneStatusService(configuration, environment)
 
 
-class FritzboxUplinkService(Service):
+class FritzboxPhoneStatusService(Service):
 
     def __init__(self, configuration, environment):
         super().__init__(configuration, environment)
@@ -21,5 +21,5 @@ class FritzboxUplinkService(Service):
         self.__environment = environment
 
     def execute(self, **kwargs):
-        log('debug', 'FritzboxUplinkService object ' + str(self))
+        log('debug', 'FritzboxPhoneStatusService object ' + str(self))
         return
