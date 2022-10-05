@@ -34,7 +34,7 @@ from linspector.core.monitors import Monitors
 
 # i currently only increase the 3rd number because the goal is that 0.19 will become the first
 # stable version.
-__version__ = '0.19.29.dev1'
+__version__ = '0.19.30.dev1'
 __author__ = 'Johannes Findeisen <you@hanez.org>'
 
 logger = logging.getLogger('linspector')
@@ -61,6 +61,9 @@ def parse_args():
     parser.add_argument('-s', '--stdout', default=False, dest='stdout', action='store_true',
                         help='log to stdout')
 
+    parser.add_argument('-V', '--verbose', default=False, dest='verbose', action='store_true',
+                        help='log in debug mode')
+
     parser.add_argument('-v', '--version', action='version', version='%(prog)s ' + str(__version__))
 
     return parser.parse_args()
@@ -79,9 +82,13 @@ def main():
     tasks = {}
 
     if args.stdout:
-        # setting pre initialization default log level to INFO. this changes after initialization
-        # of the configuration. maybe there are better solutions...?
-        logger.setLevel(logging.INFO)
+        if args.verbose:
+            logger.setLevel(logging.DEBUG)
+        else:
+            # setting pre initialization default log level to INFO. this changes after
+            # initialization of the configuration. maybe there are better solutions...?
+            logger.setLevel(logging.INFO)
+
         stdout_formatter = logging.Formatter('[%(asctime)s] [%(levelname)s] %(message)s')
         stdout_handler = logging.StreamHandler(sys.stdout)
         stdout_handler.setFormatter(stdout_formatter)
@@ -89,7 +96,7 @@ def main():
 
     try:
         configuration = Configuration(args.configuration_path, environment)
-        #configuration.dump_to_ini()
+        logger.debug('configuration dump: ' + configuration.dump_to_ini())
     except Exception as err:
         logger.critical('[linspector] configuration error: {0}'.format(err))
         sys.exit(1)
@@ -103,15 +110,14 @@ def main():
             logging.Formatter('[%(asctime)s]:[%(levelname)s]:[%(name)s]:%(message)s')
 
         if configuration.get_option('linspector', 'log_file_size'):
-            log_file_size_mb = int(configuration.get_option('linspector', 'log_file_size'))
-            b = 1000000
-            log_file_size_bytes = int(log_file_size_mb * b)
+            log_file_size_mb = float(configuration.get_option('linspector', 'log_file_size'))
+            log_file_size_bytes = float(log_file_size_mb * 1000000)
         elif configuration.get_option('linspector', 'log_file_size_bytes'):
-            log_file_size_bytes = int(configuration.get_option('linspector',
-                                                               'log_file_size_bytes'))
+            log_file_size_bytes = float(configuration.get_option('linspector',
+                                                                 'log_file_size_bytes'))
         else:
             # default log file size is 10MB
-            log_file_size_bytes = 10485760
+            log_file_size_bytes = float(10485760)
 
         if configuration.get_option('linspector', 'log_file_count'):
             log_file_count = int(configuration.get_option('linspector', 'log_file_count'))

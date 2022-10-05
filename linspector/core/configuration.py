@@ -50,16 +50,18 @@ class Configuration:
                                                                    source_section_option))
 
     def dump_to_ini(self):
+        dump = ''
         i = 0
         for section in self.__configuration.sections():
             if i < 1:
-                print('[' + section + ']')
+                dump = dump + '[' + section + ']\n'
             else:
-                print('\n[' + section + ']')
+                dump = dump + '\n[' + section + ']\n'
             options = self.__configuration.options(section)
             for option in options:
-                print(option + " = " + self.__configuration.get(section, option))
+                dump = dump + option + " = " + self.__configuration.get(section, option) + '\n'
             i = 1
+        return dump
 
     def get_configuration_path(self):
         return self.__configuration_path
