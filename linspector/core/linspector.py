@@ -12,8 +12,13 @@ from apscheduler.jobstores.memory import MemoryJobStore
 from apscheduler.executors.pool import ThreadPoolExecutor, ProcessPoolExecutor
 
 
-def job_function(monitor):
-    monitor.handle_call()
+def job_function(monitor, log):
+    try:
+        log('debug', 'executing job_function for monitor: ' + monitor.get_identifier())
+        monitor.handle_call()
+    except Exception as err:
+        log('warning', 'execution failed for job_function for monitor: ' +
+            monitor.get_identifier() + ' error: ' + str(err))
 
 
 class Linspector:
@@ -99,7 +104,7 @@ class Linspector:
             scheduler_job = scheduler['linspector'].add_job(job_function, 'interval',
                                                             start_date=new_start_date,
                                                             seconds=interval, timezone=timezone,
-                                                            args=[monitors.get(monitor)])
+                                                            args=[monitors.get(monitor), log])
 
             monitor_job.set_job(scheduler_job)
             self.__jobs.append(monitor_job)
