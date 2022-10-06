@@ -5,21 +5,20 @@ See LICENSE (MIT)
 """
 from fritzconnection.lib.fritzstatus import FritzStatus
 
-from linspector.core.helpers import log
 from linspector.core.service import Service
 
 
-def create(configuration, environment):
-    return FritzboxUplinkService(configuration, environment)
+def create(configuration, environment, log):
+    return FritzboxUplinkService(configuration, environment, log)
 
 
 class FritzboxUplinkService(Service):
-
-    def __init__(self, configuration, environment):
-        super().__init__(configuration, environment)
+    def __init__(self, configuration, environment, log):
+        super().__init__(configuration, environment, log)
         self.__configuration = configuration
         self.__environment = environment
+        self.__log = log
 
     def execute(self, **kwargs):
-        log('debug', 'FritzboxUplinkService object ' + str(self) + ' using kwargs: ' + str(kwargs))
+        self.__log('debug', 'FritzboxUplinkService object ' + str(self) + ' using kwargs: ' + str(kwargs))
         return

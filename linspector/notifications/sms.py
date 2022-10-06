@@ -5,17 +5,16 @@ See LICENSE (MIT license)
 """
 import gammu
 
-from linspector.core.helpers import log
 from linspector.core.notification import Notification
 
 
-def create(configuration, environment):
-    return SMSNotification(configuration, environment)
+def create(configuration, environment, log):
+    return SMSNotification(configuration, environment, log)
 
 
 class SMSNotification(Notification):
-
-    def __init__(self, configuration, environment):
-        super().__init__(configuration, environment)
+    def __init__(self, configuration, environment, log):
+        super().__init__(configuration, environment, log)
         self.__configuration = configuration
         self.__environment = environment
+        self.__log = log

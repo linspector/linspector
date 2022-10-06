@@ -10,19 +10,19 @@ import importlib
 from datetime import datetime
 from binascii import crc32
 
-from linspector.core.helpers import log
 from linspector.core.task import Task, TaskExecutor
 
 
 class Monitor:
 
-    def __init__(self, configuration, environment, identifier, monitor_configuration, notifications,
-                 services, tasks, kwargs):
+    def __init__(self, configuration, environment, identifier, log, monitor_configuration,
+                 notifications, services, tasks, kwargs):
         self.__args = kwargs
         self.__configuration = configuration
         self.__environment = environment
         self.__identifier = identifier
         self.__interval = int(monitor_configuration.get('monitor', 'interval'))
+        self.__log = log
         self.__monitor_configuration = monitor_configuration
         self.__notification_list = []
         self.__notifications = notifications
@@ -30,7 +30,6 @@ class Monitor:
         self.__services = services
         self.__task_list = []  # put tasks for the dedicated job here.
         self.__tasks = tasks
-
         self.service = self.__service
         self.host = monitor_configuration.get('monitor', 'hosts')
 
@@ -83,7 +82,7 @@ class Monitor:
                 if notification_option not in notifications:
                     notification_package = 'linspector.notifications.' + notification_option.lower()
                     notification_module = importlib.import_module(notification_package)
-                    notification = notification_module.create(configuration, environment)
+                    notification = notification_module.create(configuration, environment, log)
                     notifications[notification_option.lower()] = notification
         except configparser.NoOptionError as err:
             self.__notifications = notifications
@@ -95,7 +94,7 @@ class Monitor:
 
                 service_module = importlib.import_module(service_package)
                 self.__service = monitor_configuration.get('monitor', 'service').lower()
-                service = service_module.create(configuration, environment)
+                service = service_module.create(configuration, environment, log)
                 self.__services[monitor_configuration.get('monitor', 'service').lower()] = service
         try:
             if configuration.get_option('linspector', 'tasks') or \
@@ -119,7 +118,7 @@ class Monitor:
                     if task_option not in tasks:
                         task_package = 'linspector.tasks.' + task_option.lower()
                         task_module = importlib.import_module(task_package)
-                        task = task_module.create(configuration, environment)
+                        task = task_module.create(configuration, environment, log)
                         tasks[task_option.lower()] = task
         except configparser.NoOptionError:
             self.__tasks = tasks
@@ -194,13 +193,13 @@ class Monitor:
     def handle_tasks(self, monitor_information):
         for task in self.__tasks:
             if self.status.lower() in task.get_task_type().lower():
-                log('debug', 'executing task of type: ' + self.status)
+                self.__log('debug', 'executing task of type: ' + self.status)
                 # tasks can but should not be executed here. putting them in a queue is the better
                 # solution to execute them in a serial process.
                 #TaskExecutor.instance().schedule_task(monitor_information, task)
 
     def handle_call(self):
-        log('info', 'handle call to monitor with identifier: ' + self.__identifier)
+        self.__log('info', 'handle call to monitor with identifier: ' + self.__identifier)
         #logger.debug("handle call")
         #logger.debug(self.service)
         if self.enabled:
@@ -210,7 +209,7 @@ class Monitor:
                 #self.__services[self.__service].execute(self.last_execution)
                 self.__services[self.__service].execute(**self.__args)
             except Exception as err:
-                log('error', err)
+                self.__log('error', err)
 
             #self.last_execution.set_execution_end()
 
@@ -226,7 +225,7 @@ class Monitor:
 
             #self.handle_tasks(self.monitor_information)
         else:
-            log('info', "job " + self.get_job_id() + " disabled")
+            self.__log('info', "job " + self.get_job_id() + " disabled")
 
     def get_host(self):
         return self.host

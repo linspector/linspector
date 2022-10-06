@@ -9,17 +9,16 @@ import glob
 import os
 
 from linspector.core.monitor import Monitor
-from linspector.core.helpers import log
 
 
 # monitors may could / should be added (and maybe changed) at runtime to add new monitors without
 # restarting the daemon. maybe add a reset function to each monitor to reset the monitor at runtime
 # when changed dynamically.
 class Monitors:
-
-    def __init__(self, configuration, environment, notifications, services, tasks):
+    def __init__(self, configuration, environment, log, notifications, services, tasks):
         self.__configuration = configuration
         self.__environment = environment
+        self.__log = log
         self.__monitors = {}
 
         monitor_groups = os.listdir(self.__configuration.get_configuration_path() + '/monitors/')
@@ -39,7 +38,9 @@ class Monitors:
                 kwargs = {}
                 for option in monitor_configuration.options('args'):
                     value = monitor_configuration.get('args', option)
-                    #log('debug', 'added option to kwargs: ' + option + ' = ' + value)
+                    log('debug', 'added option in ' + identifier + ' to kwargs: ' + option + ' = '
+                        + value)
+
                     kwargs[option] = value
 
                 if kwargs:
@@ -51,7 +52,7 @@ class Monitors:
                 # create Monitor() object and copy monitor_configuration for each instance because
                 # they else refer to the same object.
                 self.__monitors[identifier] = Monitor(configuration, environment, identifier,
-                                                      monitor_configuration, notifications,
+                                                      log, monitor_configuration, notifications,
                                                       services, tasks, copy.deepcopy(kwargs))
 
                 del kwargs

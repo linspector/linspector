@@ -6,7 +6,6 @@ See LICENSE (MIT license)
 from queue import Queue
 from threading import Event, Thread
 
-from linspector.core.helpers import log
 from linspector.core.singleton import Singleton
 
 KEY_TYPE = "type"
@@ -15,11 +14,12 @@ KEY_CLASS = "class"
 
 
 class Task:
-    def __init__(self, configuration, environment, **kwargs):
+    def __init__(self, configuration, environment, log, **kwargs):
+        self._args = {}
         self.__configuration = configuration
         self._environment = environment
+        self.__log = log
 
-        self._args = {}
         if KEY_ARGS in kwargs:
             self.add_arguments(kwargs[KEY_ARGS])
         elif self.needs_arguments():
@@ -66,7 +66,10 @@ class Task:
 # when tasks are being implemented.
 @Singleton
 class TaskExecutor:
-    def __init__(self):
+    def __init__(self, configuration, environment, log):
+        self.__configuration = configuration
+        self.__environment = environment
+        self.__log = log
         self.queue = Queue()
         self.taskInfos = []
         task_thread = Thread(target=self._run_worker_thread)
@@ -81,12 +84,12 @@ class TaskExecutor:
             try:
                 msg, task = self.queue.get()
                 if task:
-                    log('debug', "starting task execution...")
+                    self.__log('debug', "starting task execution...")
                     #task.execute(msg)
                 self.queue.task_done()
 
             except Exception as err:
-                log('error', "error " + str(err))
+                self.__log('error', "error " + str(err))
 
     def is_instant_end(self):
         return self._instantEnd

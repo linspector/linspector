@@ -11,19 +11,17 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.jobstores.memory import MemoryJobStore
 from apscheduler.executors.pool import ThreadPoolExecutor, ProcessPoolExecutor
 
-from linspector.core.helpers import log
-
 
 def job_function(monitor):
     monitor.handle_call()
 
 
 class Linspector:
-
-    def __init__(self, configuration, environment, monitors, plugins, scheduler):
+    def __init__(self, configuration, environment, log, monitors, plugins, scheduler):
         self.__configuration = configuration
         self.__environment = environment
         self.__jobs = []
+        self.__log = log
         self.__monitors = monitors
         self.__plugin_list = []
         self.__plugins = plugins

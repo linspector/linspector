@@ -7,17 +7,16 @@ import configparser
 import glob
 import os
 
-from linspector.core.helpers import log
-
 
 # TODO: check for all required configuration options and set defaults if needed. do this only for
 #  options in the "linspector" section of linspector.ini.
 class Configuration:
 
-    def __init__(self, configuration_path, environment):
+    def __init__(self, configuration_path, environment, log):
         self.__configuration = configparser.ConfigParser()
         self.__configuration_path = configuration_path
         self.__environment = environment
+        self.__log = log
 
         log('info', 'reading configuration file: ' + configuration_path + '/linspector.conf')
         if os.path.isfile(configuration_path + '/linspector.conf'):
@@ -38,7 +37,7 @@ class Configuration:
 
             section_list = glob.glob(configuration_path + '/' + target_section + '/*.conf')
             for section_file in section_list:
-                #print(__file__ + ' (45): ' + section_file)
+                log('debug', 'reading section file: ' + section_file)
                 configuration = configparser.ConfigParser()
                 configuration.read(section_file, 'utf-8')
                 for source_section in configuration.sections():

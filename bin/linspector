@@ -29,15 +29,16 @@ import sys
 
 from linspector.core.configuration import Configuration
 from linspector.core.environment import Environment
+from linspector.core.helpers import log
 from linspector.core.linspector import Linspector
 from linspector.core.monitors import Monitors
 
+logger = logging.getLogger('linspector')
+
 # i currently only increase the 3rd number because the goal is that 0.19 will become the first
 # stable version.
-__version__ = '0.19.30.dev1'
+__version__ = '0.19.31.dev1'
 __author__ = 'Johannes Findeisen <you@hanez.org>'
-
-logger = logging.getLogger('linspector')
 
 
 def parse_args():
@@ -95,7 +96,7 @@ def main():
         logger.addHandler(stdout_handler)
 
     try:
-        configuration = Configuration(args.configuration_path, environment)
+        configuration = Configuration(args.configuration_path, environment, log)
         logger.debug('configuration dump: ' + configuration.dump_to_ini())
     except Exception as err:
         logger.critical('[linspector] configuration error: {0}'.format(err))
@@ -132,25 +133,30 @@ def main():
         log_file_handler.setFormatter(log_file_formatter)
         logger.addHandler(log_file_handler)
 
+    log_level = 'None'
     # critical errors will always show up even when no log_level is set. this is most silent.
     logger.setLevel(logging.CRITICAL)
-    log_level = configuration.get_option('linspector', 'log_level')
-    if log_level == "error":
-        logger.setLevel(logging.ERROR)
-    elif log_level == "warning":
-        logger.setLevel(logging.WARNING)
-    elif log_level == "info":
-        logger.setLevel(logging.INFO)
-    elif log_level == "debug":
-        logger.setLevel(logging.DEBUG)
+    if configuration.get_option('linspector', 'log_level'):
+        log_level = str(configuration.get_option('linspector', 'log_level'))
+        if log_level == "error":
+            logger.setLevel(logging.ERROR)
+        elif log_level == "warning":
+            logger.setLevel(logging.WARNING)
+        elif log_level == "info":
+            logger.setLevel(logging.INFO)
+        elif log_level == "debug":
+            logger.setLevel(logging.DEBUG)
+        #elif configuration.get_option('linspector', 'log_level') != 'error' != 'warning' \
+        #        != 'info' != 'debug':
+        #    logger.warning('[linspector] log level: "' + log_level + '" not found!')
 
     try:
-        monitors = Monitors(configuration, environment, notifications, services, tasks)
+        monitors = Monitors(configuration, environment, log, notifications, services, tasks)
     except Exception as err:
         logger.warning('[linspector] monitor initialization error: {0}'.format(err))
 
     try:
-        linspector = Linspector(configuration, environment, monitors, plugins, scheduler)
+        linspector = Linspector(configuration, environment, log, monitors, plugins, scheduler)
         #linspector.print_debug()
     except Exception as err:
         logger.critical('[linspector] core initialization error: {0}'.format(err))
