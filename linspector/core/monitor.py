@@ -29,19 +29,32 @@ class Monitor:
                 str(err))
             try:
                 self.__interval = int(configuration.get_option('linspector', 'default_interval'))
-                log('warning', 'set default_interval as per configuration to core with '
-                               'identifier ' + identifier + ' to: ' + str(self.__interval))
+                log('warning', 'set default_interval as per core configuration with '
+                               'identifier: ' + identifier + ' to: ' + str(self.__interval))
             except Exception as err:
                 log('warning', 'no default_interval found in core configuration for identifier ' +
                     identifier + ', set to default interval 300 seconds. error: ' + str(err))
                 # default interval is 300 seconds (5 minutes) if not set in the monitor
                 # configuration args or a default_interval in the core configuration.
                 self.__interval = 300
+
         self.__log = log
         self.__monitor_configuration = monitor_configuration
         self.__notification_list = []
         self.__notifications = notifications
-        self.__service = monitor_configuration.get('monitor', 'service')
+        try:
+            self.__service = monitor_configuration.get('monitor', 'service')
+        except Exception as err:
+            # if no service is set in the monitor configuration, the service is set to misc.dummy
+            # instead. just to make Linspector run but with no real result.
+            log('debug', 'no service set for identifier: ' + identifier + ' setting to '
+                                                                          'misc.dummy as '
+                                                                          'default to ensure '
+                                                                          'Linspector will run. '
+                                                                          'error: ' + str(err))
+
+            self.__service = 'misc.dummy'
+
         self.__services = services
         self.__task_list = []  # put tasks for the dedicated job here.
         self.__tasks = tasks
