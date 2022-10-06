@@ -7,11 +7,11 @@ from linspector.core.plugin import Plugin
 
 
 def create(configuration, environment, linspector, log):
-    return LishPlugin(configuration, environment, linspector, log)
+    return RPCPlugin(configuration, environment, linspector, log)
 
 
 # TODO: check for all required configuration options and set defaults if needed.
-class LishPlugin(Plugin):
+class RPCPlugin(Plugin):
     def __init__(self, configuration, environment, linspector, log):
         super().__init__(configuration, environment, linspector, log)
         self.__configuration = configuration

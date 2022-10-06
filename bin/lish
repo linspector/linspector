@@ -37,30 +37,19 @@ logger = logging.getLogger('linspector')
 
 # i currently only increase the 3rd number because the goal is that 0.19.* will become the first
 # stable version.
-__version__ = '0.19.43.dev1'
+__version__ = '0.0.1.dev1'
 __author__ = 'Johannes Findeisen <you@hanez.org>'
 
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description='linspector is a infrastructure and system monitoring daemon and toolchain.',
+        description='lish is part of the linspector project and is a CLI client to connect to a '
+                    'linspector instance configured to load the rpc plugin for remote connections.',
         epilog='author: ' + __author__,
         prog='linspector')
 
-    parser.add_argument('configuration_path', metavar='CONFIGURATION_PATH',
+    parser.add_argument('host', metavar='HOST',
                         help='the configuration path to use')
-
-    parser.add_argument('-d', '--daemon', default=False, dest='daemon', action='store_true',
-                        help='run linspector as native daemon (default: false)')
-
-    parser.add_argument('-k', '--kill', default=False, dest='kill', action='store_true',
-                        help='kill the daemon if it is running (default: false)')
-
-    parser.add_argument('-r', '--restart', default=False, dest='restart', action='store_true',
-                        help='restart the daemon if it is running(default: false)')
-
-    parser.add_argument('-s', '--stdout', default=False, dest='stdout', action='store_true',
-                        help='log to stdout')
 
     parser.add_argument('-V', '--verbose', default=False, dest='verbose', action='store_true',
                         help='log in debug mode')

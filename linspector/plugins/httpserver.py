@@ -21,7 +21,6 @@ class HTTPServerPlugin(Plugin):
         self.__configuration = configuration
         self.__environment = environment
         self.__linspector = linspector
-        self.__log = log
 
     @cherrypy.expose
     def index(self):
