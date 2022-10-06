@@ -14,14 +14,19 @@ from linspector.core.task import Task, TaskExecutor
 
 
 class Monitor:
-
     def __init__(self, configuration, environment, identifier, log, monitor_configuration,
                  notifications, services, tasks, kwargs):
         self.__args = kwargs
         self.__configuration = configuration
         self.__environment = environment
         self.__identifier = identifier
-        self.__interval = int(monitor_configuration.get('monitor', 'interval'))
+        if int(monitor_configuration.get('args', 'interval')):
+            self.__interval = int(monitor_configuration.get('args', 'interval'))
+        else:
+            # default interval is 5 minutes if not set in the monitor.
+            log('warning', 'no interval set in identifier ' + identifier + ' set to default '
+                                                                           'interval 300 seconds.')
+            self.__interval = 300
         self.__log = log
         self.__monitor_configuration = monitor_configuration
         self.__notification_list = []
@@ -47,9 +52,9 @@ class Monitor:
         """
         NONE     job was not executed
         OK       when everything is fine
-        WARNING  when a job has errors but not the threshold overridden
+        WARNING  when a job has errors but the threshold is not overridden
         RECOVER  when a job recovers e.g. the threshold decrements (not implemented)
-        ERROR    when a jobs threshold is overridden
+        ERROR    when a jobs error threshold is overridden
         UNKNOWN  when a job throws an exception which is not handled by the job itself (not 
         implemented)
         """
