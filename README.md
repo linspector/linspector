@@ -89,17 +89,17 @@ Used by the HTTPServer plugin.
 - [fritzconnection](https://github.com/kbr/fritzconnection) - A Python-Tool to communicate with 
 the AVM Fritz!Box. Uses the TR-064 protocol over UPnP. Used by the FritzboxPhoneStatus and 
 FritzBoxUplink service.
-- [paramiko](https://www.paramiko.org/) - Paramiko is a pure-Python [1] (2.7, 3.4+) implementation 
+- [Paramiko](https://www.paramiko.org/) - Paramiko is a pure-Python (2.7, 3.4+) implementation 
 of the SSHv2 protocol, providing both client and server functionality. Used by the SSH service.
 - [python-gammu](https://wammu.eu/python-gammu/) Python bindings for the Gammu library. Used by the 
-SMS task.
+SMS notification.
 - [PySNMP](https://pysnmp.readthedocs.io/en/latest/) - PySNMP is a cross-platform, pure-Python 
 SNMP engine implementation. It features fully-functional SNMP engine capable to act in 
 Agent/Manager/Proxy roles, talking SNMP v1/v2c/v3 protocol versions over IPv4/IPv6 and other 
-network transports.Used by the SNMP services (get).
+network transports. Used by the SNMP services (get).
 - [requests](https://requests.readthedocs.io/en/latest/) - Requests is an elegant and simple 
 HTTP library for Python, built for human beings. Used by the Speedtest service.
-- [xmpp2](https://pypi.org/project/xmpp2/) A XMPP client for Python. Used by the XMPP task.
+- [xmpp2](https://pypi.org/project/xmpp2/) A XMPP client for Python. Used by the XMPP notification.
 
 These libraries are not being delivered with the Linspector source code and maybe have 
 different and incompatible licenses. You need to install them using pip, your OS package
