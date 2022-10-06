@@ -20,13 +20,23 @@ class Monitor:
         self.__configuration = configuration
         self.__environment = environment
         self.__identifier = identifier
-        if int(monitor_configuration.get('args', 'interval')):
+        try:
             self.__interval = int(monitor_configuration.get('args', 'interval'))
-        else:
-            # default interval is 5 minutes if not set in the monitor.
-            log('warning', 'no interval set in identifier ' + identifier + ' set to default '
-                                                                           'interval 300 seconds.')
-            self.__interval = 300
+        except Exception as err:
+            log('warning', 'no interval set in identifier ' + identifier + ', trying to get a '
+                                                                           'monitor configuration '
+                                                                           'setting. error: ' +
+                str(err))
+            try:
+                self.__interval = int(configuration.get_option('linspector', 'default_interval'))
+                log('warning', 'set default_interval as per configuration to core with '
+                               'identifier ' + identifier + ' to: ' + str(self.__interval))
+            except Exception as err:
+                log('warning', 'no default_interval found in core configuration for identifier ' +
+                    identifier + ', set to default interval 300 seconds. error: ' + str(err))
+                # default interval is 300 seconds (5 minutes) if not set in the monitor
+                # configuration args or a default_interval in the core configuration.
+                self.__interval = 300
         self.__log = log
         self.__monitor_configuration = monitor_configuration
         self.__notification_list = []
