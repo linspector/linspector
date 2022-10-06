@@ -86,6 +86,9 @@ them may only affect parts of Linspector. Currently used libraries are:
 
 - [CherryPy](https://cherrypy.dev/) - CherryPy is a pythonic, object-oriented HTTP framework. 
 Used by the HTTPServer plugin.
+- [fritzconnection](https://github.com/kbr/fritzconnection) - A Python-Tool to communicate with 
+the AVM Fritz!Box. Uses the TR-064 protocol over UPnP. Used by the FritzboxPhoneStatus and 
+FritzBoxUplink service.
 - [requests](https://requests.readthedocs.io/en/latest/) - Requests is an elegant and simple 
 HTTP library for Python, built for human beings. Used by the Speedtest service.
 
