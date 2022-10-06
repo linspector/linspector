@@ -37,7 +37,7 @@ logger = logging.getLogger('linspector')
 
 # i currently only increase the 3rd number because the goal is that 0.19.* will become the first
 # stable version.
-__version__ = '0.19.49.dev1'
+__version__ = '0.19.50.dev1'
 __author__ = 'Johannes Findeisen <you@hanez.org>'
 
 
@@ -90,7 +90,7 @@ def main():
             # initialization of the configuration. maybe there are better solutions...?
             logger.setLevel(logging.INFO)
 
-        stdout_formatter = logging.Formatter('[%(asctime)s] [%(levelname)s] %(message)s')
+        stdout_formatter = logging.Formatter('[%(asctime)s] [%(levelname)s] [%(name)s] %(message)s')
         stdout_handler = logging.StreamHandler(sys.stdout)
         stdout_handler.setFormatter(stdout_formatter)
         logger.addHandler(stdout_handler)
