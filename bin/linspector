@@ -37,7 +37,7 @@ logger = logging.getLogger('linspector')
 
 # i currently only increase the 3rd number because the goal is that 0.19.* will become the first
 # stable version.
-__version__ = '0.19.40.dev1'
+__version__ = '0.19.41.dev1'
 __author__ = 'Johannes Findeisen <you@hanez.org>'
 
 
@@ -117,7 +117,7 @@ def main():
             log_file_size_bytes = int(configuration.get_option('linspector',
                                                                'log_file_size_bytes'))
         else:
-            # default log file size is 10000000 bytes
+            # default log file size is 10000000 bytes (10MiB)
             log_file_size_bytes = int(10000000)
 
         if configuration.get_option('linspector', 'log_file_count'):
