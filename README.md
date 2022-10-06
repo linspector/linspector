@@ -58,7 +58,7 @@ of Linspector. :)
 sure the license is compatible but MIT should always be preferred if an
 alternative is available.
 - The core of Linspector should not use 3rd party libraries. Only plugins,
-notifications and types may use other libraries. But coping code into the
+notifications and types may use other libraries. But copying code into the
 source tree is ok when respecting the license. Not using 3rd party libraries
 should always be preferred though. 
 - Inline comments should be all lowercase. Descriptions and documentation comments
