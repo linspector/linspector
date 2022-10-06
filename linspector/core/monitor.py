@@ -69,8 +69,8 @@ class Monitor:
         self.job_threshold = 0
         self.enabled = True
         self.scheduler_job = None
-        # the job_id is a sha256 string.
-        self.job_id = self.generate_job_id()
+        # the monitor_id is a sha256 string.
+        self.monitor_id = self.generate_monitor_id()
 
         """
         NONE     job was not executed
@@ -83,9 +83,9 @@ class Monitor:
         """
         self.status = "NONE"
         self.last_execution = None
-        #self.monitor_information = MonitorInformation(self.job_id, self.hostgroup, self.host,
+        #self.monitor_information = MonitorInformation(self.monitor_id, self.hostgroup, self.host,
         #                                              self.service)
-        self.monitor_information = MonitorInformation(self.job_id, self.service)
+        self.monitor_information = MonitorInformation(self.monitor_id, self.service)
 
         try:
             if configuration.get_option('linspector', 'notifications') or \
@@ -184,7 +184,7 @@ class Monitor:
             ret = "0" + ret
         return ret
 
-    def generate_job_id(self):
+    def generate_monitor_id(self):
         return hashlib.sha256(bytes(self.__identifier + self.host + self.hostgroups + self.service,
                                     'utf-8')).hexdigest()
 
@@ -198,10 +198,10 @@ class Monitor:
         if execution_successful:
             if self.job_threshold > 0:
                 if "threshold_reset" in self.core and self.core["threshold_reset"]:
-                    #logger.info("Job " + self.get_job_id() + ", Threshold Reset")
+                    #logger.info("Job " + self.get_monitor_id() + ", Threshold Reset")
                     self.job_threshold = 0
                 else:
-                    #logger.info("Job " + self.get_job_id() + ", Threshold Decrement")
+                    #logger.info("Job " + self.get_monitor_id() + ", Threshold Decrement")
                     self.job_threshold -= 1
 
             self.status = "OK"
@@ -214,7 +214,7 @@ class Monitor:
             self.job_threshold += 1
 
         if self.job_threshold >= service_threshold:
-            #logger.info("Job " + self.get_job_id() + ", Threshold reached!")
+            #logger.info("Job " + self.get_monitor_id() + ", Threshold reached!")
             self.status = "ERROR"
             self.monitor_information.set_status(self.status)
 
@@ -244,7 +244,7 @@ class Monitor:
             #self.handle_threshold(self.service.get_threshold(),
             #                      self.last_execution.was_successful())
 
-            #log.info("Job " + self.get_job_id() +
+            #log.info("Job " + self.get_monitor_id() +
             #            ", Code: " + str(self.last_execution.get_error_code()) +
             #            ", Message: " + str(self.last_execution.get_message()))
 
@@ -253,7 +253,7 @@ class Monitor:
 
             #self.handle_tasks(self.monitor_information)
         else:
-            self.__log('info', "job " + self.get_job_id() + " disabled")
+            self.__log('info', "job " + self.get_monitor_id() + " disabled")
 
     def get_host(self):
         return self.host
@@ -295,8 +295,9 @@ class MonitorExecution:
         self.kwargs = kwargs
 
     def get_response_message(self, job):
-        msg = str(job.status) + " [" + job.service.get_config_name() + ": " + str(job.get_job_id()) + "] " + \
-              str(job.get_hostgroup()) + " " + str(job.get_host())
+        msg = str(job.status) + " [" + job.service.get_config_name() + ": " + \
+              str(job.get_monitor_id()) + "] " + str(job.get_hostgroup()) + " " + \
+              str(job.get_host())
         if self.get_message() is not None:
             msg += " " + str(self.get_message())
         if self.get_kwargs() is not None:
@@ -305,8 +306,8 @@ class MonitorExecution:
 
 
 class MonitorInformation:
-    def __init__(self, job_id, service):
-        self.job_id = job_id
+    def __init__(self, monitor_id, service):
+        self.monitor_id = monitor_id
         #self.hostgroup = hostgroup
         #self.host = host
         self.service = service
@@ -336,8 +337,8 @@ class MonitorInformation:
     def inc_job_overall_wins(self):
         self.job_overall_wins += 1
 
-    def get_job_id(self):
-        return self.job_id
+    def get_monitor_id(self):
+        return self.monitor_id
 
     def get_response_message(self):
         return self.response_massage
