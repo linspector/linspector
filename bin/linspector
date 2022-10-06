@@ -37,7 +37,7 @@ logger = logging.getLogger('linspector')
 
 # i currently only increase the 3rd number because the goal is that 0.19.* will become the first
 # stable version.
-__version__ = '0.19.44.dev1'
+__version__ = '0.19.45.dev1'
 __author__ = 'Johannes Findeisen <you@hanez.org>'
 
 

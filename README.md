@@ -64,7 +64,9 @@ should always be preferred though.
 - Inline comments should be all lowercase. Descriptions and documentation comments
 must be natural language.
 - Arguments to functions must always be in alphabetical order.
-- Class member variables must always be in alphabetical order in __init__().
+- Class member variables must always be in alphabetical order in __init__() or any 
+function / method.
+- Every commit must run without errors even if not being a working version of Linspector.
 
 ### Required libraries
 
