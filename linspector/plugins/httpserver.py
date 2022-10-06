@@ -6,22 +6,22 @@ See LICENSE (MIT license)
 import cherrypy
 import json
 
-from linspector.core.helpers import log
 from linspector.core.plugin import Plugin
 
 
-def get(configuration, environment, linspector):
-    return HTTPServerPlugin(configuration, environment, linspector)
+def create(configuration, environment, linspector, log):
+    return HTTPServerPlugin(configuration, environment, linspector, log)
 
 
 # TODO: check for all required configuration options and set defaults if needed.
 class HTTPServerPlugin(Plugin):
 
-    def __init__(self, configuration, environment, linspector):
-        super().__init__(configuration, environment, linspector)
+    def __init__(self, configuration, environment, linspector, log):
+        super().__init__(configuration, environment, linspector, log)
         self.__configuration = configuration
         self.__environment = environment
         self.__linspector = linspector
+        self.__log = log
 
     @cherrypy.expose
     def index(self):

@@ -44,7 +44,7 @@ class Linspector:
                     log('info', 'loading plugin: ' + plugin_option)
                     plugin_package = 'linspector.plugins.' + plugin_option.lower()
                     plugin_module = importlib.import_module(plugin_package)
-                    plugin = plugin_module.get(configuration, environment, self)
+                    plugin = plugin_module.create(configuration, environment, log, self)
                     plugins[plugin_option.lower()] = plugin
 
         jobstores = {
