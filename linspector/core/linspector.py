@@ -14,11 +14,13 @@ from apscheduler.executors.pool import ThreadPoolExecutor, ProcessPoolExecutor
 
 def job_function(log, monitor):
     try:
-        log('debug', 'executing job_function for monitor: ' + monitor.get_identifier())
+        log('debug', 'executing job_function for monitor identifier: ' + monitor.get_identifier() +
+            ' with monitor object: ' + str(monitor))
         monitor.handle_call()
     except Exception as err:
-        log('warning', 'execution failed for job_function for monitor: ' +
-            monitor.get_identifier() + ' error: ' + str(err))
+        log('warning', 'execution failed for job_function for monitor identifier: ' +
+            monitor.get_identifier() + ' with monitor object: ' + str(monitor) + ' error: ' +
+            str(err))
 
 
 class Linspector:
