@@ -13,6 +13,11 @@ from logging import handlers
 logger = getLogger('linspector')
 
 
+# wow, this is not process capable! i thought in a last commit that the problem ist fixed, but it
+# isn't!!! see here for more details:
+# https://docs.python.org/3/howto/logging-cookbook.html#logging-to-a-single-file-from-multiple-processes
+# a different approach on handling this can be to use a exclusive log file for each process but
+# this is not what i want.
 # maybe subclass it from logging.Logger...?
 class Log:
     def __init__(self, configuration, stdout, verbose):
@@ -102,6 +107,7 @@ class Log:
             import inspect
             import multiprocessing
             import threading
+            # https://www.geeksforgeeks.org/how-to-get-the-process-id-from-python-multiprocess/
             current_process = multiprocessing.current_process()
             from_stack = inspect.stack()[1]
             function_name = from_stack.function
