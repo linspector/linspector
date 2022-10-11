@@ -1,6 +1,7 @@
 APScheduler~=3.9.1
 CherryPy~=18.8.0
 fritzconnection~=1.10.3
+loguru~=0.6.0
 python-gammu~=3.2.4
 paramiko~=2.11.0
 pysnmp~=4.4.12
