@@ -13,6 +13,7 @@ from logging import handlers
 logger = getLogger('linspector')
 
 
+# maybe subclass it from logging.Logger...?
 class Log:
     def __init__(self, configuration, stdout, verbose):
         self.__configuration = configuration
@@ -27,7 +28,13 @@ class Log:
                 # initialization of the configuration. maybe there are better solutions...?
                 self.set_level(logging.INFO)
 
-            stdout_formatter = logging.Formatter('[%(asctime)s] [%(levelname)s] [%(name)s] %(message)s')
+            # some information but not sure if useful in Linspector:
+            # https://stackoverflow.com/questions/919897/how-to-obtain-a-thread-id-in-python
+            # %(thread)d : Thread ID (if available).
+            # %(threadName)s : Thread name (if available).
+            # this works also for processName
+            stdout_formatter = logging.Formatter('[%(asctime)s] [%(levelname)s] [%(name)s] '
+                                                 '%(message)s')
             stdout_handler = logging.StreamHandler(sys.stdout)
             stdout_handler.setFormatter(stdout_formatter)
             self.add_handler(stdout_handler)
