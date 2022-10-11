@@ -23,6 +23,11 @@ logger = getLogger('linspector')
 # https://stackoverflow.com/questions/641420/how-should-i-log-while-using-multiprocessing-in-python/48668567
 # or i can log to one single file using stdout data and let the operating system do the file
 # rotation but if the pythonic way works fine i should implement it directly in Linspector.
+# more stuff:
+# https://pythondjangorestapi.com/python-logging-the-ultimate-guide-to-logging/
+# and now i found another libray for handling this, but it would make Linspector depending on the
+# next 3rd party library in the core (need to discover features because i want log rotating):
+# https://pypi.org/project/loguru/
 # maybe subclass it from logging.Logger...?
 class Log:
     def __init__(self, configuration, stdout, verbose):
