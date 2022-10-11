@@ -16,8 +16,13 @@ logger = getLogger('linspector')
 # wow, this is not process capable! i thought in a last commit that the problem ist fixed, but it
 # isn't!!! see here for more details:
 # https://docs.python.org/3/howto/logging-cookbook.html#logging-to-a-single-file-from-multiple-processes
+# i think the native pythonic way should be used as described in the link above.
 # a different approach on handling this can be to use a exclusive log file for each process but
-# this is not what i want.
+# this is not what i want. maybe these links could be helpful too:
+# https://pypi.org/project/multiprocessing-logging/
+# https://stackoverflow.com/questions/641420/how-should-i-log-while-using-multiprocessing-in-python/48668567
+# or i can log to one single file using stdout data and let the operating system do the file
+# rotation but if the pythonic way works fine i should implement it directly in Linspector.
 # maybe subclass it from logging.Logger...?
 class Log:
     def __init__(self, configuration, stdout, verbose):
