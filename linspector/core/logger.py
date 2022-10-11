@@ -59,31 +59,31 @@ class Log:
             if not os.path.exists(os.path.dirname(log_file)):
                 os.makedirs(os.path.dirname(log_file))
 
-        log_file_formatter = \
-            logging.Formatter('[%(asctime)s]:[%(levelname)s]:[%(name)s]:%(message)s')
+            log_file_formatter = \
+                logging.Formatter('[%(asctime)s]:[%(levelname)s]:[%(name)s]:%(message)s')
 
-        if configuration.get_option('linspector', 'log_file_size'):
-            log_file_size_mb = int(configuration.get_option('linspector', 'log_file_size'))
-            log_file_size_bytes = int(log_file_size_mb * 1000000)
-        elif configuration.get_option('linspector', 'log_file_size_bytes'):
-            log_file_size_bytes = int(configuration.get_option('linspector',
-                                                               'log_file_size_bytes'))
-        else:
-            # default log file size is 10000000 bytes (10MiB)
-            log_file_size_bytes = int(10000000)
+            if configuration.get_option('linspector', 'log_file_size'):
+                log_file_size_mb = int(configuration.get_option('linspector', 'log_file_size'))
+                log_file_size_bytes = int(log_file_size_mb * 1000000)
+            elif configuration.get_option('linspector', 'log_file_size_bytes'):
+                log_file_size_bytes = int(configuration.get_option('linspector',
+                                                                   'log_file_size_bytes'))
+            else:
+                # default log file size is 10000000 bytes (10MiB)
+                log_file_size_bytes = int(10000000)
 
-        if configuration.get_option('linspector', 'log_file_count'):
-            log_file_count = int(configuration.get_option('linspector', 'log_file_count'))
-        else:
-            # default log file count is 1.
-            log_file_count = 1
+            if configuration.get_option('linspector', 'log_file_count'):
+                log_file_count = int(configuration.get_option('linspector', 'log_file_count'))
+            else:
+                # default log file count is 1.
+                log_file_count = 1
 
-        log_file_handler = logging.handlers.RotatingFileHandler(log_file,
-                                                                maxBytes=log_file_size_bytes,
-                                                                backupCount=log_file_count)
+            log_file_handler = logging.handlers.RotatingFileHandler(log_file,
+                                                                    maxBytes=log_file_size_bytes,
+                                                                    backupCount=log_file_count)
 
-        log_file_handler.setFormatter(log_file_formatter)
-        self.add_handler(log_file_handler)
+            log_file_handler.setFormatter(log_file_formatter)
+            self.add_handler(log_file_handler)
 
         log_level = 'None'
         # critical errors will always show up even when no log_level is set. this is most silent.
