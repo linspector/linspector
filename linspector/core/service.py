@@ -8,5 +8,5 @@ See LICENSE (MIT license)
 class Service:
     def __init__(self, configuration, environment, log):
         self.__configuration = configuration
-        self._environment = environment
+        self.__environment = environment
         self.__log = log

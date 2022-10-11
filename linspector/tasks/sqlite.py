@@ -12,7 +12,6 @@ def create(configuration, environment, log):
 
 # TODO: check for all required configuration options and set defaults if needed.
 class SQLiteTask(Task):
-
     def __init__(self, configuration, environment, log):
         super().__init__(configuration, environment, log)
         self.__configuration = configuration

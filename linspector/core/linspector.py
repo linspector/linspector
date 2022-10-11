@@ -14,13 +14,13 @@ from apscheduler.executors.pool import ThreadPoolExecutor, ProcessPoolExecutor
 
 def job_function(log, monitor):
     try:
-        log('debug', 'executing job_function for monitor identifier: ' + monitor.get_identifier() +
-            ' with monitor object: ' + str(monitor))
+        log.debug('executing job_function for monitor identifier: ' + monitor.get_identifier() +
+                  ' with monitor object: ' + str(monitor))
         monitor.handle_call()
     except Exception as err:
-        log('warning', 'execution failed for job_function for monitor identifier: ' +
-            monitor.get_identifier() + ' with monitor object: ' + str(monitor) + ' error: ' +
-            str(err))
+        log.warning('execution failed for job_function for monitor identifier: ' +
+                    monitor.get_identifier() + ' with monitor object: ' + str(monitor) +
+                    ' error: ' + str(err))
 
 
 class Linspector:
@@ -35,13 +35,13 @@ class Linspector:
         self.__scheduler = scheduler
 
         # load plugins
-        log('info', 'loading plugins...')
+        log.info('loading plugins...')
         if configuration.get_option('linspector', 'plugins'):
             plugin_list = configuration.get_option('linspector', 'plugins')
             self.__plugin_list = plugin_list.split(',')
             for plugin_option in self.__plugin_list:
                 if plugin_option not in plugins:
-                    log('info', 'loading plugin: ' + plugin_option)
+                    log.info('loading plugin: ' + plugin_option)
                     plugin_package = 'linspector.plugins.' + plugin_option.lower()
                     plugin_module = importlib.import_module(plugin_package)
                     plugin = plugin_module.create(configuration, environment, log, self)
@@ -75,10 +75,10 @@ class Linspector:
                                                              job_defaults=job_defaults)
 
         start_date = datetime.datetime.now()
-        log('debug', monitors.get_monitors())
+        log.debug(monitors.get_monitors())
         monitors = self.__monitors.get_monitors()
         for monitor in monitors:
-            log('debug', monitor)
+            log.debug(monitor)
             if configuration.get_option('linspector', 'delta_range'):
                 time_delta = round(random.uniform(0.00, float(
                     configuration.get_option('linspector', 'delta_range'))), 3)
@@ -98,6 +98,9 @@ class Linspector:
 
             if configuration.get_option('linspector', 'timezone'):
                 timezone = configuration.get_option('linspector', 'timezone')
+                if monitors.get(monitor).get_monitor_configuration_option('args', 'timezone'):
+                    timezone = monitors.get(monitor).get_monitor_configuration_option('args',
+                                                                                      'timezone')
             else:
                 timezone = 'UTC'
 
@@ -110,8 +113,8 @@ class Linspector:
 
             monitor_job.set_job(scheduler_job)
             self.__jobs.append(monitor_job)
-            log('info', 'scheduling job ' + monitor + ' with delta ' + str(time_delta) +
-                ' @' + str(new_start_date) + ' running service ' + monitor_job.get_service())
+            log.info('scheduling job ' + monitor + ' with delta ' + str(time_delta) +
+                     ' @' + str(new_start_date) + ' running service ' + monitor_job.get_service())
 
         if configuration.get_option('linspector', 'start_scheduler') == 'true':
             self.__scheduler['linspector'].start()

@@ -3,7 +3,6 @@ This file is part of Linspector (https://linspector.org/)
 Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
 See LICENSE (MIT license)
 """
-from linspector.core.helpers import log
 
 
 class Environment:
@@ -12,23 +11,24 @@ class Environment:
     stability or runtime of Linspector.
     """
 
-    def __init__(self):
+    def __init__(self, log):
         self.__env = {}
+        self.__log = log
 
     def get_env_var(self, key):
         if key in self.__env:
             return self.__env[key]
         else:
-            log('warning', __name__, 'environment var "' + key + '" not found! could be that it is '
-                                                                 'set later at runtime. if you '
-                                                                 'encounter any errors executing '
-                                                                 'linspector, something is wrong '
-                                                                 'in the logic of the code. please '
-                                                                 'consider reporting this as a '
-                                                                 'bug! btw. WARNING is not an '
-                                                                 'ERROR! Linspector should work '
-                                                                 'even with missing environment '
-                                                                 'variables.')
+            self.__log.warning('environment var "' + key + '" not found! could be that it is '
+                                                           'set later at runtime. if you '
+                                                           'encounter any errors executing '
+                                                           'linspector, something is wrong '
+                                                           'in the logic of the code. please '
+                                                           'consider reporting this as a '
+                                                           'bug! btw. WARNING is not an '
+                                                           'ERROR! Linspector should work '
+                                                           'even with missing environment '
+                                                           'variables.')
             return None
 
     def set_env_var(self, key, value):

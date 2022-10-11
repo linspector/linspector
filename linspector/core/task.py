@@ -84,12 +84,12 @@ class TaskExecutor:
             try:
                 msg, task = self.queue.get()
                 if task:
-                    self.__log('debug', "starting task execution...")
+                    self.__log.debug('starting task execution...')
                     #task.execute(msg)
                 self.queue.task_done()
 
             except Exception as err:
-                self.__log('error', "error " + str(err))
+                self.__log.error('error ' + str(err))
 
     def is_instant_end(self):
         return self._instantEnd

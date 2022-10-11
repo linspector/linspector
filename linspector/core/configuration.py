@@ -11,13 +11,12 @@ import os
 # TODO: check for all required configuration options and set defaults if needed. do this only for
 #  options in the "linspector" section of linspector.ini.
 class Configuration:
-    def __init__(self, configuration_path, environment, log):
+    def __init__(self, configuration_path):
         self.__configuration = configparser.ConfigParser()
         self.__configuration_path = configuration_path
-        self.__environment = environment
-        self.__log = log
 
-        log('info', 'reading configuration file: ' + configuration_path + '/linspector.conf')
+        #print('[linspector] reading configuration file: ' + configuration_path +
+        # '/linspector.conf')
         if os.path.isfile(configuration_path + '/linspector.conf'):
             try:
                 self.__configuration.read(configuration_path + '/linspector.conf', 'utf-8')
@@ -36,7 +35,7 @@ class Configuration:
 
             section_list = glob.glob(configuration_path + '/' + target_section + '/*.conf')
             for section_file in section_list:
-                log('debug', 'reading section file: ' + section_file)
+                #print('reading section file: ' + section_file)
                 configuration = configparser.ConfigParser()
                 configuration.read(section_file, 'utf-8')
                 for source_section in configuration.sections():
@@ -46,6 +45,8 @@ class Configuration:
                                                  source_section_option,
                                                  configuration.get(source_section,
                                                                    source_section_option))
+
+        #print('configuration dump: ' + self.dump_to_ini())
 
     def dump_to_ini(self):
         dump = ''

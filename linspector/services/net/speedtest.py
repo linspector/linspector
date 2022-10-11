@@ -64,10 +64,10 @@ class SpeedtestService(Service):
                 self.__speedtest_time_elapsed = time.perf_counter() - start
                 self.__environment.set_env_var('_speedtest_time_elapsed',
                                                str(self.__speedtest_time_elapsed))
-                self.__log('info', 'speedtest average: ' + str(self.__speedtest_average_speed) +
-                           ', max: ' + str(self.__speedtest_maximum_speed) +
-                           ', time: ' + str(self.__speedtest_time_elapsed))
+                self.__log.info('speedtest average: ' + str(self.__speedtest_average_speed) +
+                                ', max: ' + str(self.__speedtest_maximum_speed) +
+                                ', time: ' + str(self.__speedtest_time_elapsed))
             else:
-                self.__log('warning', 'could not calculate download speed!')
+                self.__log.warning('could not calculate download speed!')
 
             time.sleep(self.__configuration.get_speedtest_interval())

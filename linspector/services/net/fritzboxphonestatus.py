@@ -20,5 +20,5 @@ class FritzboxPhoneStatusService(Service):
         self.__log = log
 
     def execute(self, **kwargs):
-        self.__log('debug', 'FritzboxPhoneStatusService object ' + str(self))
+        self.__log.debug('FritzboxPhoneStatusService object ' + str(self))
         return

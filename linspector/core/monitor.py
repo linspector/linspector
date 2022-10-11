@@ -23,17 +23,17 @@ class Monitor:
         try:
             self.__interval = int(monitor_configuration.get('args', 'interval'))
         except Exception as err:
-            log('warning', 'no interval set in identifier ' + identifier + ', trying to get a '
-                                                                           'monitor configuration '
-                                                                           'setting. error: ' +
-                str(err))
+            log.warning('no interval set in identifier ' + identifier + ', trying to get a monitor '
+                                                                        'configuration '
+                                                                        'setting. error: ' +
+                        str(err))
             try:
                 self.__interval = int(configuration.get_option('linspector', 'default_interval'))
-                log('warning', 'set default_interval as per core configuration with '
-                               'identifier: ' + identifier + ' to: ' + str(self.__interval))
+                log.warning('set default_interval as per core configuration with '
+                            'identifier: ' + identifier + ' to: ' + str(self.__interval))
             except Exception as err:
-                log('warning', 'no default_interval found in core configuration for identifier ' +
-                    identifier + ', set to default interval 300 seconds. error: ' + str(err))
+                log.warning('no default_interval found in core configuration for identifier ' +
+                            identifier + ', set to default interval 300 seconds. error: ' + str(err))
                 # default interval is 300 seconds (5 minutes) if not set in the monitor
                 # configuration args or a default_interval in the core configuration.
                 self.__interval = 300
@@ -47,7 +47,7 @@ class Monitor:
         except Exception as err:
             # if no service is set in the monitor configuration, the service is set to misc.dummy
             # instead. just to make Linspector run but with no real result.
-            log('debug', 'no service set for identifier: ' + identifier + ' setting to '
+            log.debug('no service set for identifier: ' + identifier + ' setting to '
                                                                           'misc.dummy as '
                                                                           'default to ensure '
                                                                           'Linspector will run. '
@@ -221,13 +221,13 @@ class Monitor:
     def handle_tasks(self, monitor_information):
         for task in self.__tasks:
             if self.status.lower() in task.get_task_type().lower():
-                self.__log('debug', 'executing task of type: ' + self.status)
+                self.__log.debug('executing task of type: ' + self.status)
                 # tasks can but should not be executed here. putting them in a queue is the better
                 # solution to execute them in a serial process.
                 #TaskExecutor.instance().schedule_task(monitor_information, task)
 
     def handle_call(self):
-        self.__log('info', 'handle call to monitor with identifier: ' + self.__identifier)
+        self.__log.info('handle call to monitor with identifier: ' + self.__identifier)
         #logger.debug("handle call")
         #logger.debug(self.service)
         if self.enabled:
@@ -237,7 +237,7 @@ class Monitor:
                 #self.__services[self.__service].execute(self.last_execution)
                 self.__services[self.__service].execute(**self.__args)
             except Exception as err:
-                self.__log('error', err)
+                self.__log.error(err)
 
             #self.last_execution.set_execution_end()
 
@@ -253,7 +253,7 @@ class Monitor:
 
             #self.handle_tasks(self.monitor_information)
         else:
-            self.__log('info', "job " + self.get_monitor_id() + " disabled")
+            self.__log.info('job ' + self.get_monitor_id() + ' disabled')
 
     def get_host(self):
         return self.host

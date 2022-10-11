@@ -22,22 +22,18 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF
 OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 import argparse
-import logging
-import logging.handlers
-import os
 import sys
 
 from linspector.core.configuration import Configuration
 from linspector.core.environment import Environment
-from linspector.core.helpers import log
+from linspector.core.logger import Log
 from linspector.core.linspector import Linspector
 from linspector.core.monitors import Monitors
 
-logger = logging.getLogger('linspector')
 
 # i currently only increase the 3rd number because the goal is that 0.19.* will become the first
 # stable version.
-__version__ = '0.19.52.dev1'
+__version__ = '0.19.54.dev1'
 __author__ = 'Johannes Findeisen <you@hanez.org>'
 
 
@@ -72,7 +68,6 @@ def parse_args():
 
 def main():
     args = parse_args()
-    environment = Environment()
     monitors = None
     notifications = {}
     plugins = {}
@@ -82,84 +77,25 @@ def main():
     services = {}
     tasks = {}
 
-    if args.stdout:
-        if args.verbose:
-            logger.setLevel(logging.DEBUG)
-        else:
-            # setting pre initialization default log level to INFO. this changes after
-            # initialization of the configuration. maybe there are better solutions...?
-            logger.setLevel(logging.INFO)
-
-        stdout_formatter = logging.Formatter('[%(asctime)s] [%(levelname)s] [%(name)s] %(message)s')
-        stdout_handler = logging.StreamHandler(sys.stdout)
-        stdout_handler.setFormatter(stdout_formatter)
-        logger.addHandler(stdout_handler)
-
     try:
-        configuration = Configuration(args.configuration_path, environment, log)
-        logger.debug('configuration dump: ' + configuration.dump_to_ini())
+        configuration = Configuration(args.configuration_path)
     except Exception as err:
-        log('critical', '[linspector] configuration error: {0}'.format(err))
+        print('[linspector] configuration error: {0}'.format(err))
         sys.exit(1)
 
-    if configuration.get_option('linspector', 'log_file'):
-        log_file = os.path.expanduser(configuration.get_option('linspector', 'log_file'))
-        if not os.path.exists(os.path.dirname(log_file)):
-            os.makedirs(os.path.dirname(log_file))
-
-        log_file_formatter = \
-            logging.Formatter('[%(asctime)s]:[%(levelname)s]:[%(name)s]:%(message)s')
-
-        if configuration.get_option('linspector', 'log_file_size'):
-            log_file_size_mb = int(configuration.get_option('linspector', 'log_file_size'))
-            log_file_size_bytes = int(log_file_size_mb * 1000000)
-        elif configuration.get_option('linspector', 'log_file_size_bytes'):
-            log_file_size_bytes = int(configuration.get_option('linspector',
-                                                               'log_file_size_bytes'))
-        else:
-            # default log file size is 10000000 bytes (10MiB)
-            log_file_size_bytes = int(10000000)
-
-        if configuration.get_option('linspector', 'log_file_count'):
-            log_file_count = int(configuration.get_option('linspector', 'log_file_count'))
-        else:
-            # default log file count is 1.
-            log_file_count = 1
-
-        log_file_handler = logging.handlers.RotatingFileHandler(log_file,
-                                                                maxBytes=log_file_size_bytes,
-                                                                backupCount=log_file_count)
-
-        log_file_handler.setFormatter(log_file_formatter)
-        logger.addHandler(log_file_handler)
-
-    log_level = 'None'
-    # critical errors will always show up even when no log_level is set. this is most silent.
-    logger.setLevel(logging.CRITICAL)
-    if configuration.get_option('linspector', 'log_level'):
-        log_level = str(configuration.get_option('linspector', 'log_level'))
-        if log_level == "error":
-            logger.setLevel(logging.ERROR)
-        elif log_level == "warning":
-            logger.setLevel(logging.WARNING)
-        elif log_level == "info":
-            logger.setLevel(logging.INFO)
-        elif log_level == "debug":
-            logger.setLevel(logging.DEBUG)
-        #elif configuration.get_option('linspector', 'log_level') != 'error' != 'warning' \
-        #        != 'info' != 'debug':
-        #    logger.warning('[linspector] log level: "' + log_level + '" not found!')
+    log = Log(configuration, args.stdout, args.verbose)
+    environment = Environment(log)
 
     try:
         monitors = Monitors(configuration, environment, log, notifications, services, tasks)
     except Exception as err:
-        log('warning', '[linspector] monitor initialization error: {0}'.format(err))
+        log.warning('[linspector] monitor initialization error: {0}'.format(err))
 
     try:
         linspector = Linspector(configuration, environment, log, monitors, plugins, scheduler)
         #linspector.print_debug()
     except Exception as err:
-        log('critical', '[linspector] core initialization error: {0}'.format(err))
+        log.critical('[linspector] core initialization error: {0}'.format(err))
         sys.exit(1)
 
     # daemon initialization
@@ -169,23 +105,23 @@ def main():
             linspectord = Linspectord(configuration, environment, linspector, log)
             # do handling of restart, start and stop commands but for now "start" is enough... ;)
             if args.kill:
-                log('info', '[linspector] stopping daemon.')
+                log.info('[linspector] stopping daemon.')
                 linspectord.stop()
             elif args.restart:
-                log('info', '[linspector] restarting daemon.')
+                log.info('[linspector] restarting daemon.')
                 linspectord.restart()
             else:
-                log('info', '[linspector] starting daemon.')
+                log.info('[linspector] starting daemon.')
                 linspectord.start()
         except Exception as err:
-            log('critical', '[linspector] daemon error: {0}'.format(err))
+            log.critical('[linspector] daemon error: {0}'.format(err))
             sys.exit(1)
     else:
         try:
             while True:
                 pass
         except KeyboardInterrupt:
-            log('info', '[linspector] program terminated by user!')
+            log.info('[linspector] program terminated by user!')
 
 
 if __name__ == '__main__':

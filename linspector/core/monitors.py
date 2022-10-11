@@ -22,12 +22,12 @@ class Monitors:
         self.__monitors = {}
 
         monitor_groups = os.listdir(self.__configuration.get_configuration_path() + '/monitors/')
-        log('debug', 'monitor groups: ' + str(monitor_groups))
+        log.debug('monitor groups: ' + str(monitor_groups))
         for monitor_group in monitor_groups:
             monitors_file_list = glob.glob(self.__configuration.get_configuration_path() +
                                            '/monitors/' + monitor_group + '/*.conf')
 
-            log('debug', 'monitor files: ' + str(monitors_file_list))
+            log.debug('monitor files: ' + str(monitors_file_list))
             for monitor_file in monitors_file_list:
                 identifier = monitor_group + '_' + os.path.splitext(os.path.basename(
                     monitor_file))[0]
@@ -38,13 +38,13 @@ class Monitors:
                 kwargs = {}
                 for option in monitor_configuration.options('args'):
                     value = monitor_configuration.get('args', option)
-                    log('debug', 'added option in ' + identifier + ' to kwargs: ' + option + ' = '
-                        + value)
+                    log.debug('added option in ' + identifier + ' to kwargs: ' + option + ' = ' +
+                              value)
 
                     kwargs[option] = value
 
                 if kwargs:
-                    log('debug', identifier + ' args ' + str(kwargs))
+                    log.debug(identifier + ' args ' + str(kwargs))
 
                 identifier = monitor_group + '_' + os.path.splitext(os.path.basename(
                     monitor_file))[0]
