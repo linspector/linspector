@@ -1,7 +1,7 @@
 """
 This file is part of Linspector (https://linspector.org/)
 Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
-See LICENSE (MIT license)
+See LICENSE.txt (MIT license).
 """
 import gammu
 

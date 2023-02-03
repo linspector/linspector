@@ -2,26 +2,13 @@
 """
 This file is part of Linspector (https://linspector.org/)
 Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is furnished
-to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice (including the next
-paragraph) shall be included in all copies or substantial portions of the
-Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
-OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF
-OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+See LICENSE.txt (MIT license).
 """
+# TODO: Make use of the "rich" library to for rich text and beautiful formatting in the terminal.
 import argparse
+# TODO: Remove logging in the client and barf output to the terminal directly in Lish. Implement a
+#  verbose mode for this to suppress messages by default but create something like log levels which
+#  can be enabled at program start.
 import logging
 import logging.handlers
 import os
@@ -41,12 +28,17 @@ __version__ = '0.0.1.dev1'
 __author__ = 'Johannes Findeisen <you@hanez.org>'
 
 
+# TODO: Replace all the code below! For now this is just a copy of Linspector code which makes no
+#  sense for a Shell style client. Best would be if Lish will become a 100% standalone program
+#  without making use of the daemon code and the it maybe makes sense to make an own project for
+#  this. This also applies to the litui client but Lish and Litui can share the same backend.
 def parse_args():
     parser = argparse.ArgumentParser(
-        description='lish is part of the linspector project and is a CLI client to connect to a '
-                    'linspector instance configured to load the rpc plugin for remote connections.',
+        description='lish is part of the linspector project and is a shell style client for '
+                    'connecting to a linspector instance configured to load the rpc plugin for '
+                    'remote connections.',
         epilog='author: ' + __author__,
-        prog='linspector')
+        prog='lish')
 
     parser.add_argument('host', metavar='HOST',
                         help='the configuration path to use')
