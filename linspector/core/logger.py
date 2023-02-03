@@ -29,6 +29,10 @@ logger = getLogger('linspector')
 # next 3rd party library in the core (need to discover features because i want log rotating):
 # https://pypi.org/project/loguru/
 # maybe subclass it from logging.Logger...?
+# TODO: Make the logging format using key=value pairs to make it easy to evaluate log data using
+#  Splunk.
+# TODO: Make logging possible to syslog! Maybe not implement it here and just use the syslog task
+#  with a format optimized for Splunk or create a Splunk task for this.
 class Log:
     def __init__(self, configuration, stdout, verbose):
         self.__configuration = configuration
