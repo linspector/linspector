@@ -5,6 +5,8 @@ Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
 See LICENSE.txt (MIT license).
 """
 # TODO: VERY IMPORTANT! IMPLEMENT ERROR HANDLING ALL THE WAY...!!!
+#  Only exit execution on critical core errors. Do not exit when monitors are failing on
+#  configuration and execution, but log these errors.
 import argparse
 import sys
 
