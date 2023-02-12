@@ -11,11 +11,11 @@ from linspector.core.plugin import Plugin
 
 
 def create(configuration, environment, linspector, log):
-    return HTTPServerPlugin(configuration, environment, linspector, log)
+    return HTTPDPlugin(configuration, environment, linspector, log)
 
 
 # TODO: check for all required configuration options and set defaults if needed.
-class HTTPServerPlugin(Plugin):
+class HTTPDPlugin(Plugin):
 
     def __init__(self, configuration, environment, linspector, log):
         super().__init__(configuration, environment, linspector, log)
