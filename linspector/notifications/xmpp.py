@@ -3,7 +3,6 @@ This file is part of Linspector (https://linspector.org/)
 Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
 See LICENSE.txt (MIT license).
 """
-import xmpp
 
 from linspector.core.notification import Notification
 

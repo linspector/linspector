@@ -3,7 +3,6 @@ This file is part of Linspector (https://linspector.org/)
 Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
 See LICENSE.txt (MIT license).
 """
-from pysnmp.entity.rfc3413.oneliner import cmdgen
 
 from linspector.core.service import Service
 

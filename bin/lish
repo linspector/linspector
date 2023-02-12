@@ -14,9 +14,10 @@ import logging.handlers
 import os
 import sys
 
+from linspector.core.helpers import log
+
 from linspector.core.configuration import Configuration
 from linspector.core.environment import Environment
-from linspector.core.helpers import log
 from linspector.core.linspector import Linspector
 from linspector.core.monitors import Monitors
 
@@ -127,7 +128,7 @@ def main():
             logger.setLevel(logging.INFO)
         elif log_level == "debug":
             logger.setLevel(logging.DEBUG)
-        #elif configuration.get_option('linspector', 'log_level') != 'error' != 'warning' \
+        # elif configuration.get_option('linspector', 'log_level') != 'error' != 'warning' \
         #        != 'info' != 'debug':
         #    logger.warning('[linspector] log level: "' + log_level + '" not found!')
 
@@ -138,7 +139,7 @@ def main():
 
     try:
         linspector = Linspector(configuration, environment, log, monitors, plugins, scheduler)
-        #linspector.print_debug()
+        # linspector.print_debug()
     except Exception as err:
         log('critical', '[linspector] core initialization error: {0}'.format(err))
         sys.exit(1)

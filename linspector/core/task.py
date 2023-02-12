@@ -4,7 +4,7 @@ Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
 See LICENSE.txt (MIT license).
 """
 from queue import Queue
-from threading import Event, Thread
+from threading import Thread
 
 from linspector.core.singleton import Singleton
 
@@ -47,7 +47,7 @@ class Task:
     def get_arguments(self):
         return self._args
 
-    #def set_member(self, member):
+    # def set_member(self, member):
     #    self.member = member
 
     def needs_arguments(self):
@@ -57,7 +57,7 @@ class Task:
         try:
             self.execute(job)
         except Exception as e:
-            #logger.debug("Task execute failed!!!")
+            # logger.debug("Task execute failed!!!")
             raise e
 
 
@@ -85,7 +85,7 @@ class TaskExecutor:
                 msg, task = self.queue.get()
                 if task:
                     self.__log.debug('starting task execution...')
-                    #task.execute(msg)
+                    # task.execute(msg)
                 self.queue.task_done()
 
             except Exception as err:

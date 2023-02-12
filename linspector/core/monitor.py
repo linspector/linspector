@@ -6,11 +6,8 @@ See LICENSE.txt (MIT license).
 import configparser
 import hashlib
 import importlib
-
-from datetime import datetime
 from binascii import crc32
-
-from linspector.core.task import Task, TaskExecutor
+from datetime import datetime
 
 
 class Monitor:
@@ -33,7 +30,8 @@ class Monitor:
                             'identifier: ' + identifier + ' to: ' + str(self.__interval))
             except Exception as err:
                 log.warning('no default_interval found in core configuration for identifier ' +
-                            identifier + ', set to default interval 300 seconds. error: ' + str(err))
+                            identifier + ', set to default interval 300 seconds. error: ' + str(
+                    err))
                 # default interval is 300 seconds (5 minutes) if not set in the monitor
                 # configuration args or a default_interval in the core configuration.
                 self.__interval = 300
@@ -48,10 +46,10 @@ class Monitor:
             # if no service is set in the monitor configuration, the service is set to misc.dummy
             # instead. just to make Linspector run but with no real result.
             log.debug('no service set for identifier: ' + identifier + ' setting to '
-                                                                          'misc.dummy as '
-                                                                          'default to ensure '
-                                                                          'Linspector will run. '
-                                                                          'error: ' + str(err))
+                                                                       'misc.dummy as '
+                                                                       'default to ensure '
+                                                                       'Linspector will run. '
+                                                                       'error: ' + str(err))
 
             self.__service = 'misc.dummy'
 
@@ -83,7 +81,7 @@ class Monitor:
         """
         self.status = "NONE"
         self.last_execution = None
-        #self.monitor_information = MonitorInformation(self.monitor_id, self.hostgroup, self.host,
+        # self.monitor_information = MonitorInformation(self.monitor_id, self.hostgroup, self.host,
         #                                              self.service)
         self.monitor_information = MonitorInformation(self.monitor_id, self.service)
 
@@ -175,7 +173,7 @@ class Monitor:
 
     def hex_string(self):
         ret = hex(crc32(bytes(self.host + self.hostgroups + self.service, 'utf-8')))
-        #ret = self.__hex__()
+        # ret = self.__hex__()
         if ret[0] == "-":
             ret = ret[3:]
         else:
@@ -198,10 +196,10 @@ class Monitor:
         if execution_successful:
             if self.job_threshold > 0:
                 if "threshold_reset" in self.core and self.core["threshold_reset"]:
-                    #logger.info("Job " + self.get_monitor_id() + ", Threshold Reset")
+                    # logger.info("Job " + self.get_monitor_id() + ", Threshold Reset")
                     self.job_threshold = 0
                 else:
-                    #logger.info("Job " + self.get_monitor_id() + ", Threshold Decrement")
+                    # logger.info("Job " + self.get_monitor_id() + ", Threshold Decrement")
                     self.job_threshold -= 1
 
             self.status = "OK"
@@ -214,7 +212,7 @@ class Monitor:
             self.job_threshold += 1
 
         if self.job_threshold >= service_threshold:
-            #logger.info("Job " + self.get_monitor_id() + ", Threshold reached!")
+            # logger.info("Job " + self.get_monitor_id() + ", Threshold reached!")
             self.status = "ERROR"
             self.monitor_information.set_status(self.status)
 
@@ -224,34 +222,34 @@ class Monitor:
                 self.__log.debug('executing task of type: ' + self.status)
                 # tasks can but should not be executed here. putting them in a queue is the better
                 # solution to execute them in a serial process.
-                #TaskExecutor.instance().schedule_task(monitor_information, task)
+                # TaskExecutor.instance().schedule_task(monitor_information, task)
 
     def handle_call(self):
         self.__log.info('handle call to monitor with identifier: ' + self.__identifier)
-        #logger.debug("handle call")
-        #logger.debug(self.service)
+        # logger.debug("handle call")
+        # logger.debug(self.service)
         if self.enabled:
             self.last_execution = None
             try:
                 self.last_execution = MonitorExecution(self.get_host())
-                #self.__services[self.__service].execute(self.last_execution)
+                # self.__services[self.__service].execute(self.last_execution)
                 self.__services[self.__service].execute(**self.__args)
             except Exception as err:
                 self.__log.error(err)
 
-            #self.last_execution.set_execution_end()
+            # self.last_execution.set_execution_end()
 
-            #self.handle_threshold(self.service.get_threshold(),
+            # self.handle_threshold(self.service.get_threshold(),
             #                      self.last_execution.was_successful())
 
-            #log.info("Job " + self.get_monitor_id() +
+            # log.info("Job " + self.get_monitor_id() +
             #            ", Code: " + str(self.last_execution.get_error_code()) +
             #            ", Message: " + str(self.last_execution.get_message()))
 
-            #self.monitor_information.set_response_message(
+            # self.monitor_information.set_response_message(
             #    self.last_execution.get_response_message(self))
 
-            #self.handle_tasks(self.monitor_information)
+            # self.handle_tasks(self.monitor_information)
         else:
             self.__log.info('job ' + self.get_monitor_id() + ' disabled')
 
@@ -308,8 +306,8 @@ class MonitorExecution:
 class MonitorInformation:
     def __init__(self, monitor_id, service):
         self.monitor_id = monitor_id
-        #self.hostgroup = hostgroup
-        #self.host = host
+        # self.hostgroup = hostgroup
+        # self.host = host
         self.service = service
 
         self.response_massage = None

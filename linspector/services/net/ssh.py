@@ -4,8 +4,9 @@ Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
 See LICENSE.txt (MIT license).
 """
 import os
-import paramiko
 import pprint
+
+import paramiko
 
 from linspector.core.service import Service
 
@@ -31,9 +32,8 @@ class SSHService(Service):
 
         client.connect('hanez.org', username='hanez')
 
-        #self.command.call() ist dann das:
+        # self.command.call() ist dann das:
         stdin, stdout, stderr = client.exec_command('ls')
         for line in stdout:
             print('... ' + line.strip('\n'))
         client.close()
-

@@ -3,7 +3,6 @@ This file is part of Linspector (https://linspector.org/)
 Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
 See LICENSE.txt (MIT license).
 """
-from fritzconnection.lib.fritzstatus import FritzStatus
 
 from linspector.core.service import Service
 

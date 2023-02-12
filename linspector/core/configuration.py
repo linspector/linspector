@@ -15,7 +15,7 @@ class Configuration:
         self.__configuration = configparser.ConfigParser()
         self.__configuration_path = configuration_path
 
-        #print('[linspector] reading configuration file: ' + configuration_path +
+        # print('[linspector] reading configuration file: ' + configuration_path +
         # '/linspector.conf')
         if os.path.isfile(configuration_path + '/linspector.conf'):
             try:
@@ -35,7 +35,7 @@ class Configuration:
 
             section_list = glob.glob(configuration_path + '/' + target_section + '/*.conf')
             for section_file in section_list:
-                #print('reading section file: ' + section_file)
+                # print('reading section file: ' + section_file)
                 configuration = configparser.ConfigParser()
                 configuration.read(section_file, 'utf-8')
                 for source_section in configuration.sections():
@@ -46,7 +46,7 @@ class Configuration:
                                                  configuration.get(source_section,
                                                                    source_section_option))
 
-        #print('configuration dump: ' + self.dump_to_ini())
+        # print('configuration dump: ' + self.dump_to_ini())
 
     def dump_to_ini(self):
         dump = ''

@@ -12,10 +12,9 @@ import sys
 
 from linspector.core.configuration import Configuration
 from linspector.core.environment import Environment
-from linspector.core.logger import Log
 from linspector.core.linspector import Linspector
+from linspector.core.logger import Log
 from linspector.core.monitors import Monitors
-
 
 # i currently only increase the 3rd number because the goal is that 0.19.* will become the first
 # stable version.
@@ -79,7 +78,7 @@ def main():
 
     try:
         linspector = Linspector(configuration, environment, log, monitors, plugins, scheduler)
-        #linspector.print_debug()
+        # linspector.print_debug()
     except Exception as err:
         log.critical('[linspector] core initialization error: {0}'.format(err))
         sys.exit(1)

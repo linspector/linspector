@@ -4,8 +4,9 @@ Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
 See LICENSE.txt (MIT license).
 """
 import calendar
-import requests
 import time
+
+import requests
 
 from linspector.core.service import Service
 

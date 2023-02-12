@@ -102,7 +102,7 @@ class Log:
                 self.set_level(logging.INFO)
             elif log_level == "debug":
                 self.set_level(logging.DEBUG)
-            #elif configuration.get_option('linspector', 'log_level') != 'error' != 'warning' \
+            # elif configuration.get_option('linspector', 'log_level') != 'error' != 'warning' \
             #        != 'info' != 'debug':
             #    logger.warning('[linspector] log level: "' + log_level + '" not found!')
 
