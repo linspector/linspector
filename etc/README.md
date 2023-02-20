@@ -1,0 +1,1 @@
+# Fully working configuration with only implemented options.

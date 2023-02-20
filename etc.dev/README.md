@@ -1,0 +1,1 @@
+# Not always working configuration with not only implemented options.
