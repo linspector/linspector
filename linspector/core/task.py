@@ -15,9 +15,9 @@ KEY_CLASS = "class"
 
 class Task:
     def __init__(self, configuration, environment, log, **kwargs):
-        self._args = {}
+        self.__args = {}
         self.__configuration = configuration
-        self._environment = environment
+        self.__environment = environment
         self.__log = log
 
         if KEY_ARGS in kwargs:
@@ -42,10 +42,10 @@ class Task:
 
     def add_arguments(self, args):
         for key, val in args.items():
-            self._args[key] = val
+            self.__args[key] = val
 
     def get_arguments(self):
-        return self._args
+        return self.__args
 
     # def set_member(self, member):
     #    self.member = member
