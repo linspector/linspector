@@ -1,4 +1,5 @@
 # Linspector
+etc.local/
 log/*.log
 log/*.log.*
 

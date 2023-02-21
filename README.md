@@ -8,10 +8,10 @@ The idea is based on a software I developed around 2010 or so. The name of the s
 [Linspector](https://linspector.org/) but the implementation was just too
 complicated. The idea still remains so here is the rebirth of Linspector. First commits
 of this rewrite where done as a new project named
-[monipy](https://git.unixpeople.org/linspector/monipy), but I moved to the name
+[monipy](https://github.com/linspector/monipy), but I moved to the name
 Linspector because I believe it is the better and cooler name... Old Linspector code is
 not available in this repository anymore, you can find it under
-[https://git.unixpeople.org/linspector/linspector-old](https://git.unixpeople.org/linspector/linspector-old).
+[https://git.hub.com/linspector/linspector-old](https://github.com/linspector/linspector-old).
 
 Hope this project will become useful for someone at some day and not only for
 me. Just give me some amount of time for the first usable release... ;)
