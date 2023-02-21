@@ -46,7 +46,7 @@ class Monitors:
                 if kwargs:
                     log.debug(identifier + ' args ' + str(kwargs))
 
-                identifier = monitor_group + '_' + os.path.splitext(os.path.basename(
+                identifier = monitor_group + '.' + os.path.splitext(os.path.basename(
                     monitor_file))[0]
 
                 # create Monitor() object and copy monitor_configuration for each instance because

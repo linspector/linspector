@@ -63,17 +63,19 @@ class Task:
 
 # i believe the singleton pattern is not required here because all tasks are stored as singleton in
 # a dict already, and they can be executed directly in the equivalent monitor. need to discover this
-# when tasks are being implemented.
+# when tasks are being implemented. this is from the old version of Linspector...
+# UPDATE: i see that task runners should be executed as separate threads, so maybe they should be
+# singleton here to not instantiate more than one instance inside each task. don't know actually...
 @Singleton
-class TaskExecutor:
+class TaskRunner:
     def __init__(self, configuration, environment, log):
         self.__configuration = configuration
         self.__environment = environment
         self.__log = log
         self.queue = Queue()
-        self.taskInfos = []
+        self.task_infos = []
         task_thread = Thread(target=self._run_worker_thread)
-        self._instantEnd = False
+        self._instant_end = False
         self._running = True
         task_thread.daemon = True
         task_thread.start()
@@ -92,7 +94,7 @@ class TaskExecutor:
                 self.__log.error('error ' + str(err))
 
     def is_instant_end(self):
-        return self._instantEnd
+        return self._instant_end
 
     def is_running(self):
         return self._running
@@ -102,7 +104,7 @@ class TaskExecutor:
 
     def stop_immediately(self):
         self._running = False
-        self._instantEnd = True
+        self._instant_end = True
 
     def schedule_task(self, msg, task):
         self.queue.put((msg, task))
