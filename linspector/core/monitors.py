@@ -29,7 +29,7 @@ class Monitors:
 
             log.debug('monitor files: ' + str(monitors_file_list))
             for monitor_file in monitors_file_list:
-                identifier = monitor_group + '_' + os.path.splitext(os.path.basename(
+                identifier = monitor_group + '.' + os.path.splitext(os.path.basename(
                     monitor_file))[0]
 
                 monitor_configuration = configparser.ConfigParser()
