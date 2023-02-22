@@ -219,13 +219,16 @@ class Monitor:
     def handle_tasks(self, monitor_information):
         for task in self.__tasks:
             if self.status.lower() in task.get_task_type().lower():
-                self.__log.debug('executing task of type: ' + self.status)
+                self.__log.debug('message=executing task type=' + self.status)
                 # tasks can but should not be executed here. putting them in a queue is the better
                 # solution to execute them in a serial process.
                 # TaskExecutor.instance().schedule_task(monitor_information, task)
 
     def handle_call(self):
-        self.__log.info('handle call to monitor with identifier: ' + self.__identifier)
+        self.__log.debug('identifier=' + self.__identifier +
+                         ' object=' + str(self))
+        self.__log.debug('identifier=' + self.__identifier +
+                         ' message=handle call to service')
         # logger.debug("handle call")
         # logger.debug(self.service)
         if self.enabled:
@@ -233,7 +236,7 @@ class Monitor:
             try:
                 self.last_execution = MonitorExecution(self.get_host())
                 # self.__services[self.__service].execute(self.last_execution)
-                self.__services[self.__service].execute(**self.__args)
+                self.__services[self.__service].execute(self.__identifier, self.__service, **self.__args)
             except Exception as err:
                 self.__log.error(err)
 

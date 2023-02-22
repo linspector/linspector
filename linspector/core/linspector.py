@@ -36,7 +36,7 @@ class Linspector:
         self.__scheduler = scheduler
 
         # load plugins
-        log.info('loading plugins...')
+        log.info('message=loading plugins')
         if configuration.get_option('linspector', 'plugins'):
             plugin_list = configuration.get_option('linspector', 'plugins')
             self.__plugin_list = plugin_list.split(',')
@@ -114,8 +114,12 @@ class Linspector:
 
             monitor_job.set_job(scheduler_job)
             self.__jobs.append(monitor_job)
-            log.info('scheduling job ' + monitor + ' with delta ' + str(time_delta) +
-                     ' @' + str(new_start_date) + ' running service ' + monitor_job.get_service())
+            log.info('identifier=' + monitor +
+                     ' host=' + "NOT IMPLEMENTED" +
+                     ' service=' + monitor_job.get_service() +
+                     ' delta=' + str(time_delta) +
+                     ' next=' + str(new_start_date) +
+                     ' message=scheduling job')
 
         if configuration.get_option('linspector', 'start_scheduler') == 'true':
             self.__scheduler['linspector'].start()
