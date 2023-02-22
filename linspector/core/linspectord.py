@@ -129,5 +129,4 @@ class Linspectord:
     # while development because the daemon even runs when internally is nothing to do.
     @staticmethod
     def run():
-        while True:
-            pass
+        signal.pause()

@@ -8,6 +8,7 @@ See LICENSE.txt (MIT license).
 #  Only exit execution on critical core errors. Do not exit when monitors are failing on
 #  configuration and execution, but log these errors.
 import argparse
+import signal
 import sys
 
 from linspector.core.configuration import Configuration
@@ -16,7 +17,7 @@ from linspector.core.linspector import Linspector
 from linspector.core.logger import Log
 from linspector.core.monitors import Monitors
 
-__version__ = '0.20.2'
+__version__ = '0.20.3'
 __author__ = 'Johannes Findeisen <you@hanez.org>'
 
 
@@ -101,8 +102,7 @@ def main():
             sys.exit(1)
     else:
         try:
-            while True:
-                pass
+            signal.pause()
         except KeyboardInterrupt:
             log.info('[linspector] program terminated by user!')
 
