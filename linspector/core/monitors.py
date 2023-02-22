@@ -4,14 +4,13 @@ Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
 See LICENSE.txt (MIT license).
 """
 import configparser
-import copy
 import glob
 import os
 
 from linspector.core.monitor import Monitor
 
 
-# monitors may could / should be added (and maybe changed) at runtime to add new monitors without
+# monitors may must / should be added (and maybe changed) at runtime to add new monitors without
 # restarting the daemon. maybe add a reset function to each monitor to reset the monitor at runtime
 # when changed dynamically.
 class Monitors:
@@ -19,7 +18,10 @@ class Monitors:
         self.__configuration = configuration
         self.__environment = environment
         self.__log = log
+        self.__notifications = notifications
         self.__monitors = {}
+        self.__services = services
+        self.__tasks = tasks
 
         monitor_groups = os.listdir(self.__configuration.get_configuration_path() + '/monitors/')
         log.debug('monitor groups: ' + str(monitor_groups))
@@ -50,10 +52,16 @@ class Monitors:
                     monitor_file))[0]
 
                 # create Monitor() object and copy monitor_configuration for each instance because
-                # they else refer to the same object.
-                self.__monitors[identifier] = Monitor(configuration, environment, identifier,
-                                                      log, monitor_configuration, notifications,
-                                                      services, tasks, copy.deepcopy(kwargs))
+                # they else refer to the same object? copy.deepcopy(monitor_configuration)???
+                self.__monitors[identifier] = Monitor(self.__configuration,
+                                                      self.__environment,
+                                                      identifier,
+                                                      self.__log,
+                                                      monitor_configuration,
+                                                      self.__notifications,
+                                                      self.__services,
+                                                      self.__tasks,
+                                                      kwargs)
 
                 del kwargs
 

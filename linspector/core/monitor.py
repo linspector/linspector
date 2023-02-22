@@ -4,10 +4,7 @@ Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
 See LICENSE.txt (MIT license).
 """
 import configparser
-import hashlib
 import importlib
-from binascii import crc32
-from datetime import datetime
 
 
 class Monitor:
@@ -15,23 +12,32 @@ class Monitor:
                  notifications, services, tasks, kwargs):
         self.__args = kwargs
         self.__configuration = configuration
+        self.__enabled = True
         self.__environment = environment
-        self.__identifier = identifier
+        self.__host = monitor_configuration.get('monitor', 'host')
+
         try:
-            self.__interval = int(monitor_configuration.get('args', 'interval'))
+            self.__hostgroups = monitor_configuration.get('monitor', 'hostgroups')
+        except configparser.NoOptionError as err:
+            self.__hostgroups = "None"
+
+        self.__identifier = identifier
+        self.__job_threshold = 0
+
+        try:
+            self.__interval = int(monitor_configuration.get('monitor', 'interval'))
         except Exception as err:
-            log.warning('no interval set in identifier ' + identifier + ', trying to get a monitor '
-                                                                        'configuration '
-                                                                        'setting. error: ' +
-                        str(err))
+            log.warning('no interval set in identifier ' + identifier +
+                        ', trying to get a monitor configuration setting. error: ' + str(err))
+
             try:
                 self.__interval = int(configuration.get_option('linspector', 'default_interval'))
                 log.warning('set default_interval as per core configuration with '
                             'identifier: ' + identifier + ' to: ' + str(self.__interval))
             except Exception as err:
                 log.warning('no default_interval found in core configuration for identifier ' +
-                            identifier + ', set to default interval 300 seconds. error: ' + str(
-                    err))
+                            identifier +
+                            ', set to default interval 300 seconds. error: ' + str(err))
                 # default interval is 300 seconds (5 minutes) if not set in the monitor
                 # configuration args or a default_interval in the core configuration.
                 self.__interval = 300
@@ -40,6 +46,8 @@ class Monitor:
         self.__monitor_configuration = monitor_configuration
         self.__notification_list = []
         self.__notifications = notifications
+        self.__scheduler_job = None
+
         try:
             self.__service = monitor_configuration.get('monitor', 'service')
         except Exception as err:
@@ -56,19 +64,6 @@ class Monitor:
         self.__services = services
         self.__task_list = []  # put tasks for the dedicated job here.
         self.__tasks = tasks
-        self.service = self.__service
-        self.host = monitor_configuration.get('monitor', 'hosts')
-
-        try:
-            self.hostgroups = monitor_configuration.get('monitor', 'hostgroups')
-        except configparser.NoOptionError as err:
-            self.hostgroups = "None"
-
-        self.job_threshold = 0
-        self.enabled = True
-        self.scheduler_job = None
-        # the monitor_id is a sha256 string.
-        self.monitor_id = self.generate_monitor_id()
 
         """
         NONE     job was not executed
@@ -78,12 +73,9 @@ class Monitor:
         ERROR    when a jobs error threshold is overridden
         UNKNOWN  when a job throws an exception which is not handled by the job itself (not 
         implemented)
-        """
         self.status = "NONE"
         self.last_execution = None
-        # self.monitor_information = MonitorInformation(self.monitor_id, self.hostgroup, self.host,
-        #                                              self.service)
-        self.monitor_information = MonitorInformation(self.monitor_id, self.service)
+        """
 
         try:
             if configuration.get_option('linspector', 'notifications') or \
@@ -149,6 +141,28 @@ class Monitor:
         except configparser.NoOptionError:
             self.__tasks = tasks
 
+    def execute(self):
+        self.__log.debug('identifier=' + self.__identifier +
+                         ' object=' + str(self))
+        self.__log.debug('identifier=' + self.__identifier +
+                         ' message=handle call to service')
+
+        if self.__enabled:
+            try:
+                self.__services[self.__service].execute(self.__identifier,
+                                                        self, self.__service,
+                                                        **self.__args)
+            except Exception as err:
+                self.__log.error(err)
+        else:
+            self.__log.info('identifier=' + self.__identifier + ' message=is disabled')
+
+    def get_host(self):
+        return self.__host
+
+    def get_hostgroups(self):
+        return self.__hostgroups
+
     def get_identifier(self):
         return self.__identifier
 
@@ -163,192 +177,15 @@ class Monitor:
             return self.__monitor_configuration.get(section, option)
         else:
             return None
-        return self.__monitor_configuration
 
     def get_service(self):
         return self.__service
 
-    def __str__(self):
-        return str(self.__dict__)
-
-    def hex_string(self):
-        ret = hex(crc32(bytes(self.host + self.hostgroups + self.service, 'utf-8')))
-        # ret = self.__hex__()
-        if ret[0] == "-":
-            ret = ret[3:]
-        else:
-            ret = ret[2:]
-        while len(ret) < 8:
-            ret = "0" + ret
-        return ret
-
-    def generate_monitor_id(self):
-        return hashlib.sha256(bytes(self.__identifier + self.host + self.hostgroups + self.service,
-                                    'utf-8')).hexdigest()
+    def set_enabled(self, enabled=True):
+        self.__enabled = enabled
 
     def set_job(self, scheduler_job):
-        self.scheduler_job = scheduler_job
+        self.__scheduler_job = scheduler_job
 
-    def set_enabled(self, enabled=True):
-        self.enabled = enabled
-
-    def handle_threshold(self, service_threshold, execution_successful):
-        if execution_successful:
-            if self.job_threshold > 0:
-                if "threshold_reset" in self.core and self.core["threshold_reset"]:
-                    # logger.info("Job " + self.get_monitor_id() + ", Threshold Reset")
-                    self.job_threshold = 0
-                else:
-                    # logger.info("Job " + self.get_monitor_id() + ", Threshold Decrement")
-                    self.job_threshold -= 1
-
-            self.status = "OK"
-            self.monitor_information.set_status(self.status)
-            self.monitor_information.inc_job_overall_wins()
-        else:
-            self.status = "WARNING"
-            self.monitor_information.set_status(self.status)
-            self.monitor_information.inc_job_overall_fails()
-            self.job_threshold += 1
-
-        if self.job_threshold >= service_threshold:
-            # logger.info("Job " + self.get_monitor_id() + ", Threshold reached!")
-            self.status = "ERROR"
-            self.monitor_information.set_status(self.status)
-
-    def handle_tasks(self, monitor_information):
-        for task in self.__tasks:
-            if self.status.lower() in task.get_task_type().lower():
-                self.__log.debug('message=executing task type=' + self.status)
-                # tasks can but should not be executed here. putting them in a queue is the better
-                # solution to execute them in a serial process.
-                # TaskExecutor.instance().schedule_task(monitor_information, task)
-
-    def handle_call(self):
-        self.__log.debug('identifier=' + self.__identifier +
-                         ' object=' + str(self))
-        self.__log.debug('identifier=' + self.__identifier +
-                         ' message=handle call to service')
-        # logger.debug("handle call")
-        # logger.debug(self.service)
-        if self.enabled:
-            self.last_execution = None
-            try:
-                self.last_execution = MonitorExecution(self.get_host())
-                # self.__services[self.__service].execute(self.last_execution)
-                self.__services[self.__service].execute(self.__identifier, self.__service, **self.__args)
-            except Exception as err:
-                self.__log.error(err)
-
-            # self.last_execution.set_execution_end()
-
-            # self.handle_threshold(self.service.get_threshold(),
-            #                      self.last_execution.was_successful())
-
-            # log.info("Job " + self.get_monitor_id() +
-            #            ", Code: " + str(self.last_execution.get_error_code()) +
-            #            ", Message: " + str(self.last_execution.get_message()))
-
-            # self.monitor_information.set_response_message(
-            #    self.last_execution.get_response_message(self))
-
-            # self.handle_tasks(self.monitor_information)
-        else:
-            self.__log.info('job ' + self.get_monitor_id() + ' disabled')
-
-    def get_host(self):
-        return self.host
-
-    def get_hostgroups(self):
-        return self.hostgroups
-
-
-class MonitorExecution:
-    def __init__(self, host):
-        self.execution_start = datetime.now()
-        self.execution_end = -1
-        self.host = host
-        self.error_code = -1
-        self.message = None
-        self.kwargs = None
-
-    def get_host_name(self):
-        return self.host
-
-    def get_message(self):
-        return self.message
-
-    def get_kwargs(self):
-        return self.kwargs
-
-    def set_execution_end(self):
-        self.execution_end = datetime.now()
-
-    def get_error_code(self):
-        return self.error_code
-
-    def was_successful(self):
-        return self.get_error_code() == 0
-
-    def set_result(self, error_code=0, message="", kwargs=None):
-        self.error_code = error_code
-        self.message = message
-        self.kwargs = kwargs
-
-    def get_response_message(self, job):
-        msg = str(job.status) + " [" + job.service.get_config_name() + ": " + \
-              str(job.get_monitor_id()) + "] " + str(job.get_hostgroup()) + " " + \
-              str(job.get_host())
-        if self.get_message() is not None:
-            msg += " " + str(self.get_message())
-        if self.get_kwargs() is not None:
-            msg += " " + str(self.get_kwargs())
-        return msg
-
-
-class MonitorInformation:
-    def __init__(self, monitor_id, service):
-        self.monitor_id = monitor_id
-        # self.hostgroup = hostgroup
-        # self.host = host
-        self.service = service
-
-        self.response_massage = None
-        self.period = None
-        self.next_run = None
-        self.runs = 0
-        self.enabled = None
-        self.threshold = 0
-        self.fails = 0
-        self.job_overall_fails = 0
-        self.job_overall_wins = 0
-        self.last_execution = None
-        self.last_run = None
-        self.last_fail = None
-        self.last_success = None
-        self.last_disabled = None
-        self.last_enabled = None
-        self.last_threshold_override = None
-        self.last_escalation = None
-        self.status = "NONE"
-
-    def inc_job_overall_fails(self):
-        self.job_overall_fails += 1
-
-    def inc_job_overall_wins(self):
-        self.job_overall_wins += 1
-
-    def get_monitor_id(self):
-        return self.monitor_id
-
-    def get_response_message(self):
-        return self.response_massage
-
-    def set_response_message(self, msg):
-        self.response_massage = msg
-
-    def get_status(self):
-        return self.status
-
-    def set_status(self, status):
-        self.status = status
+    def __str__(self):
+        return str(self.__dict__)

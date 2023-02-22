@@ -13,11 +13,11 @@ from apscheduler.jobstores.memory import MemoryJobStore
 from apscheduler.schedulers.background import BackgroundScheduler
 
 
-def job_function(log, monitor):
+def job_execution(log, monitor):
     try:
         log.debug('executing job_function for monitor identifier: ' + monitor.get_identifier() +
                   ' with monitor object: ' + str(monitor))
-        monitor.handle_call()
+        monitor.execute()
     except Exception as err:
         log.warning('execution failed for job_function for monitor identifier: ' +
                     monitor.get_identifier() + ' with monitor object: ' + str(monitor) +
@@ -107,15 +107,17 @@ class Linspector:
 
             # add cron and one time run jobs to Linspector. not only "interval" jobs should be
             # supported.
-            scheduler_job = scheduler['linspector'].add_job(job_function, 'interval',
+            scheduler_job = scheduler['linspector'].add_job(job_execution,
+                                                            'interval',
                                                             start_date=new_start_date,
-                                                            seconds=interval, timezone=timezone,
+                                                            seconds=interval,
+                                                            timezone=timezone,
                                                             args=[log, monitors.get(monitor)])
 
             monitor_job.set_job(scheduler_job)
             self.__jobs.append(monitor_job)
             log.info('identifier=' + monitor +
-                     ' host=' + "NOT IMPLEMENTED" +
+                     ' host=' + monitors.get(monitor).get_host() +
                      ' service=' + monitor_job.get_service() +
                      ' delta=' + str(time_delta) +
                      ' next=' + str(new_start_date) +
@@ -123,12 +125,3 @@ class Linspector:
 
         if configuration.get_option('linspector', 'start_scheduler') == 'true':
             self.__scheduler['linspector'].start()
-
-    # this function is just for testing purposes and can be removed some day
-    def print_debug(self):
-        # example on how to access the monitor objects in monitors
-        monitors = self.__monitors.get_monitors()
-        print(__file__ + ' (78): ' + str(monitors))
-        for monitor in monitors:
-            print(__file__ + ' (80): ' + monitors.get(monitor).get_identifier())
-            print(__file__ + ' (81): ' + monitors.get(monitor).get_service())

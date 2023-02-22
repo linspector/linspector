@@ -19,23 +19,23 @@ class IsConnectedService(Service):
         self.__environment = environment
         self.__log = log
 
-    def execute(self, identifier, service, **kwargs):
+    def execute(self, identifier, monitor, service, **kwargs):
         self.__log.debug('identifier=' + identifier +
                          'service=' + service +
                          ' object=' + str(self) +
                          ' kwargs=' + str(kwargs))
         try:
-            fc = FritzStatus(address=kwargs['host'],
+            fc = FritzStatus(address=monitor.get_host(),
                              password=kwargs['password'])
-        except Exception:
+        except Exception as err:
             self.__log.error('identifier=' + identifier +
-                             ' host=' + str(kwargs['host']) +
+                             ' host=' + monitor.get_host() +
                              ' service=' + service +
-                             ' failed ')
+                             ' error=' + str(err))
             return False
 
         self.__log.info('identifier=' + identifier +
-                        ' host=' + str(kwargs['host']) +
+                        ' host=' + monitor.get_host() +
                         ' service=' + service +
                         ' status=' + ('OK' if fc.is_connected else 'ERROR'))
 
