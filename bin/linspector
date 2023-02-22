@@ -16,7 +16,7 @@ from linspector.core.linspector import Linspector
 from linspector.core.logger import Log
 from linspector.core.monitors import Monitors
 
-__version__ = '0.20.1'
+__version__ = '0.20.2'
 __author__ = 'Johannes Findeisen <you@hanez.org>'
 
 

@@ -9,10 +9,10 @@ from linspector.core.service import Service
 
 
 def create(configuration, environment, log):
-    return FritzboxUplinkService(configuration, environment, log)
+    return IsConnectedService(configuration, environment, log)
 
 
-class FritzboxUplinkService(Service):
+class IsConnectedService(Service):
     def __init__(self, configuration, environment, log):
         super().__init__(configuration, environment, log)
         self.__configuration = configuration
@@ -20,7 +20,6 @@ class FritzboxUplinkService(Service):
         self.__log = log
 
     def execute(self, identifier, service, **kwargs):
-        status = "NONE"
         self.__log.debug('identifier=' + identifier +
                          'service=' + service +
                          ' object=' + str(self) +
@@ -28,11 +27,6 @@ class FritzboxUplinkService(Service):
         try:
             fc = FritzStatus(address=kwargs['host'],
                              password=kwargs['password'])
-
-            if fc.is_connected:
-                status = "OK"
-            else:
-                status = "ERROR"
         except Exception:
             self.__log.error('identifier=' + identifier +
                              ' host=' + str(kwargs['host']) +
@@ -43,5 +37,9 @@ class FritzboxUplinkService(Service):
         self.__log.info('identifier=' + identifier +
                         ' host=' + str(kwargs['host']) +
                         ' service=' + service +
-                        ' status=' + status)
-        return True
+                        ' status=' + ('OK' if fc.is_connected else 'ERROR'))
+
+        if fc.is_connected:
+            return True
+        else:
+            return False
