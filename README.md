@@ -11,7 +11,7 @@ of this rewrite where done as a new project named
 [monipy](https://github.com/linspector/monipy), but I moved to the name
 Linspector because I believe it is the better and cooler name... Old Linspector code is
 not available in this repository anymore, you can find it under
-[https://git.hub.com/linspector/linspector-old](https://github.com/linspector/linspector-old).
+[https://github.com/linspector/linspector-old](https://github.com/linspector/linspector-old).
 
 Hope this project will become useful for someone at some day and not only for
 me. Just give me some amount of time for the first usable release... ;)
@@ -55,10 +55,9 @@ See TODO for internal tasks.
 ### Manifest
 
 - All of this project **must be MIT licensed**. When using 3rd party libraries make
-  sure the license is compatible but MIT should always be preferred if an
-  alternative is available.
-- The core of Linspector should not use 3rd party libraries. Only plugins,
-  notifications and types may use other libraries. But copying code into the
+  sure the license is compatible.
+- The core of Linspector should not use 3rd party libraries if possible. Only notifications, 
+- plugins, services and tasks may use other libraries. But copying code into the
   source tree is ok when respecting the license. Not using 3rd party libraries
   should always be preferred though.
 - Inline comments should be all lowercase. Descriptions and documentation comments
@@ -66,17 +65,20 @@ See TODO for internal tasks.
 - Arguments to functions must always be in alphabetical order.
 - Class member variables must always be in alphabetical order in __init__() or any
   function / method.
+- Functions must always be in alphabetical order in classe.
 - Every commit must run without errors even if not being a working version of Linspector.
 
 ### Required libraries
 
 Currently, the Linspector core requires the following 3rd party libraries:
 
-- [APScheduler](https://github.com/agronholm/apscheduler) - This is the scheduler in
-  Linspector for execution of monitors. I started
+- [APScheduler](https://github.com/agronholm/apscheduler)- Apscheduler is the scheduler used in
+  Linspector for the execution of monitors. I started
   to use this library in very early versions of Linspector in 2011. Since the main task
   in Linspector is the execution of jobs in regularly intervals I believe it is the right
   decision to make use of APScheduler directly in the core of the Linspector project.
+- [Loguru](https://github.com/Delgan/loguru) - Linspector uses Loguru for file based logging. Loguru is a library 
+  which aims to bring enjoyable logging in Python.
 
 ### Other used libraries
 
@@ -103,7 +105,7 @@ them may only affect parts of Linspector. Currently used libraries are:
 
 These libraries are not being delivered with the Linspector source code and maybe have
 different and incompatible licenses. You need to install them using pip, your OS package
-manager or any other possible way.
+manager or by just install everything in requirements.txt (recommended).
 
 ### Version numbering
 
@@ -135,9 +137,11 @@ information: [https://packaging.python.org/en/latest/guides/distributing-package
 
 ### Configuration file rules
 
+- All configuration options must be documented
+- No unused options should be added to the default configuration
 - No inline comments so every available character can be used in values
 - Values can be overridden in each monitor
-- File names in etc/* are not important but section names and key names.
+- File name case in etc/* is not important but section names and key names
 - Comments can be inserted using ';' or '#'
 
 ## FAQ
