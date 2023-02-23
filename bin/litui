@@ -2,7 +2,7 @@
 """
 This file is part of Linspector (https://linspector.org/)
 Copyright (c) 2023 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
-See LICENSE.txt for more details.
+See LICENSE for more details.
 """
 # TODO: Make this a curses style TUI interface for Linspector using urwid or maybe some more modern
 #  framework like textual. Look at the Lish code for more details about backend implementation and

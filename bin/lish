@@ -2,7 +2,7 @@
 """
 This file is part of Linspector (https://linspector.org/)
 Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
-See LICENSE.txt (MIT license).
+See LICENSE (MIT license).
 """
 # TODO: Make use of the "rich" library to for rich text and beautiful formatting in the terminal.
 import argparse
@@ -14,11 +14,10 @@ import logging.handlers
 import os
 import sys
 
-from linspector.core.configuration import Configuration
-from linspector.core.environment import Environment
-from linspector.core.linspector import Linspector
-from linspector.core.logger import Log
-from linspector.core.monitors import Monitors
+from linspector.configuration import Configuration
+from linspector.environment import Environment
+from linspector.linspector import Linspector
+from linspector.monitors import Monitors
 
 logger = logging.getLogger('linspector')
 
@@ -146,7 +145,7 @@ def main():
     # daemon initialization
     if args.daemon:
         try:
-            from linspector.core.linspectord import Linspectord
+            from linspector.linspectord import Linspectord
             linspectord = Linspectord(configuration, environment, linspector, log)
             # do handling of restart, start and stop commands but for now "start" is enough... ;)
             if args.kill:

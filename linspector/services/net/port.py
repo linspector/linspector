@@ -1,11 +1,11 @@
 """
 This file is part of Linspector (https://linspector.org/)
 Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
-See LICENSE.txt (MIT license).
+See LICENSE (MIT license).
 """
 import socket
 
-from linspector.core.service import Service
+from linspector.service import Service
 
 
 def create(configuration, environment, log):

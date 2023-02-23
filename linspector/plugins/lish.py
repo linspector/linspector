@@ -1,12 +1,12 @@
 """
 This file is part of Linspector (https://linspector.org/)
 Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
-See LICENSE.txt (MIT license).
+See LICENSE (MIT license).
 """
 # TODO: This plugin should become the internal Lish implemented as a plugin which does not use the
 #  API plugin but loads at the end when starting Linspector in interactive mode as a terminal like
 #  interface to the core of Linspector.
-from linspector.core.plugin import Plugin
+from linspector.plugin import Plugin
 
 
 def create(configuration, environment, linspector, log):

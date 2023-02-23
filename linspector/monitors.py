@@ -1,13 +1,13 @@
 """
 This file is part of Linspector (https://linspector.org/)
 Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
-See LICENSE.txt (MIT license).
+See LICENSE (MIT license).
 """
 import configparser
 import glob
 import os
 
-from linspector.core.monitor import Monitor
+from linspector.monitor import Monitor
 
 
 # monitors may must / should be added (and maybe changed) at runtime to add new monitors without

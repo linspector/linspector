@@ -38,4 +38,3 @@ run:
 
 daemon:
 	PYTHONPATH=$(shell pwd):$(shell pwd)/venv/lib/python$(PYTHON_VRESION)/site-packages/ bin/linspector -d ./etc
-

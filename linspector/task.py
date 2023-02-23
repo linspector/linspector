@@ -1,12 +1,12 @@
 """
 This file is part of Linspector (https://linspector.org/)
 Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
-See LICENSE.txt (MIT license).
+See LICENSE (MIT license).
 """
 from queue import Queue
 from threading import Thread
 
-from linspector.core.singleton import Singleton
+from linspector.singleton import Singleton
 
 KEY_TYPE = "type"
 KEY_ARGS = "args"

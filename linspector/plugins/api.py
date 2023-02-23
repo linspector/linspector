@@ -1,13 +1,12 @@
 """
 This file is part of Linspector (https://linspector.org/)
 Copyright (c) 2023 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
-See LICENSE.txt (MIT license).
+See LICENSE (MIT license).
 """
 # TODO: Make this a backend API using the modern FastAPI framework as a replacement for the
 #  traditional RPC plugin. Maybe it makes sense to maintain the RPC plugin too for simple usage by
 #  the Lish but I believe it makes sense to only create one backend for all clients.
-from fastapi import FastAPI
-from linspector.core.plugin import Plugin
+from linspector.plugin import Plugin
 
 
 def create(configuration, environment, linspector, log):

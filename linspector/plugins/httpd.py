@@ -1,13 +1,13 @@
 """
 This file is part of Linspector (https://linspector.org/)
 Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
-See LICENSE.txt (MIT license).
+See LICENSE (MIT license).
 """
 import json
 
 import cherrypy
 
-from linspector.core.plugin import Plugin
+from linspector.plugin import Plugin
 
 
 def create(configuration, environment, linspector, log):

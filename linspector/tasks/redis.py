@@ -1,9 +1,9 @@
 """
 This file is part of Linspector (https://linspector.org/)
 Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
-See LICENSE.txt (MIT license).
+See LICENSE (MIT license).
 """
-from linspector.core.task import Task
+from linspector.task import Task
 
 
 def create(configuration, environment, log):
