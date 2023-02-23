@@ -42,29 +42,29 @@ development environment.
 ### To do
 
 - **Everything!** But the progress is fast and after some few days I am not far
-  away to get a first working codebase. If the core is running I believe adding features
-  will happen from day to day... ;)
+away to get a first working codebase. If the core is running I believe adding features
+will happen from day to day... ;)
 
 See TODO for internal tasks.
 
 ### Ideas
 
 - **Thousands!** For now the goal is to implement most features from the old version
-  of Linspector. :)
+of Linspector. :)
 
 ### Manifest
 
 - All of this project **must be MIT licensed**. When using 3rd party libraries make
-  sure the license is compatible.
+sure the license is compatible.
 - The core of Linspector should not use 3rd party libraries if possible. Only notifications, 
 - plugins, services and tasks may use other libraries. But copying code into the
-  source tree is ok when respecting the license. Not using 3rd party libraries
-  should always be preferred though.
+source tree is ok when respecting the license. Not using 3rd party libraries
+should always be preferred though.
 - Inline comments should be all lowercase. Descriptions and documentation comments
-  must be natural language.
+must be natural language.
 - Arguments to functions must always be in alphabetical order.
 - Class member variables must always be in alphabetical order in __init__() or any
-  function / method.
+function / method.
 - Functions must always be in alphabetical order in classe.
 - Every commit must run without errors even if not being a working version of Linspector.
 
@@ -72,13 +72,13 @@ See TODO for internal tasks.
 
 Currently, the Linspector core requires the following 3rd party libraries:
 
-- [APScheduler](https://github.com/agronholm/apscheduler)- Apscheduler is the scheduler used in
-  Linspector for the execution of monitors. I started
-  to use this library in very early versions of Linspector in 2011. Since the main task
-  in Linspector is the execution of jobs in regularly intervals I believe it is the right
-  decision to make use of APScheduler directly in the core of the Linspector project.
-- [Loguru](https://github.com/Delgan/loguru) - Linspector uses Loguru for file based logging. Loguru is a library 
-  which aims to bring enjoyable logging in Python.
+- [APScheduler](https://pypi.org/project/APScheduler/)- Apscheduler is the scheduler used in
+Linspector for the execution of monitors. I started
+to use this library in very early versions of Linspector in 2011. Since the main task
+in Linspector is the execution of jobs in regularly intervals I believe it is the right
+decision to make use of APScheduler directly in the core of the Linspector project.
+- [Loguru](https://pypi.org/project/loguru/) - Linspector uses Loguru for file based logging. Loguru is a library 
+which aims to bring enjoyable logging in Python.
 
 ### Other used libraries
 
@@ -87,20 +87,20 @@ monitors, notifications, services or plugins sometimes need to make the use of
 them may only affect parts of Linspector. Currently used libraries are:
 
 - [CherryPy](https://cherrypy.dev/) - CherryPy is a pythonic, object-oriented HTTP framework.
-  Used by the HTTPServer plugin.
+Used by the HTTPServer plugin.
 - [fritzconnection](https://github.com/kbr/fritzconnection) - A Python-Tool to communicate with
-  the AVM Fritz!Box. Uses the TR-064 protocol over UPnP. Used by the FritzboxPhoneStatus and
-  FritzBoxUplink service.
+the AVM Fritz!Box. Uses the TR-064 protocol over UPnP. Used by the FritzboxPhoneStatus and
+FritzBoxUplink service.
 - [Paramiko](https://www.paramiko.org/) - Paramiko is a pure-Python (2.7, 3.4+) implementation
-  of the SSHv2 protocol, providing both client and server functionality. Used by the SSH service.
+of the SSHv2 protocol, providing both client and server functionality. Used by the SSH service.
 - [python-gammu](https://wammu.eu/python-gammu/) - Python bindings for the Gammu library. Used by the
-  SMS notification.
+SMS notification.
 - [PySNMP](https://pysnmp.readthedocs.io/en/latest/) - PySNMP is a cross-platform, pure-Python
-  SNMP engine implementation. It features fully-functional SNMP engine capable to act in
-  Agent/Manager/Proxy roles, talking SNMP v1/v2c/v3 protocol versions over IPv4/IPv6 and other
-  network transports. Used by the SNMP services (get).
+SNMP engine implementation. It features fully-functional SNMP engine capable to act in
+Agent/Manager/Proxy roles, talking SNMP v1/v2c/v3 protocol versions over IPv4/IPv6 and other
+network transports. Used by the SNMP services (get).
 - [requests](https://requests.readthedocs.io/en/latest/) - Requests is an elegant and simple
-  HTTP library for Python, built for human beings. Used by the Speedtest service.
+HTTP library for Python, built for human beings. Used by the Speedtest service.
 - [xmpp2](https://pypi.org/project/xmpp2/) - A XMPP client for Python. Used by the XMPP notification.
 
 These libraries are not being delivered with the Linspector source code and maybe have
@@ -131,8 +131,7 @@ scheme (See: [https://semver.org/](https://semver.org/)):
 - 15.10 - Date based release
 - 23 - Serial release
 
-(More
-information: [https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/#choosing-a-versioning-scheme](https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/#choosing-a-versioning-scheme) &
+(More information: [https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/#choosing-a-versioning-scheme](https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/#choosing-a-versioning-scheme) &
 [https://peps.python.org/pep-0440/#public-version-identifiers](https://peps.python.org/pep-0440/#public-version-identifiers))
 
 ### Configuration file rules

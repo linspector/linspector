@@ -14,10 +14,10 @@ import sys
 from linspector.configuration import Configuration
 from linspector.environment import Environment
 from linspector.linspector import Linspector
-from linspector.logger import Log
 from linspector.monitors import Monitors
+from loguru import logger
 
-__version__ = '0.20.5'
+__version__ = '0.21'
 __author__ = 'Johannes Findeisen <you@hanez.org>'
 
 
@@ -62,49 +62,61 @@ def main():
     tasks = {}
 
     try:
-        configuration = Configuration(args.configuration_path)
+        configuration = Configuration(args.configuration_path, logger)
     except Exception as err:
-        print('[linspector] configuration error: {0}'.format(err))
+        logger.error('configuration error: {0}'.format(err))
         sys.exit(1)
 
-    log = Log(configuration, args.stdout, args.verbose)
-    environment = Environment(log)
+    logger.remove()
+    log_level = "ERROR"
+    if configuration.get_option('linspector', 'log_level'):
+        log_level = configuration.get_option('linspector', 'log_level')
+
+    logger.add(sys.stderr, backtrace=True, colorize=True, diagnose=True, level=log_level)
+    # log.add(sys.stderr, backtrace=True, colorize=True, diagnose=True, format="{time} [{level}]: {message}", level="INFO")
+    # log.add(sys.stderr, format="{time} {level} {message}", filter="my_module", level="INFO")
+    if configuration.get_option('linspector', 'logfile'):
+        logger.add(configuration.get_option('linspector', 'logfile'), backtrace=True, diagnose=True, enqueue=True,
+                   level=configuration.get_option('linspector', 'logfile_level'))
+
+    environment = Environment(logger)
 
     try:
-        monitors = Monitors(configuration, environment, log, notifications, services, tasks)
+        monitors = Monitors(configuration, environment, logger, notifications, services, tasks)
     except Exception as err:
-        log.warning('[linspector] monitor initialization error: {0}'.format(err))
+        logger.warning('monitor initialization error: {0}'.format(err))
 
     try:
-        linspector = Linspector(configuration, environment, log, monitors, plugins, scheduler)
+        linspector = Linspector(configuration, environment, logger, monitors, plugins, scheduler)
         # linspector.print_debug()
     except Exception as err:
-        log.critical('[linspector] core initialization error: {0}'.format(err))
+        logger.critical('core initialization error: {0}'.format(err))
+        logger.critical('program terminating...')
         sys.exit(1)
 
     # daemon initialization
     if args.daemon:
         try:
             from linspector.linspectord import Linspectord
-            linspectord = Linspectord(configuration, environment, linspector, log)
+            linspectord = Linspectord(configuration, environment, linspector, logger)
             # do handling of restart, start and stop commands but for now "start" is enough... ;)
             if args.kill:
-                log.info('[linspector] stopping daemon.')
+                logger.info('stopping daemon.')
                 linspectord.stop()
             elif args.restart:
-                log.info('[linspector] restarting daemon.')
+                logger.info('restarting daemon.')
                 linspectord.restart()
             else:
-                log.info('[linspector] starting daemon.')
+                logger.info('starting daemon.')
                 linspectord.start()
         except Exception as err:
-            log.critical('[linspector] daemon error: {0}'.format(err))
+            logger.critical('daemon error: {0}'.format(err))
             sys.exit(1)
     else:
         try:
             signal.pause()
         except KeyboardInterrupt:
-            log.info('[linspector] program terminated by user!')
+            logger.info('program terminated by user!')
 
 
 if __name__ == '__main__':

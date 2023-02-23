@@ -11,9 +11,10 @@ import os
 # TODO: check for all required configuration options and set defaults if needed. do this only for
 #  options in the "linspector" section of linspector.ini.
 class Configuration:
-    def __init__(self, configuration_path):
+    def __init__(self, configuration_path, log):
         self.__configuration = configparser.ConfigParser()
         self.__configuration_path = configuration_path
+        self.__log = log
 
         # print('[linspector] reading configuration file: ' + configuration_path +
         # '/linspector.conf')
