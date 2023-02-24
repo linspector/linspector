@@ -57,7 +57,7 @@ of Linspector. :)
 - All of this project **must be MIT licensed**. When using 3rd party libraries make
 sure the license is compatible.
 - The core of Linspector should not use 3rd party libraries if possible. Only notifications, 
-- plugins, services and tasks may use other libraries. But copying code into the
+plugins, services and tasks may use other libraries. Copying code into the
 source tree is ok when respecting the license. Not using 3rd party libraries
 should always be preferred though.
 - Inline comments should be all lowercase. Descriptions and documentation comments
