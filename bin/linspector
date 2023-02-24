@@ -17,7 +17,7 @@ from linspector.linspector import Linspector
 from linspector.monitors import Monitors
 from loguru import logger
 
-__version__ = '0.21.1'
+__version__ = '0.21.2'
 __author__ = 'Johannes Findeisen <you@hanez.org>'
 
 
@@ -38,12 +38,6 @@ def parse_args():
 
     parser.add_argument('-r', '--restart', default=False, dest='restart', action='store_true',
                         help='restart the daemon if it is running (default: false)')
-
-    parser.add_argument('-s', '--stdout', default=False, dest='stdout', action='store_true',
-                        help='log to stdout')
-
-    parser.add_argument('-V', '--verbose', default=False, dest='verbose', action='store_true',
-                        help='log in debug mode')
 
     parser.add_argument('-v', '--version', action='version', version='%(prog)s ' + str(__version__))
 

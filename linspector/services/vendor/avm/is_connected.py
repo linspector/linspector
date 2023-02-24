@@ -21,7 +21,7 @@ class IsConnectedService(Service):
 
     def execute(self, identifier, monitor, service, **kwargs):
         self.__log.debug('identifier=' + identifier +
-                         'service=' + service +
+                         ' service=' + service +
                          ' object=' + str(self) +
                          ' kwargs=' + str(kwargs))
         try:
