@@ -66,7 +66,7 @@ must be natural language.
 - Class member variables must always be in alphabetical order in __init__() or any
 function / method.
 - Functions must always be in alphabetical order in classes.
-- Every commit must run without errors even if not being a working version of Linspector.
+- Every commit must be working code without errors even if not being a working version of Linspector.
 
 ### Required libraries
 
