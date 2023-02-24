@@ -60,7 +60,7 @@ sure the license is compatible.
 plugins, services and tasks may use other libraries. Copying code into the
 source tree is ok when respecting the license. Not using 3rd party libraries
 should always be preferred though.
-- Inline comments should be all lowercase. Descriptions and documentation comments
+- Inline comments can all be lowercase. Descriptions and documentation comments
 must be natural language.
 - Arguments to functions must always be in alphabetical order.
 - Class member variables must always be in alphabetical order in "\__init__()" or any
