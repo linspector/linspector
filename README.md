@@ -79,6 +79,8 @@ building APIs with Python 3.7+ based on standard Python type hints. (It is used 
 plugin really is core stuff)
 - [Loguru](https://pypi.org/project/loguru/) - Linspector uses Loguru for all logging stuff. Loguru is a library 
 which aims to bring enjoyable logging in Python.
+- [urwid](https://pypi.org/project/urwid/) - Urwid is a console user interface library for Python. (urwid will 
+become the UI library used for the management TUI of Linspector)
 
 ### Other used libraries
 
