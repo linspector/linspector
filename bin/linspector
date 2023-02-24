@@ -18,7 +18,7 @@ from linspector.environment import Environment
 from linspector.linspector import Linspector
 from linspector.monitors import Monitors
 
-__version__ = '0.21.3'
+__version__ = '0.21.4'
 __author__ = 'Johannes Findeisen <you@hanez.org>'
 
 

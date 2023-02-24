@@ -17,7 +17,9 @@ class DummyService(Service):
         self.__environment = environment
         self.__log = log
 
-    def execute(self, **kwargs):
-        self.__log.debug('DummyService object ' + str(self) + ' using kwargs: ' + str(kwargs))
-        # log('debug', 'dummy object @' + str(self) + str(self.__kwargs['foo']))
-        return
+    def execute(self, identifier, monitor, service, **kwargs):
+        self.__log.info('identifier=' + identifier +
+                        ' host=' + monitor.get_host() +
+                        ' service=' + service +
+                        ' status=' + 'OK')
+        return True
