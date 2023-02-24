@@ -11,6 +11,7 @@ import random
 from apscheduler.executors.pool import ThreadPoolExecutor, ProcessPoolExecutor
 from apscheduler.jobstores.memory import MemoryJobStore
 from apscheduler.schedulers.background import BackgroundScheduler
+from pytz import utc
 
 
 def job_execution(log, monitor):
@@ -64,16 +65,20 @@ class Linspector:
         if configuration.get_option('linspector', 'scheduler_mode'):
             if configuration.get_option('linspector', 'scheduler_mode') == 'process':
                 executors = {
-                    'default': ProcessPoolExecutor(int(configuration.get_option('linspector',
-                                                                                'max_processes')))
+                    'default': ThreadPoolExecutor(
+                        int(configuration.get_option('linspector', 'max_threads'))),
+                    'processpool': ProcessPoolExecutor(
+                        int(configuration.get_option('linspector', 'max_processes')))
                 }
         job_defaults = {
+            'coalesce': True,
             # every scheduler job (monitor) must only exist once.
             'max_instances': 1
         }
         self.__scheduler['linspector'] = BackgroundScheduler(jobstores=jobstores,
                                                              executors=executors,
-                                                             job_defaults=job_defaults)
+                                                             job_defaults=job_defaults,
+                                                             timezone=utc)
 
         start_date = datetime.datetime.now()
         log.debug(monitors.get_monitors())

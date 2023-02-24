@@ -72,12 +72,9 @@ function / method.
 
 Currently, the Linspector core requires the following 3rd party libraries:
 
-- [APScheduler](https://pypi.org/project/APScheduler/)- Apscheduler is the scheduler used in
-Linspector for the execution of monitors. I started
-to use this library in very early versions of Linspector in 2011. Since the main task
-in Linspector is the execution of jobs in regularly intervals I believe it is the right
-decision to make use of APScheduler directly in the core of the Linspector project.
-- [Loguru](https://pypi.org/project/loguru/) - Linspector uses Loguru for file based logging. Loguru is a library 
+- [APScheduler](https://pypi.org/project/APScheduler/)- APScheduler is a Python library that lets you 
+schedule your Python code to be executed later, either just once or periodically.
+- [Loguru](https://pypi.org/project/loguru/) - Linspector uses Loguru for all logging stuff. Loguru is a library 
 which aims to bring enjoyable logging in Python.
 
 ### Other used libraries
@@ -182,7 +179,7 @@ Linspector is open-source and completely free and will always be.
 
 ### MIT license
 
-Copyright (c) 2013 - 2022 Johannes Findeisen
+Copyright (c) 2013 - 2023 Johannes Findeisen
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

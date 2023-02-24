@@ -11,13 +11,14 @@ import argparse
 import signal
 import sys
 
+from loguru import logger
+
 from linspector.configuration import Configuration
 from linspector.environment import Environment
 from linspector.linspector import Linspector
 from linspector.monitors import Monitors
-from loguru import logger
 
-__version__ = '0.21.2'
+__version__ = '0.21.3'
 __author__ = 'Johannes Findeisen <you@hanez.org>'
 
 
