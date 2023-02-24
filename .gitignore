@@ -1,8 +1,6 @@
 # Linspector
-etc.local/
+etc.test.*
 log/*.log
-log/*.log.*
-tmp.py
 
 # ---> Python
 # Byte-compiled / optimized / DLL files

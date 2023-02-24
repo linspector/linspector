@@ -99,11 +99,12 @@ class Linspector:
 
             if configuration.get_option('linspector', 'timezone'):
                 timezone = configuration.get_option('linspector', 'timezone')
-                if monitors.get(monitor).get_monitor_configuration_option('args', 'timezone'):
-                    timezone = monitors.get(monitor).get_monitor_configuration_option('args',
+                if monitors.get(monitor).get_monitor_configuration_option('monitor', 'timezone'):
+                    timezone = monitors.get(monitor).get_monitor_configuration_option('monitor',
                                                                                       'timezone')
             else:
-                timezone = 'UTC'
+                # set to local system timezone by as default
+                timezone = datetime.datetime.now(datetime.timezone.utc).astimezone().tzname()
 
             # add cron and one time run jobs to Linspector. not only "interval" jobs should be
             # supported.

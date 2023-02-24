@@ -9,15 +9,15 @@ import os
 
 
 # TODO: check for all required configuration options and set defaults if needed. do this only for
-#  options in the "linspector" section of linspector.ini.
+#  options in the "linspector" section of linspector.conf.
 class Configuration:
     def __init__(self, configuration_path, log):
         self.__configuration = configparser.ConfigParser()
         self.__configuration_path = configuration_path
         self.__log = log
 
-        # print('[linspector] reading configuration file: ' + configuration_path +
-        # '/linspector.conf')
+        log.info('message=reading configuration configfile=' + configuration_path +
+                 '/linspector.conf')
         if os.path.isfile(configuration_path + '/linspector.conf'):
             try:
                 self.__configuration.read(configuration_path + '/linspector.conf', 'utf-8')

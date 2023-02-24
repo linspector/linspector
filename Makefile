@@ -37,7 +37,7 @@ run:
 	PYTHONPATH=$(shell pwd):$(shell pwd)/venv/lib/python$(PYTHON_VERSION)/site-packages/ bin/linspector -s ./etc
 
 rundev:
-	PYTHONPATH=$(shell pwd):$(shell pwd)/venv/lib/python$(PYTHON_VERSION)/site-packages/ bin/linspector -s ./etc.local
+	PYTHONPATH=$(shell pwd):$(shell pwd)/venv/lib/python$(PYTHON_VERSION)/site-packages/ bin/linspector -s ./etc.test.local
 
 daemon:
 	PYTHONPATH=$(shell pwd):$(shell pwd)/venv/lib/python$(PYTHON_VRESION)/site-packages/ bin/linspector -d ./etc
