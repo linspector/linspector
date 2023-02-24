@@ -63,7 +63,7 @@ should always be preferred though.
 - Inline comments should be all lowercase. Descriptions and documentation comments
 must be natural language.
 - Arguments to functions must always be in alphabetical order.
-- Class member variables must always be in alphabetical order in __init__() or any
+- Class member variables must always be in alphabetical order in "\__init__()" or any
 function / method.
 - Functions must always be in alphabetical order in classes.
 - Every commit must be working code without errors even if not being a working version of Linspector.
@@ -75,12 +75,12 @@ Currently, the Linspector core requires the following 3rd party libraries:
 - [APScheduler](https://pypi.org/project/APScheduler/) - APScheduler is a Python library that lets you 
 schedule your Python code to be executed later, either just once or periodically.
 - [fastAPI](https://pypi.org/project/fastapi/) - FastAPI is a modern, fast (high-performance), web framework for 
-building APIs with Python 3.7+ based on standard Python type hints. (It is used in the API plugin but this 
-plugin really is core stuff)
-- [Loguru](https://pypi.org/project/loguru/) - Linspector uses Loguru for all logging stuff. Loguru is a library 
-which aims to bring enjoyable logging in Python.
-- [urwid](https://pypi.org/project/urwid/) - Urwid is a console user interface library for Python. (urwid will 
-become the UI library used for the management TUI of Linspector)
+building APIs with Python 3.7+ based on standard Python type hints. It is used in the API plugin but this 
+plugin really is core stuff.
+- [Loguru](https://pypi.org/project/loguru/) - Loguru is a library which aims to bring enjoyable logging in Python. 
+Linspector uses Loguru for all logging stuff. 
+- [urwid](https://pypi.org/project/urwid/) - Urwid is a console user interface library for Python. urwid will 
+become the UI library used for the management TUI of Linspector.
 
 ### Other used libraries
 
