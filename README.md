@@ -72,8 +72,11 @@ function / method.
 
 Currently, the Linspector core requires the following 3rd party libraries:
 
-- [APScheduler](https://pypi.org/project/APScheduler/)- APScheduler is a Python library that lets you 
+- [APScheduler](https://pypi.org/project/APScheduler/) - APScheduler is a Python library that lets you 
 schedule your Python code to be executed later, either just once or periodically.
+- [fastAPI](https://pypi.org/project/fastapi/) - FastAPI is a modern, fast (high-performance), web framework for 
+building APIs with Python 3.7+ based on standard Python type hints. (It is used in the API plugin but this 
+plugin really is core stuff)
 - [Loguru](https://pypi.org/project/loguru/) - Linspector uses Loguru for all logging stuff. Loguru is a library 
 which aims to bring enjoyable logging in Python.
 
