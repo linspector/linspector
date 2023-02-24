@@ -73,7 +73,8 @@ function / method.
 Currently, the Linspector core requires the following 3rd party libraries:
 
 - [APScheduler](https://pypi.org/project/APScheduler/) - APScheduler is a Python library that lets you 
-schedule your Python code to be executed later, either just once or periodically.
+schedule your Python code to be executed later, either just once or periodically. This is the heart of Linspector for
+scheduling jobs.
 - [fastAPI](https://pypi.org/project/fastapi/) - FastAPI is a modern, fast (high-performance), web framework for 
 building APIs with Python 3.7+ based on standard Python type hints. It is used in the API plugin but this 
 plugin really is core stuff.
