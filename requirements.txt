@@ -1,5 +1,6 @@
 APScheduler==3.10.0
 CherryPy==18.8.0
+asyncssh==2.13.1
 fastapi==0.92.0
 fritzconnection==1.11.0
 loguru==0.6.0
