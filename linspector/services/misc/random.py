@@ -33,15 +33,15 @@ class DummyService(Service):
         rnd6 = random.randint(0, 99999999999999)
         rnd7 = random.randint(0, 99999999999999)
         rnd8 = random.randint(0, 99999999999999)
-        sha512_1 = hashlib.sha512(str((str(rnd1) + str(rnd2) + str(rnd3) + str(rnd4) +
-                                  str(rnd5) + str(rnd6) + str(rnd7) + str(rnd8))).
-                                  encode('utf-8')).hexdigest()
-        sha512_2 = hashlib.sha512(str((str(rnd1) + str(rnd2) + str(rnd3) + str(rnd4) +
-                                  str(rnd5) + str(rnd6) + str(rnd7) + str(rnd8) + str(sha512_1))).
-                                  encode('utf-8')).hexdigest()
+        sha256 = hashlib.sha256(str((str(rnd1) + str(rnd2) + str(rnd3) + str(rnd4) +
+                                str(rnd5) + str(rnd6) + str(rnd7) + str(rnd8))).
+                                encode('utf-8')).hexdigest()
+        sha512 = hashlib.sha512(str((str(rnd1) + str(rnd2) + str(rnd3) + str(rnd4) +
+                                str(rnd5) + str(rnd6) + str(rnd7) + str(rnd8) + str(sha256))).
+                                encode('utf-8')).hexdigest()
         self.__log.info('identifier=' + identifier +
                         ' host=' + monitor.get_host() +
                         ' service=' + service +
                         ' status=' + ('OK' if status == 0 else 'ERROR') + ' sha512=' +
-                        sha512_2)
+                        sha512)
         return True
