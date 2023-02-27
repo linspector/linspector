@@ -14,6 +14,9 @@ def create(configuration, environment, log):
 
 
 class DummyService(Service):
+    """
+    This is a service that produces random data and status results. It is only used for testing.
+    """
     def __init__(self, configuration, environment, log):
         super().__init__(configuration, environment, log)
         self.__configuration = configuration
@@ -21,7 +24,7 @@ class DummyService(Service):
         self.__log = log
 
     def execute(self, identifier, monitor, service, **kwargs):
-        result = random.randint(0, 1)
+        status = random.randint(0, 1)
         rnd1 = random.randint(0, 99999999999999)
         rnd2 = random.randint(0, 99999999999999)
         rnd3 = random.randint(0, 99999999999999)
@@ -39,6 +42,6 @@ class DummyService(Service):
         self.__log.info('identifier=' + identifier +
                         ' host=' + monitor.get_host() +
                         ' service=' + service +
-                        ' status=' + ('OK' if result == 0 else 'ERROR') + ' sha512=' +
+                        ' status=' + ('OK' if status == 0 else 'ERROR') + ' sha512=' +
                         sha512_2)
         return True

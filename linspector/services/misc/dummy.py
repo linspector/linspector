@@ -11,6 +11,10 @@ def create(configuration, environment, log):
 
 
 class DummyService(Service):
+    """
+    This is a dummy service which is doing nothing but logging. It will be used if some other
+    service fails at load / configuration, or it can be used for testing.
+    """
     def __init__(self, configuration, environment, log):
         super().__init__(configuration, environment, log)
         self.__configuration = configuration
