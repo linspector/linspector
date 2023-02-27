@@ -10,10 +10,10 @@ from linspector.service import Service
 
 
 def create(configuration, environment, log):
-    return DummyService(configuration, environment, log)
+    return RandomService(configuration, environment, log)
 
 
-class DummyService(Service):
+class RandomService(Service):
     """
     This is a service that produces random data and status results. It is only used for testing.
     """
