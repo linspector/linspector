@@ -45,7 +45,7 @@ def parse_args():
     return parser.parse_args()
 
 
-def main():
+def linspector():
     args = parse_args()
     monitors = None
     notifications = {}
@@ -140,4 +140,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    linspector()
