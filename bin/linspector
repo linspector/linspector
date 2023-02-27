@@ -11,7 +11,7 @@ import argparse
 import signal
 import sys
 
-from loguru import logger
+from loguru import logger as log
 
 from linspector.configuration import Configuration
 from linspector.environment import Environment
@@ -56,20 +56,20 @@ def main():
     services = {}
     tasks = {}
 
-    logger.remove()
+    log.remove()
     default_log_format = '[{time:YYYY-MM-DD HH:mm:ss.SSSSSS ZZ}] [{elapsed}] [{level}] [linspector] ' \
                          '[{name}:{function}:{line}]: {message}'
     log_level = "INFO"
-    logger.add(sys.stderr, backtrace=True, colorize=True, diagnose=True, format=default_log_format, level=log_level)
+    log.add(sys.stderr, backtrace=True, colorize=True, diagnose=True, format=default_log_format, level=log_level)
 
     try:
-        configuration = Configuration(args.configuration_path, logger)
+        configuration = Configuration(args.configuration_path, log)
     except Exception as err:
-        logger.error('configuration error: {0}'.format(err))
+        log.error('configuration error: {0}'.format(err))
         sys.exit(1)
 
     if configuration.get_option('linspector', 'log_level'):
-        logger.remove()
+        log.remove()
         log_format = default_log_format
         if configuration.get_option('linspector', 'log_format'):
             log_format = configuration.get_option('linspector', 'log_format')
@@ -77,7 +77,7 @@ def main():
         if configuration.get_option('linspector', 'log_level'):
             log_level = configuration.get_option('linspector', 'log_level')
 
-        logger.add(sys.stderr, backtrace=True, colorize=True, diagnose=True, format=log_format, level=log_level)
+        log.add(sys.stderr, backtrace=True, colorize=True, diagnose=True, format=log_format, level=log_level)
 
     if configuration.get_option('linspector', 'logfile'):
         logfile_count = '10'
@@ -96,47 +96,47 @@ def main():
         if configuration.get_option('linspector', 'logfile_size'):
             logfile_size = configuration.get_option('linspector', 'logfile_size')
 
-        logger.add(configuration.get_option('linspector', 'logfile'), backtrace=True, diagnose=True, enqueue=True,
-                   format=logfile_format, level=logfile_level, retention=int(logfile_count), rotation=logfile_size)
+        log.add(configuration.get_option('linspector', 'logfile'), backtrace=True, diagnose=True, enqueue=True,
+                format=logfile_format, level=logfile_level, retention=int(logfile_count), rotation=logfile_size)
 
-    environment = Environment(logger)
+    environment = Environment(log)
 
     try:
-        monitors = Monitors(configuration, environment, logger, notifications, services, tasks)
+        monitors = Monitors(configuration, environment, log, notifications, services, tasks)
     except Exception as err:
-        logger.warning('monitor initialization error: {0}'.format(err))
+        log.warning('monitor initialization error: {0}'.format(err))
 
     try:
-        linspector = Linspector(configuration, environment, logger, monitors, plugins, scheduler)
+        linspector = Linspector(configuration, environment, log, monitors, plugins, scheduler)
         # linspector.print_debug()
     except Exception as err:
-        logger.critical('core initialization error: {0}'.format(err))
-        logger.critical('program terminating...')
+        log.critical('core initialization error: {0}'.format(err))
+        log.critical('program terminating...')
         sys.exit(1)
 
     # daemon initialization
     if args.daemon:
         try:
             from linspector.linspectord import Linspectord
-            linspectord = Linspectord(configuration, environment, linspector, logger)
+            linspectord = Linspectord(configuration, environment, linspector, log)
             # do handling of restart, start and stop commands but for now "start" is enough... ;)
             if args.kill:
-                logger.info('stopping daemon.')
+                log.info('stopping daemon.')
                 linspectord.stop()
             elif args.restart:
-                logger.info('restarting daemon.')
+                log.info('restarting daemon.')
                 linspectord.restart()
             else:
-                logger.info('starting daemon.')
+                log.info('starting daemon.')
                 linspectord.start()
         except Exception as err:
-            logger.critical('daemon error: {0}'.format(err))
+            log.critical('daemon error: {0}'.format(err))
             sys.exit(1)
     else:
         try:
             signal.pause()
         except KeyboardInterrupt:
-            logger.info('program terminated by user!')
+            log.info('program terminated by user!')
 
 
 if __name__ == '__main__':
