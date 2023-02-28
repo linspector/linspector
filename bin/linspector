@@ -68,7 +68,7 @@ def linspector():
         log.error('configuration error: {0}'.format(err))
         sys.exit(1)
 
-    if configuration.get_option('linspector', 'log_level'):
+    if configuration.get_option('linspector', 'log_format') or configuration.get_option('linspector', 'log_level'):
         log.remove()
         log_format = default_log_format
         if configuration.get_option('linspector', 'log_format'):
