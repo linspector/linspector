@@ -42,6 +42,6 @@ class RandomService(Service):
         self.__log.info('identifier=' + identifier +
                         ' host=' + monitor.get_host() +
                         ' service=' + service +
-                        ' status=' + ('OK' if status == 0 else 'ERROR') + ' sha512=' +
+                        ' status=' + ('OK' if status == 0 else 'ERROR') + ' message=' +
                         sha512)
         return True
