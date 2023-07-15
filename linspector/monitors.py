@@ -12,7 +12,10 @@ from linspector.monitor import Monitor
 
 # monitors may must / should be added (and maybe changed) at runtime to add new monitors without
 # restarting the daemon. maybe add a reset function to each monitor to reset the monitor at runtime
-# when changed dynamically.
+# when changed dynamically. better: add a hash of the config file of each monitor to each monitor
+# object and if it has changed reload the monitor. e.g. delete it from the scheduler and reschedule.
+# if a new monitor is added at runtime it needs to be checked manually by running a "reload" command
+# to lish which walks thrue all scheduled jobs and when an unknown monitor is found, schedule it.
 class Monitors:
     def __init__(self, configuration, environment, log, notifications, services, tasks):
         self.__configuration = configuration
