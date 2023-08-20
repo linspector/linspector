@@ -19,14 +19,14 @@ class Environment:
         if key in self.__env:
             return self.__env[key]
         else:
-            self.__log.warning('Environment var "' + key + '" not found! Could be that it is '
-                                                           'set later at runtime. If you '
+            self.__log.warning('environment var "' + key + '" not found! could be that it is '
+                                                           'set later at runtime. if you '
                                                            'encounter any errors executing '
                                                            'linspector, something is wrong '
-                                                           'in the logic of the code. Please '
+                                                           'in the logic of the code. please '
                                                            'consider reporting this as a '
-                                                           'bug! Btw. a WARNING is not an '
-                                                           'ERROR! Linspector should work '
+                                                           'bug! btw. a WARNING is not an '
+                                                           'ERROR! linspector should work '
                                                            'even with missing environment '
                                                            'variables.')
             return None
