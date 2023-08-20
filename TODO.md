@@ -22,3 +22,4 @@
 - Write documentation and inline documentation.
 - Add kwargs to notifications, tasks and maybe plugins.
 - Add date and cron based scheduling to linspector.py to make the full use of APScheduler.
+- Make Linspector Windows compatible (not so important)

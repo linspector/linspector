@@ -39,4 +39,7 @@ class RandomService(Service):
                        ' service=' + service +
                        ' status=' + ('OK' if status == 0 else 'ERROR') + ' message=' +
                        sha512)
-        return True
+
+        result = {"status": ('OK' if status == 0 else 'ERROR'), "message": sha512}
+
+        return result

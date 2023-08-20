@@ -15,10 +15,10 @@ KEY_CLASS = "class"
 
 class Task:
     def __init__(self, configuration, environment, log, **kwargs):
-        self.__args = {}
-        self.__configuration = configuration
-        self.__environment = environment
-        self.__log = log
+        self._args = {}
+        self._configuration = configuration
+        self._environment = environment
+        self._log = log
 
         if KEY_ARGS in kwargs:
             self.add_arguments(kwargs[KEY_ARGS])
@@ -42,10 +42,10 @@ class Task:
 
     def add_arguments(self, args):
         for key, val in args.items():
-            self.__args[key] = val
+            self._args[key] = val
 
     def get_arguments(self):
-        return self.__args
+        return self._args
 
     # def set_member(self, member):
     #    self.member = member
@@ -69,9 +69,9 @@ class Task:
 @Singleton
 class TaskRunner:
     def __init__(self, configuration, environment, log):
-        self.__configuration = configuration
-        self.__environment = environment
-        self.__log = log
+        self._configuration = configuration
+        self._environment = environment
+        self._log = log
         self.queue = Queue()
         self.task_infos = []
         task_thread = Thread(target=self._run_worker_thread)
@@ -86,12 +86,12 @@ class TaskRunner:
             try:
                 msg, task = self.queue.get()
                 if task:
-                    self.__log.debug('starting task execution...')
+                    self._log.debug('starting task execution...')
                     # task.execute(msg)
                 self.queue.task_done()
 
             except Exception as err:
-                self.__log.error('error ' + str(err))
+                self._log.error('error ' + str(err))
 
     def is_instant_end(self):
         return self._instant_end

@@ -15,6 +15,7 @@ def create(configuration, environment, log):
 class IsConnectedService(Service):
 
     def execute(self, identifier, monitor, service, **kwargs):
+
         self._log.debug('identifier=' + identifier +
                         ' service=' + service +
                         ' object=' + str(self) +
@@ -34,7 +35,6 @@ class IsConnectedService(Service):
                        ' service=' + service +
                        ' status=' + ('OK' if fc.is_connected else 'ERROR'))
 
-        if fc.is_connected:
-            return True
-        else:
-            return False
+        result = {"status": ('OK' if fc.is_connected else 'ERROR'), "message": "CUSTOM"}
+
+        return result

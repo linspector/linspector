@@ -18,18 +18,18 @@ from linspector.monitor import Monitor
 # to lish which walks thrue all scheduled jobs and when an unknown monitor is found, schedule it.
 class Monitors:
     def __init__(self, configuration, environment, log, notifications, services, tasks):
-        self.__configuration = configuration
-        self.__environment = environment
-        self.__log = log
-        self.__notifications = notifications
-        self.__monitors = {}
-        self.__services = services
-        self.__tasks = tasks
+        self._configuration = configuration
+        self._environment = environment
+        self._log = log
+        self._notifications = notifications
+        self._monitors = {}
+        self._services = services
+        self._tasks = tasks
 
-        monitor_groups = os.listdir(self.__configuration.get_configuration_path() + '/monitors/')
+        monitor_groups = os.listdir(self._configuration.get_configuration_path() + '/monitors/')
         log.debug('monitor groups: ' + str(monitor_groups))
         for monitor_group in monitor_groups:
-            monitors_file_list = glob.glob(self.__configuration.get_configuration_path() +
+            monitors_file_list = glob.glob(self._configuration.get_configuration_path() +
                                            '/monitors/' + monitor_group + '/*.conf')
 
             log.debug('monitor files: ' + str(monitors_file_list))
@@ -56,17 +56,17 @@ class Monitors:
 
                 # create Monitor() object and copy monitor_configuration for each instance because
                 # they else refer to the same object? copy.deepcopy(monitor_configuration)???
-                self.__monitors[identifier] = Monitor(self.__configuration,
-                                                      self.__environment,
-                                                      identifier,
-                                                      self.__log,
-                                                      monitor_configuration,
-                                                      self.__notifications,
-                                                      self.__services,
-                                                      self.__tasks,
-                                                      kwargs)
+                self._monitors[identifier] = Monitor(self._configuration,
+                                                     self._environment,
+                                                     identifier,
+                                                     self._log,
+                                                     monitor_configuration,
+                                                     self._notifications,
+                                                     self._services,
+                                                     self._tasks,
+                                                     kwargs)
 
                 del kwargs
 
     def get_monitors(self):
-        return self.__monitors
+        return self._monitors

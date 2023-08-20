@@ -14,6 +14,9 @@ def create(configuration, environment, log):
 class CSVTask(Task):
     def __init__(self, configuration, environment, log):
         super().__init__(configuration, environment, log)
-        self.__configuration = configuration
-        self.__environment = environment
-        self.__log = log
+        self._configuration = configuration
+        self._environment = environment
+        self._log = log
+
+    def execute(self):
+        print("Hello from CSV Task...")

@@ -12,15 +12,15 @@ import os
 #  options in the "linspector" section of linspector.conf. maybe log warnings if setting to default?
 class Configuration:
     def __init__(self, configuration_path, log):
-        self.__configuration = configparser.ConfigParser()
-        self.__configuration_path = configuration_path
-        self.__log = log
+        self._configuration = configparser.ConfigParser()
+        self._configuration_path = configuration_path
+        self._log = log
 
         log.info('message=reading configuration configfile=' + configuration_path +
                  '/linspector.conf')
         if os.path.isfile(configuration_path + '/linspector.conf'):
             try:
-                self.__configuration.read(configuration_path + '/linspector.conf', 'utf-8')
+                self._configuration.read(configuration_path + '/linspector.conf', 'utf-8')
             except Exception as err:
                 raise Exception('something went wrong reading the configuration file '
                                 'linspector.conf in the configuration root path! ({0})'.format(err))
@@ -31,8 +31,8 @@ class Configuration:
         # add keys and values defined in sub dirs and configuration ini files.
         for target_section in ['notifications', 'plugins', 'services', 'tasks']:
             # check if section exists before adding content. if not exists add the section.
-            if not self.__configuration.has_section(target_section):
-                self.__configuration.add_section(target_section)
+            if not self._configuration.has_section(target_section):
+                self._configuration.add_section(target_section)
 
             section_list = glob.glob(configuration_path + '/' + target_section + '/*.conf')
             for section_file in section_list:
@@ -42,38 +42,38 @@ class Configuration:
                 for source_section in configuration.sections():
                     source_section_options = configuration.options(source_section)
                     for source_section_option in source_section_options:
-                        self.__configuration.set(target_section, source_section + '_' +
-                                                 source_section_option,
-                                                 configuration.get(source_section,
-                                                                   source_section_option))
+                        self._configuration.set(target_section, source_section + '_' +
+                                                source_section_option,
+                                                configuration.get(source_section,
+                                                                  source_section_option))
 
         # print('configuration dump: ' + self.dump_to_ini())
 
     def dump_to_ini(self):
         dump = ''
         i = 0
-        for section in self.__configuration.sections():
+        for section in self._configuration.sections():
             if i < 1:
                 dump = dump + '[' + section + ']\n'
             else:
                 dump = dump + '\n[' + section + ']\n'
-            options = self.__configuration.options(section)
+            options = self._configuration.options(section)
             for option in options:
-                dump = dump + option + " = " + self.__configuration.get(section, option) + '\n'
+                dump = dump + option + " = " + self._configuration.get(section, option) + '\n'
             i = 1
         return dump
 
     def get_configuration_path(self):
-        return self.__configuration_path
+        return self._configuration_path
 
     def get_option(self, section, option):
-        if self.__configuration.has_option(section, option):
-            return self.__configuration.get(section, option)
+        if self._configuration.has_option(section, option):
+            return self._configuration.get(section, option)
         else:
             return None
 
     # this function should be used with care because it edits the main configuration. maybe it can
     # be used for dynamic runtime configuration later but i need to think about it.
     def set_option(self, section, option, value):
-        if not self.__configuration.has_option(section, option):
-            self.__configuration.set(section, option, value)
+        if not self._configuration.has_option(section, option):
+            self._configuration.set(section, option, value)

@@ -12,14 +12,14 @@ class Environment:
     """
 
     def __init__(self, log):
-        self.__env = {}
-        self.__log = log
+        self._env = {}
+        self._log = log
 
     def get_env_var(self, key):
-        if key in self.__env:
-            return self.__env[key]
+        if key in self._env:
+            return self._env[key]
         else:
-            self.__log.warning('environment var "' + key + '" not found! could be that it is '
+            self._log.warning('environment var "' + key + '" not found! could be that it is '
                                                            'set later at runtime. if you '
                                                            'encounter any errors executing '
                                                            'linspector, something is wrong '
@@ -32,8 +32,8 @@ class Environment:
             return None
 
     def set_env_var(self, key, value):
-        if self.__env[key]:
-            self.__log('warning', __name__, 'environment var "' + key +
+        if self._env[key]:
+            self._log('warning', _name_, 'environment var "' + key +
                        ' existed and was overwritten!')
 
-        self.__env[key] = value
+        self._env[key] = value

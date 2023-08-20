@@ -19,9 +19,9 @@ class HTTPDPlugin(Plugin):
 
     def __init__(self, configuration, environment, linspector, log):
         super().__init__(configuration, environment, linspector, log)
-        self.__configuration = configuration
-        self.__environment = environment
-        self.__linspector = linspector
+        self._configuration = configuration
+        self._environment = environment
+        self._linspector = linspector
 
     @cherrypy.expose
     def index(self):
@@ -30,21 +30,21 @@ class HTTPDPlugin(Plugin):
     @cherrypy.expose
     def configuration(self):
         return '<!DOCTYPE html><html><head><title>[monipy-' + \
-            self.__environment.get_env_var("__version__") + '@' + \
-            self.__environment.get_env_var("_hostname") + '] configuration</title><meta ' + \
+            self._environment.get_env_var("_version_") + '@' + \
+            self._environment.get_env_var("_hostname") + '] configuration</title><meta ' + \
             'http-equiv="refresh" content="60"></head><body><pre ' + \
             'style="border:2px solid black;background:#1d2021;color:#f0751a;">' + \
-            json.dumps(vars(self.__configuration), sort_keys=True, indent=4) + \
+            json.dumps(vars(self._configuration), sort_keys=True, indent=4) + \
             '</pre></body></html>'
 
     @cherrypy.expose
     def environment(self):
         return '<!DOCTYPE html><html><head><title>[monipy-' + \
-            self.__environment.get_env_var("__version__") + '@' + \
-            self.__environment.get_env_var("_hostname") + '] environment</title><meta ' + \
+            self._environment.get_env_var("_version_") + '@' + \
+            self._environment.get_env_var("_hostname") + '] environment</title><meta ' + \
             'http-equiv="refresh" content="60"></head><body><pre ' + \
             'style="border:2px solid black;background:#1d2021;color:#f0751a;">' + \
-            json.dumps(vars(self.__environment), sort_keys=True, indent=4) + \
+            json.dumps(vars(self._environment), sort_keys=True, indent=4) + \
             '</pre></body></html>'
 
     @cherrypy.expose
@@ -81,8 +81,8 @@ class HTTPDPlugin(Plugin):
         # })
         cherrypy.config.update({
             'global': {
-                'server.socket_host': self.__configuration.get_httpserver_host(),
-                'server.socket_port': self.__configuration.get_httpserver_port(),
+                'server.socket_host': self._configuration.get_httpserver_host(),
+                'server.socket_port': self._configuration.get_httpserver_port(),
                 'environment': 'production'
             }
         })

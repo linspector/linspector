@@ -17,10 +17,10 @@ def create(configuration, environment, linspector, log):
 class LishPlugin(Plugin):
     def __init__(self, configuration, environment, linspector, log):
         super().__init__(configuration, environment, linspector, log)
-        self.__configuration = configuration
-        self.__environment = environment
-        self.__linspector = linspector
-        self.__log = log
+        self._configuration = configuration
+        self._environment = environment
+        self._linspector = linspector
+        self._log = log
 
     def run(self):
         return

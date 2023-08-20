@@ -21,4 +21,5 @@ class DummyService(Service):
                        ' host=' + monitor.get_host() +
                        ' service=' + service +
                        ' status=' + 'OK')
-        return True
+
+        return {"status": 'OK', "message": "Hello from Dummy Service."}

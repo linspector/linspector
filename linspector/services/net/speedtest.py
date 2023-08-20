@@ -18,26 +18,26 @@ def create(configuration, environment, log):
 class SpeedtestService(Service):
     def __init__(self, configuration, environment, log):
         super().__init__(configuration, environment, log)
-        self.__configuration = configuration
-        self.__environment = environment
-        self.__log = log
+        self._configuration = configuration
+        self._environment = environment
+        self._log = log
 
-        self.__speedtest_maximum_speed = None
-        self.__speedtest_average_speed = None
-        self.__speedtest_time_elapsed = None
+        self._speedtest_maximum_speed = None
+        self._speedtest_average_speed = None
+        self._speedtest_time_elapsed = None
 
     def execute(self, **kwargs):
         while True:
             tmp_time = time.localtime(calendar.timegm(time.gmtime()))
-            self.__environment.set_env_var('_speedtest_last_run_date',
+            self._environment.set_env_var('_speedtest_last_run_date',
                                            time.strftime('%Y-%m-%d %H:%M:%S',
                                                          tmp_time))
 
-            self.__environment.set_env_var('_speedtest_last_run_timestamp',
+            self._environment.set_env_var('_speedtest_last_run_timestamp',
                                            calendar.timegm(time.gmtime()))
 
             start = time.perf_counter()
-            request = requests.get(self.__configuration.get_speedtest_url(), stream=True)
+            request = requests.get(self._configuration.get_speedtest_url(), stream=True)
             size = int(request.headers.get('Content-Length'))
             downloaded = 0.0
             total_mbps = 0.0
@@ -54,21 +54,21 @@ class SpeedtestService(Service):
                     total_chunks += 1
                     total_mbps += mbps
 
-                self.__speedtest_average_speed = total_mbps / total_chunks
-                self.__environment.set_env_var('_speedtest_average_speed_megabyte_per_second',
-                                               str(round(self.__speedtest_average_speed)))
+                self._speedtest_average_speed = total_mbps / total_chunks
+                self._environment.set_env_var('_speedtest_average_speed_megabyte_per_second',
+                                               str(round(self._speedtest_average_speed)))
 
-                self.__speedtest_maximum_speed = maximum_speed
-                self.__environment.set_env_var('_speedtest_maximum_speed_megabyte_per_second',
-                                               str(round(self.__speedtest_maximum_speed)))
+                self._speedtest_maximum_speed = maximum_speed
+                self._environment.set_env_var('_speedtest_maximum_speed_megabyte_per_second',
+                                               str(round(self._speedtest_maximum_speed)))
 
-                self.__speedtest_time_elapsed = time.perf_counter() - start
-                self.__environment.set_env_var('_speedtest_time_elapsed',
-                                               str(self.__speedtest_time_elapsed))
-                self.__log.info('speedtest average: ' + str(self.__speedtest_average_speed) +
-                                ', max: ' + str(self.__speedtest_maximum_speed) +
-                                ', time: ' + str(self.__speedtest_time_elapsed))
+                self._speedtest_time_elapsed = time.perf_counter() - start
+                self._environment.set_env_var('_speedtest_time_elapsed',
+                                               str(self._speedtest_time_elapsed))
+                self._log.info('speedtest average: ' + str(self._speedtest_average_speed) +
+                                ', max: ' + str(self._speedtest_maximum_speed) +
+                                ', time: ' + str(self._speedtest_time_elapsed))
             else:
-                self.__log.warning('could not calculate download speed!')
+                self._log.warning('could not calculate download speed!')
 
-            time.sleep(self.__configuration.get_speedtest_interval())
+            time.sleep(self._configuration.get_speedtest_interval())

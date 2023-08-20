@@ -27,21 +27,21 @@ def job_execution(log, monitor):
 
 class Linspector:
     def __init__(self, configuration, environment, log, monitors, plugins, scheduler):
-        self.__configuration = configuration
-        self.__environment = environment
-        self.__jobs = []
-        self.__log = log
-        self.__monitors = monitors
-        self.__plugin_list = []
-        self.__plugins = plugins
-        self.__scheduler = scheduler
+        self._configuration = configuration
+        self._environment = environment
+        self._jobs = []
+        self._log = log
+        self._monitors = monitors
+        self._plugin_list = []
+        self._plugins = plugins
+        self._scheduler = scheduler
 
         # load plugins
         log.info('message=loading plugins')
         if configuration.get_option('linspector', 'plugins'):
             plugin_list = configuration.get_option('linspector', 'plugins')
-            self.__plugin_list = plugin_list.split(',')
-            for plugin_option in self.__plugin_list:
+            self._plugin_list = plugin_list.split(',')
+            for plugin_option in self._plugin_list:
                 if plugin_option not in plugins:
                     log.info('loading plugin: ' + plugin_option)
                     plugin_package = 'linspector.plugins.' + plugin_option.lower()
@@ -75,14 +75,14 @@ class Linspector:
             # every scheduler job (monitor) must only exist once.
             'max_instances': 1
         }
-        self.__scheduler['linspector'] = BackgroundScheduler(jobstores=jobstores,
+        self._scheduler['linspector'] = BackgroundScheduler(jobstores=jobstores,
                                                              executors=executors,
                                                              job_defaults=job_defaults,
                                                              timezone=utc)
 
         start_date = datetime.datetime.now()
         log.debug(monitors.get_monitors())
-        monitors = self.__monitors.get_monitors()
+        monitors = self._monitors.get_monitors()
         for monitor in monitors:
             log.debug(monitor)
             if configuration.get_option('linspector', 'delta_range'):
@@ -121,7 +121,7 @@ class Linspector:
                                                             args=[log, monitors.get(monitor)])
 
             monitor_job.set_job(scheduler_job)
-            self.__jobs.append(monitor_job)
+            self._jobs.append(monitor_job)
             log.info('identifier=' + monitor +
                      ' host=' + monitors.get(monitor).get_host() +
                      ' service=' + monitor_job.get_service() +
@@ -130,4 +130,4 @@ class Linspector:
                      ' message=scheduling job')
 
         if configuration.get_option('linspector', 'start_scheduler') == 'true':
-            self.__scheduler['linspector'].start()
+            self._scheduler['linspector'].start()
