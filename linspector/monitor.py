@@ -142,15 +142,12 @@ class Monitor:
             self.__tasks = tasks
 
     def execute(self):
-        self.__log.debug('identifier=' + self.__identifier +
-                         ' object=' + str(self))
-        self.__log.debug('identifier=' + self.__identifier +
-                         ' message=handle call to service')
+        self.__log.debug('identifier=' + self.__identifier + ' object=' + str(self))
+        self.__log.debug('identifier=' + self.__identifier + ' message=handle call to service')
 
         if self.__enabled:
             try:
-                self.__services[self.__service].execute(self.__identifier,
-                                                        self, self.__service,
+                self.__services[self.__service].execute(self.__identifier, self, self.__service,
                                                         **self.__args)
             except Exception as err:
                 self.__log.error(err)
