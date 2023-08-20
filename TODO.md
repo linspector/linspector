@@ -6,6 +6,7 @@
 2. Handle the status of services and produce a new internal status (OK, ERROR, WARNING enough?)
 3. Implement the Task interface and write a task to store output in a database
 4. Implement the Plugin interface and write a plugin to show some data and statistics in a web interface
+5. Add more services, tasks and maybe plugins...
 
 ## Things to do in no particular order:
 
@@ -16,7 +17,6 @@
 - Parent alerting (escalation)
 - Core error alerting to [linspector]->members on internal errors
 - Hostgroup parents (example: if the hostgroup "network" is down, don't alert for the hosts in that network)
-- Add more services
 - Add more tasks e.g. storage in mongodb or mariadb and some more notifications like XMPP and SMS
 - Check for all required configuration options and set defaults in services.
 - Write documentation and inline documentation.
