@@ -1,6 +1,6 @@
 """
 This file is part of Linspector (https://linspector.org/)
-Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
+Copyright (c) 2022-2023 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
 See LICENSE (MIT license).
 """
 from linspector.task import Task
@@ -14,4 +14,4 @@ def create(configuration, environment, log):
 class CSVTask(Task):
 
     def execute(self):
-        print("Hello from CSV Task...")
+        self._log.debug("Hello from CSV Task...")

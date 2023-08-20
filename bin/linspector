@@ -1,7 +1,7 @@
 #!/usr/bin/python3 -d
 """
 This file is part of Linspector (https://linspector.org/)
-Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
+Copyright (c) 2022-2023 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
 See LICENSE (MIT license).
 """
 # TODO: VERY IMPORTANT! IMPLEMENT ERROR HANDLING ALL THE WAY...!!!
@@ -19,7 +19,7 @@ from linspector.environment import Environment
 from linspector.linspector import Linspector
 from linspector.monitors import Monitors
 
-__version__ = '0.23.1'
+__version__ = '0.23.2'
 __author__ = 'Johannes Findeisen <you@hanez.org>'
 
 
@@ -115,7 +115,7 @@ def linspector():
                     task = task_module.create(configuration, environment, log)
                     tasks[task_name] = task
                 else:
-                    log.warning('initialization task: {0} failed! seems it does not exist.'.format(task_name))
+                    log.warning('initialization of task: {0} failed! seems it does not exist.'.format(task_name))
     except Exception as err:
         log.warning('task initialization error: {0}'.format(err))
 

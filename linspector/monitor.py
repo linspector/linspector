@@ -1,6 +1,6 @@
 """
 This file is part of Linspector (https://linspector.org/)
-Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
+Copyright (c) 2022-2023 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
 See LICENSE (MIT license).
 """
 import configparser
@@ -72,11 +72,8 @@ class Monitor:
         RECOVER  when a job recovers e.g. the threshold decrements (not implemented): 2
         ERROR    when a jobs error threshold is overridden: 3
         UNKNOWN  when a job throws an exception which is not handled by the job itself (not
-        implemented) :4
-        self.status = "NONE"
-        self.last_execution = None
+        implemented): 4
         """
-
         try:
             if configuration.get_option('linspector', 'notifications') or \
                     monitor_configuration.get('monitor', 'notifications'):
@@ -124,15 +121,15 @@ class Monitor:
                 self._result = self._services[self._service].execute(self._identifier, self,
                                                                      self._service, **self._args)
 
-                #print(self._tasks)
+                self._log.debug(self._tasks)
                 for task in self._tasks:
                     self._tasks[task].execute()
-                    #print("task: " + task)
-                    #print("identifier: " + self._identifier)
-                    #print("service: " + self._service)
-                    #print("status: " + self._result['status'])
-                    #print("message: " + self._result['message'])
-                    #print("json: " + str(self._result))
+                    self._log.debug("task: " + task)
+                    self._log.debug("identifier: " + self._identifier)
+                    self._log.debug("service: " + self._service)
+                    self._log.debug("status: " + self._result['status'])
+                    self._log.debug("message: " + self._result['message'])
+                    self._log.debug("json: " + str(self._result))
 
             except Exception as err:
                 self._log.error(err)
