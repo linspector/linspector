@@ -28,7 +28,7 @@ class IsConnectedService(Service):
                             ' host=' + monitor.get_host() +
                             ' service=' + service +
                             ' error=' + str(err))
-            return False
+            return {"status": 'ERROR', "message": str(err)}
 
         self._log.info('identifier=' + identifier +
                        ' host=' + monitor.get_host() +
