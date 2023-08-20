@@ -14,6 +14,4 @@ def create(configuration, environment, log):
 class SplunkTask(Task):
     def __init__(self, configuration, environment, log):
         super().__init__(configuration, environment, log)
-        self._configuration = configuration
-        self._environment = environment
-        self._log = log
+        pass

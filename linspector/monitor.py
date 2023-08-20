@@ -63,8 +63,6 @@ class Monitor:
             self._service = 'misc.dummy'
 
         self._services = services
-        self._task = None
-        self._task_list = []  # put tasks for the dedicated job here.
         self._tasks = tasks
 
         """
@@ -117,20 +115,6 @@ class Monitor:
                 service = service_module.create(configuration, environment, log)
                 self._services[monitor_configuration.get('monitor', 'service').lower()] = service
 
-        if self._configuration.get_option('linspector', 'tasks'):
-            self._log.info(self._configuration.get_option('linspector', 'tasks'))
-
-            task_list = self._configuration.get_option('linspector', 'tasks')
-
-            self._task_list = task_list.split(',')
-            self._log.info(self._task_list)
-            for task in self._task_list:
-                if self._task is None:
-                    task_package = 'linspector.tasks.' + task
-                    task_module = importlib.import_module(task_package)
-                    self._task = task_module.create(self._configuration, self._environment,
-                                                    self._log)
-
     def execute(self):
         self._log.debug('identifier=' + self._identifier + ' object=' + str(self))
         self._log.debug('identifier=' + self._identifier + ' message=handle call to service')
@@ -139,15 +123,16 @@ class Monitor:
             try:
                 self._result = self._services[self._service].execute(self._identifier, self,
                                                                      self._service, **self._args)
-                if self._task is not None:
-                    self._task.execute()
 
-                print("task: " + str(self._task))
-                print("identifier: " + self._identifier)
-                print("service: " + self._service)
-                print("status: " + self._result['status'])
-                print("message: " + self._result['message'])
-                print("json: " + str(self._result))
+                #print(self._tasks)
+                for task in self._tasks:
+                    self._tasks[task].execute()
+                    #print("task: " + task)
+                    #print("identifier: " + self._identifier)
+                    #print("service: " + self._service)
+                    #print("status: " + self._result['status'])
+                    #print("message: " + self._result['message'])
+                    #print("json: " + str(self._result))
 
             except Exception as err:
                 self._log.error(err)

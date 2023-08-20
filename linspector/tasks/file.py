@@ -12,8 +12,6 @@ def create(configuration, environment, log):
 
 # TODO: check for all required configuration options and set defaults if needed.
 class FileTask(Task):
-    def __init__(self, configuration, environment, log):
-        super().__init__(configuration, environment, log)
-        self._configuration = configuration
-        self._environment = environment
-        self._log = log
+
+    def execute(self):
+        print("Hello from File Task...")

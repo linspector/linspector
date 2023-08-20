@@ -8,6 +8,7 @@ See LICENSE (MIT license).
 #  Only exit execution on critical core errors. Do not exit when monitors are failing on
 #  configuration and execution, but log these errors.
 import argparse
+import importlib
 import signal
 import sys
 
@@ -18,7 +19,7 @@ from linspector.environment import Environment
 from linspector.linspector import Linspector
 from linspector.monitors import Monitors
 
-__version__ = '0.22.0'
+__version__ = '0.23.0'
 __author__ = 'Johannes Findeisen <you@hanez.org>'
 
 
@@ -100,6 +101,23 @@ def linspector():
                 format=logfile_format, level=logfile_level, retention=int(logfile_count), rotation=logfile_size)
 
     environment = Environment(log)
+
+    try:
+        if configuration.get_option('linspector', 'tasks'):
+            log.info(configuration.get_option('linspector', 'tasks'))
+
+            task_list = configuration.get_option('linspector', 'tasks')
+            task_list = task_list.split(',')
+            for task_name in task_list:
+                task_package = 'linspector.tasks.' + task_name
+                if importlib.util.find_spec(task_package) is not None:
+                    task_module = importlib.import_module(task_package)
+                    task = task_module.create(configuration, environment, log)
+                    tasks[task_name] = task
+                else:
+                    log.warning('initialization task: {0} failed! seems it does not exist.'.format(task_name))
+    except Exception as err:
+        log.warning('task initialization error: {0}'.format(err))
 
     try:
         monitors = Monitors(configuration, environment, log, notifications, services, tasks)
