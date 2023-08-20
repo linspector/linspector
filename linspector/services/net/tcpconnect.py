@@ -12,11 +12,6 @@ def create(configuration, environment, log):
 
 # TODO: check for all required configuration options and set defaults if needed.
 class TCPConnectService(Service):
-    def __init__(self, configuration, environment, log):
-        super().__init__(configuration, environment, log)
-        self.__configuration = configuration
-        self.__environment = environment
-        self.__log = log
 
     def execute(self, **kwargs):
         return

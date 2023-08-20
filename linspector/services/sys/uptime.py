@@ -11,11 +11,6 @@ def get(configuration, environment, log):
 
 
 class UptimeService(Service):
-    def __init__(self, configuration, environment, log):
-        super().__init__(configuration, environment, log)
-        self.__configuration = configuration
-        self.__environment = environment
-        self.__log = log
 
     def execute(self, **kwargs):
         return

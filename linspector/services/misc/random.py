@@ -17,11 +17,6 @@ class RandomService(Service):
     """
     This is a service that produces random data and status results. It is only used for testing.
     """
-    def __init__(self, configuration, environment, log):
-        super().__init__(configuration, environment, log)
-        self.__configuration = configuration
-        self.__environment = environment
-        self.__log = log
 
     def execute(self, identifier, monitor, service, **kwargs):
         status = random.randint(0, 1)
@@ -39,9 +34,9 @@ class RandomService(Service):
         sha512 = hashlib.sha512(str((str(rnd1) + str(rnd2) + str(rnd3) + str(rnd4) +
                                 str(rnd5) + str(rnd6) + str(rnd7) + str(rnd8) + str(sha256))).
                                 encode('utf-8')).hexdigest()
-        self.__log.info('identifier=' + identifier +
-                        ' host=' + monitor.get_host() +
-                        ' service=' + service +
-                        ' status=' + ('OK' if status == 0 else 'ERROR') + ' message=' +
-                        sha512)
+        self._log.info('identifier=' + identifier +
+                       ' host=' + monitor.get_host() +
+                       ' service=' + service +
+                       ' status=' + ('OK' if status == 0 else 'ERROR') + ' message=' +
+                       sha512)
         return True

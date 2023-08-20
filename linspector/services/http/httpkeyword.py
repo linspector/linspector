@@ -12,11 +12,6 @@ def create(configuration, environment, log):
 
 # Get a true or false when a keyword is found in a http request.
 class HTTPKeywordService(Service):
-    def __init__(self, configuration, environment, log):
-        super().__init__(configuration, environment, log)
-        self.__configuration = configuration
-        self.__environment = environment
-        self.__log = log
 
     def execute(self, **kwargs):
         return

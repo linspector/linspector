@@ -14,11 +14,6 @@ def create(configuration, environment, log):
 # let's say all below 4** are no errors and others are an error. Or maybe define ranges, or just
 # maybe the status code that produces an error.
 class HTTPConnectService(Service):
-    def __init__(self, configuration, environment, log):
-        super().__init__(configuration, environment, log)
-        self.__configuration = configuration
-        self.__environment = environment
-        self.__log = log
 
     def execute(self, **kwargs):
         return
