@@ -35,8 +35,11 @@ class IsConnectedService(Service):
                        ' service=' + service +
                        ' status=' + ('OK' if fc.is_connected else 'ERROR'))
 
-        result = {"status": ('OK' if fc.is_connected else 'ERROR'),
+        result = {"host": monitor.get_host(),
+
                   "message": "Uplink on host " + monitor.get_host() + " " +
-                             ('UP' if fc.is_connected else 'DOWN')}
+                             ('UP' if fc.is_connected else 'DOWN'),
+                  "service": service,
+                  "status": ('OK' if fc.is_connected else 'ERROR')}
 
         return result

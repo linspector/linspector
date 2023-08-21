@@ -125,9 +125,11 @@ class Monitor:
 
                 self._log.debug(self._databases)
                 for database in self._databases:
-                    self._databases[database].insert(self._identifier,
+                    self._databases[database].insert(self._result['host'],
+                                                     self._identifier,
                                                      self._result,
                                                      self._result['message'],
+                                                     self._result['service'],
                                                      self._result['status'],
                                                      int(time.time()))
 
