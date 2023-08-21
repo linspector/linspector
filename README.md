@@ -78,7 +78,7 @@ executing scheduled jobs in intervals.
 - [Loguru](https://pypi.org/project/loguru/) - Loguru is a library which aims to bring enjoyable logging in Python. 
 Linspector uses Loguru for all logging stuff. 
 - [urwid](https://pypi.org/project/urwid/) - Urwid is a console user interface library for Python. urwid will 
-become the UI library used for the management TUI of Linspector. CURRENTLY NOT REQUIRED!
+become the UI library used for the management TUI of Linspector. CURRENTLY, NOT REQUIRED!
 
 ### Other used libraries
 
