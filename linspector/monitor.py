@@ -8,10 +8,11 @@ import importlib
 
 
 class Monitor:
-    def __init__(self, configuration, environment, identifier, log, monitor_configuration,
-                 notifications, services, tasks, kwargs):
+    def __init__(self, configuration, databases, environment, identifier, log,
+                 monitor_configuration, notifications, services, tasks, kwargs):
         self._args = kwargs
         self._configuration = configuration
+        self._databases = databases
         self._enabled = True
         self._environment = environment
         self._host = monitor_configuration.get('monitor', 'host')

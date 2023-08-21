@@ -17,8 +17,9 @@ from linspector.monitor import Monitor
 # if a new monitor is added at runtime it needs to be checked manually by running a "reload" command
 # to lish which walks thrue all scheduled jobs and when an unknown monitor is found, schedule it.
 class Monitors:
-    def __init__(self, configuration, environment, log, notifications, services, tasks):
+    def __init__(self, configuration, databases, environment, log, notifications, services, tasks):
         self._configuration = configuration
+        self._databases = databases
         self._environment = environment
         self._log = log
         self._notifications = notifications
@@ -57,6 +58,7 @@ class Monitors:
                 # create Monitor() object and copy monitor_configuration for each instance because
                 # they else refer to the same object? copy.deepcopy(monitor_configuration)???
                 self._monitors[identifier] = Monitor(self._configuration,
+                                                     self._databases,
                                                      self._environment,
                                                      identifier,
                                                      self._log,
