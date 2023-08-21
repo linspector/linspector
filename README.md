@@ -82,7 +82,7 @@ become the UI library used for the management TUI of Linspector. CURRENTLY, NOT 
 
 ### Other used libraries
 
-monitors, notifications, services or plugins sometimes need to make the use of
+databases, monitors, notifications, services or plugins sometimes need to make use of
 3rd party libraries, but they are not required to run Linspector properly. Not installing
 them may only affect parts of Linspector. Currently used libraries are:
 
