@@ -1,1 +1,0 @@
-this file should not raise an error because it does has the .conf suffix. only .conf files should be processed.

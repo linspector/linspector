@@ -5,6 +5,7 @@ See LICENSE (MIT license).
 """
 import configparser
 import importlib
+import time
 
 
 class Monitor:
@@ -121,6 +122,14 @@ class Monitor:
             try:
                 self._result = self._services[self._service].execute(self._identifier, self,
                                                                      self._service, **self._args)
+
+                self._log.debug(self._databases)
+                for database in self._databases:
+                    self._databases[database].insert(self._identifier,
+                                                     self._result,
+                                                     self._result['message'],
+                                                     self._result['status'],
+                                                     int(time.time()))
 
                 self._log.debug(self._tasks)
                 for task in self._tasks:

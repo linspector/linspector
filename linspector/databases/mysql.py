@@ -3,7 +3,6 @@ This file is part of Linspector (https://linspector.org/)
 Copyright (c) 2022-2023 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
 See LICENSE (MIT license).
 """
-#from mysql.connector import connect, Error
 import pymysql.cursors
 
 from linspector.database import Database
@@ -18,24 +17,64 @@ class MySQLDatabase(Database):
     def __init__(self, configuration, environment, log):
         super().__init__(configuration, environment, log)
 
-        try:
-            self._connection = pymysql.connect(host='127.0.0.1',
-                                               user='linspector',
-                                               password='password',
-                                               database='linspector',
-                                               cursorclass=pymysql.cursors.DictCursor)
-            log.debug(self._connection)
-        except Exception as err:
-            log.warning('database connection failed: {0}'.format(err))
+        self._connection = None
 
         try:
-            with self._connection.cursor() as cursor:
-                sql = 'SELECT CURDATE()'
-                cursor.execute(sql)
-                result = cursor.fetchone()
-                log.info(result)
-        except Exception as err:
-            log.warning('database query failed: {0}'.format(err))
+            self._database = None
+            if self._configuration.get_option('databases', 'mysql_database'):
+                self._database = self._configuration.get_option('databases', 'mysql_database')
 
-    def insert(self):
-        pass
+            self._host = None
+            if self._configuration.get_option('databases', 'mysql_host'):
+                self._host = self._configuration.get_option('databases', 'mysql_host')
+
+            self._password = None
+            if self._configuration.get_option('databases', 'mysql_password'):
+                self._password = self._configuration.get_option('databases', 'mysql_password')
+
+            self._user = None
+            if self._configuration.get_option('databases', 'mysql_user'):
+                self._user = self._configuration.get_option('databases', 'mysql_user')
+
+            self._table = None
+            if self._configuration.get_option('databases', 'mysql_table'):
+                self._table = self._configuration.get_option('databases', 'mysql_table')
+
+            self._user = None
+            if self._configuration.get_option('databases', 'mysql_user'):
+                self._user = self._configuration.get_option('databases', 'mysql_user')
+
+        except Exception as err:
+            log.warning('database configuration error: {0}'.format(err))
+
+    def insert(self, identifier, json, message, status, timestamp):
+        try:
+            self._connection = pymysql.connect(cursorclass=pymysql.cursors.DictCursor,
+                                               database=self._database,
+                                               host=self._host,
+                                               password=self._password,
+                                               user=self._user)
+            self._log.debug(self._connection)
+        except Exception as err:
+            self._log.warning('database connection failed: {0}'.format(err))
+
+        try:
+            with (self._connection):
+                with self._connection.cursor() as cursor:
+                    sql = 'INSERT INTO ' + self._table + ' (' \
+                          'identifier, ' \
+                          'json, ' \
+                          'message, ' \
+                          'status, ' \
+                          'timestamp ' \
+                          ') VALUES (\"' + \
+                          str(identifier) + '\",\"' + \
+                          str(json) + '\",\"' + \
+                          str(message) + '\",\"' + \
+                          str(status) + '\",\"' + \
+                          str(timestamp) + '\")'
+                    self._log.debug(sql)
+                    cursor.execute(sql)
+                self._connection.commit()
+        except Exception as err:
+            self._log.warning('database query failed: {0}'.format(err))

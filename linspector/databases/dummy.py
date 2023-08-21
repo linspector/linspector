@@ -12,11 +12,8 @@ def create(configuration, environment, log):
 
 class DummyDBDatabase(Database):
     """
-    This is a dummy database
+    This is a dummy database to make sure all monitor can work even when no database is configured.
     """
-
-    def connect(self):
-        pass
 
     def insert(self):
         pass
