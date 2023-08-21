@@ -7,10 +7,16 @@ from linspector.database import Database
 
 
 def create(configuration, environment, log):
-    return MariaDBDatabase(configuration, environment, log)
+    return DummyDBDatabase(configuration, environment, log)
 
 
-class MariaDBDatabase(Database):
+class DummyDBDatabase(Database):
+    """
+    This is a dummy database
+    """
 
-    def execute(self):
-        self._log.debug("Hello from MariaDB Database...")
+    def connect(self):
+        pass
+
+    def insert(self):
+        pass

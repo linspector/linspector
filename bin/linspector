@@ -19,7 +19,7 @@ from linspector.environment import Environment
 from linspector.linspector import Linspector
 from linspector.monitors import Monitors
 
-__version__ = '0.24.0'
+__version__ = '0.24.1'
 __author__ = 'Johannes Findeisen <you@hanez.org>'
 
 
@@ -105,7 +105,7 @@ def linspector():
 
     try:
         if configuration.get_option('linspector', 'databases'):
-            log.info('Loading databases: ' + configuration.get_option('linspector', 'databases'))
+            log.info('loading databases: ' + configuration.get_option('linspector', 'databases'))
             database_list = configuration.get_option('linspector', 'databases')
             database_list = database_list.split(',')
             for database_name in database_list:
