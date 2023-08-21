@@ -96,6 +96,8 @@ the AVM Fritz!Box. Uses the TR-064 protocol over UPnP. Used by the FritzboxPhone
 FritzBoxUplink service.
 - [Paramiko](https://www.paramiko.org/) - Paramiko is a pure-Python (2.7, 3.4+) implementation
 of the SSHv2 protocol, providing both client and server functionality. Used by the SSH service.
+- [PyMySQL](https://pypi.org/project/pymysql/) - This package contains a pure-Python MySQL client library, 
+based on PEP 249. Used by the MySQL connection module.
 - [python-gammu](https://wammu.eu/python-gammu/) - Python bindings for the Gammu library. Used by the
 SMS notification.
 - [PySNMP](https://pysnmp.readthedocs.io/en/latest/) - PySNMP is a cross-platform, pure-Python
