@@ -13,8 +13,9 @@ def create(configuration, environment, log):
 
 class DummyDBDatabase(Database):
     """
-    This is a dummy database to make sure all monitor can work even when no database is configured.
+    This is a dummy database module to make sure all monitors can work without errors even when no
+    database is configured. It should always be loaded or only if no other database is selected.
     """
 
-    def insert(self):
+    def insert(self, host, identifier, json, message, service, status, timestamp):
         pass
