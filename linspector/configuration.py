@@ -9,8 +9,6 @@ import glob
 import os
 
 
-# TODO: check for all required configuration options and set defaults if needed. do this only for
-#  options in the "linspector" section of linspector.conf. maybe log warnings if setting to default?
 class Configuration:
     def __init__(self, configuration_path, log):
         self._configuration = configparser.ConfigParser()
