@@ -12,7 +12,6 @@ import time
 from apscheduler.executors.pool import ThreadPoolExecutor, ProcessPoolExecutor
 from apscheduler.jobstores.memory import MemoryJobStore
 from apscheduler.schedulers.background import BackgroundScheduler
-from pytz import utc
 
 
 def job_execution(log, monitor):
