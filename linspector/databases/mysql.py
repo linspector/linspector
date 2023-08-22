@@ -76,7 +76,7 @@ class MySQLDatabase(Database):
                           str((json if json else "None")) + '\",\"' + \
                           str((message if message else "None")) + '\",\"' + \
                           str((service if service else "None")) + '\",\"' + \
-                          str((status if status else "None")) + '\",\"' + \
+                          str((status if status else "Unknown")) + '\",\"' + \
                           str(timestamp) + '\")'
                     self._log.debug(sql)
                     cursor.execute(sql)
