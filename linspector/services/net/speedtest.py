@@ -1,8 +1,9 @@
 """
 This file is part of Linspector (https://linspector.org/)
-Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
-See LICENSE (MIT license).
+Copyright (c) 2013-2023 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
+See LICENSE.
 """
+
 import calendar
 import time
 
@@ -30,11 +31,11 @@ class SpeedtestService(Service):
         while True:
             tmp_time = time.localtime(calendar.timegm(time.gmtime()))
             self._environment.set_env_var('_speedtest_last_run_date',
-                                           time.strftime('%Y-%m-%d %H:%M:%S',
-                                                         tmp_time))
+                                          time.strftime('%Y-%m-%d %H:%M:%S',
+                                                        tmp_time))
 
             self._environment.set_env_var('_speedtest_last_run_timestamp',
-                                           calendar.timegm(time.gmtime()))
+                                          calendar.timegm(time.gmtime()))
 
             start = time.perf_counter()
             request = requests.get(self._configuration.get_speedtest_url(), stream=True)
@@ -56,18 +57,18 @@ class SpeedtestService(Service):
 
                 self._speedtest_average_speed = total_mbps / total_chunks
                 self._environment.set_env_var('_speedtest_average_speed_megabyte_per_second',
-                                               str(round(self._speedtest_average_speed)))
+                                              str(round(self._speedtest_average_speed)))
 
                 self._speedtest_maximum_speed = maximum_speed
                 self._environment.set_env_var('_speedtest_maximum_speed_megabyte_per_second',
-                                               str(round(self._speedtest_maximum_speed)))
+                                              str(round(self._speedtest_maximum_speed)))
 
                 self._speedtest_time_elapsed = time.perf_counter() - start
                 self._environment.set_env_var('_speedtest_time_elapsed',
-                                               str(self._speedtest_time_elapsed))
+                                              str(self._speedtest_time_elapsed))
                 self._log.info('speedtest average: ' + str(self._speedtest_average_speed) +
-                                ', max: ' + str(self._speedtest_maximum_speed) +
-                                ', time: ' + str(self._speedtest_time_elapsed))
+                               ', max: ' + str(self._speedtest_maximum_speed) +
+                               ', time: ' + str(self._speedtest_time_elapsed))
             else:
                 self._log.warning('could not calculate download speed!')
 

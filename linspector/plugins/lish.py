@@ -1,8 +1,9 @@
 """
 This file is part of Linspector (https://linspector.org/)
-Copyright (c) 2022 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
-See LICENSE (MIT license).
+Copyright (c) 2013-2023 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
+See LICENSE.
 """
+
 # TODO: This plugin should become the internal Lish implemented as a plugin which does not use the
 #  API plugin but loads at the end when starting Linspector in interactive mode as a terminal like
 #  interface to the core of Linspector.
