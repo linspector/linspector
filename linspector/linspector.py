@@ -76,9 +76,9 @@ class Linspector:
             'max_instances': 1
         }
         self._scheduler['linspector'] = BackgroundScheduler(jobstores=jobstores,
-                                                             executors=executors,
-                                                             job_defaults=job_defaults,
-                                                             timezone=utc)
+                                                            executors=executors,
+                                                            job_defaults=job_defaults,
+                                                            timezone=utc)
 
         start_date = datetime.datetime.now()
         log.debug(monitors.get_monitors())
