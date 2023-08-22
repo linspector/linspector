@@ -78,6 +78,7 @@ class Monitor:
         implemented): 4
         """
         try:
+            notification_list = None
             if configuration.get_option('linspector', 'notifications') or \
                     monitor_configuration.get('monitor', 'notifications'):
 
@@ -91,10 +92,8 @@ class Monitor:
                     notification_list = configuration.get_option('linspector', 'notifications')
                 elif monitor_configuration.get('monitor', 'notifications'):
                     notification_list = monitor_configuration.get('monitor', 'notifications')
-                else:
-                    notification_list = None
 
-                self._notification_list = notification_list.split(',')
+            self._notification_list = notification_list.split(',')
 
             for notification_option in notification_list.split(','):
                 if notification_option not in notifications:
@@ -180,5 +179,5 @@ class Monitor:
     def set_job(self, scheduler_job):
         self._scheduler_job = scheduler_job
 
-    def _str_(self):
-        return str(self._dict_)
+    def __str__(self):
+        return str(self.__dict__)

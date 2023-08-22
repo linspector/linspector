@@ -7,6 +7,7 @@ See LICENSE.
 import datetime
 import importlib
 import random
+import time
 
 from apscheduler.executors.pool import ThreadPoolExecutor, ProcessPoolExecutor
 from apscheduler.jobstores.memory import MemoryJobStore
@@ -76,13 +77,10 @@ class Linspector:
             'max_instances': 1
         }
 
-        if configuration.get_option('linspector', 'timezone'):
-            timezone = configuration.get_option('linspector', 'timezone')
-
         self._scheduler['linspector'] = BackgroundScheduler(jobstores=jobstores,
                                                             executors=executors,
                                                             job_defaults=job_defaults,
-                                                            timezone=timezone)
+                                                            timezone=time.tzname[0])
 
         start_date = datetime.datetime.now()
         log.debug(monitors.get_monitors())
@@ -111,7 +109,8 @@ class Linspector:
                                                                                       'timezone')
             else:
                 # set to local system timezone as default
-                timezone = datetime.datetime.now(datetime.timezone.utc).astimezone().tzname()
+                #timezone = datetime.datetime.now(datetime.timezone.utc).astimezone().tzname()
+                timezone = time.tzname[0]
 
             # add cron and one time run jobs to Linspector. not only "interval" jobs should be
             # supported.
