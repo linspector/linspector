@@ -75,10 +75,14 @@ class Linspector:
             # every scheduler job (monitor) must only exist once.
             'max_instances': 1
         }
+
+        if configuration.get_option('linspector', 'timezone'):
+            timezone = configuration.get_option('linspector', 'timezone')
+
         self._scheduler['linspector'] = BackgroundScheduler(jobstores=jobstores,
                                                             executors=executors,
                                                             job_defaults=job_defaults,
-                                                            timezone=utc)
+                                                            timezone=timezone)
 
         start_date = datetime.datetime.now()
         log.debug(monitors.get_monitors())
@@ -116,6 +120,9 @@ class Linspector:
                                                             start_date=new_start_date,
                                                             seconds=interval,
                                                             timezone=timezone,
+                                                            id=monitor + '/' +
+                                                            monitor_job.get_service() + '@' +
+                                                            monitors.get(monitor).get_host(),
                                                             args=[log, monitors.get(monitor)])
 
             monitor_job.set_job(scheduler_job)
