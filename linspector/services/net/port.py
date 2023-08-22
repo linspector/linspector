@@ -15,21 +15,28 @@ def create(configuration, environment, log):
 
 class PortService(Service):
 
-    def execute(self, execution, **kwargs):
-
-        error_code = 0
-        msg = "Connection successful established"
+    def execute(self, identifier, monitor, service, **kwargs):
 
         try:
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        except socket.error as err:
-            error_code = 2
-            msg = "Could not create socket"
+            sock.connect((monitor.get_host(), int(kwargs['port'])))
+            sock.close()
 
-        try:
-            sock.connect((execution.get_host_name(), self.port))
-        except socket.error as err:
-            error_code = 1
-            msg = "Could not establish connection"
+            self._log.info('Connection to host ' + monitor.get_host() + ' on port ' +
+                           kwargs['port'] + ' successful')
 
-        sock.close()
+            return {'status': 'OK',
+                    'message': 'Connection to host ' + monitor.get_host() + ' on port ' +
+                               kwargs['port'] + ' successful', 'host': monitor.get_host(),
+                    'service': service}
+
+        except Exception as err:
+            self._log.info('Connection to host ' + monitor.get_host() + ' on port ' +
+                           kwargs['port'] + ' failed (' + str(err))
+
+            return {'status': 'ERROR',
+                    'message': 'Connection to host ' + monitor.get_host() + ' on port ' +
+                               kwargs['port'] + ' failed (' + str(err) +
+                               ')', 'host': monitor.get_host(),
+                    'service': service}
+
