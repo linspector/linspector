@@ -21,22 +21,15 @@ class PortService(Service):
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             sock.connect((monitor.get_host(), int(kwargs['port'])))
             sock.close()
-
-            self._log.info('Connection to host ' + monitor.get_host() + ' on port ' +
-                           kwargs['port'] + ' successful')
-
-            return {'status': 'OK',
-                    'message': 'Connection to host ' + monitor.get_host() + ' on port ' +
-                               kwargs['port'] + ' successful', 'host': monitor.get_host(),
-                    'service': service}
+            error = 'None'
+            status = 'OK'
 
         except Exception as err:
-            self._log.info('Connection to host ' + monitor.get_host() + ' on port ' +
-                           kwargs['port'] + ' failed (' + str(err))
+            error = str(err)
+            status = 'ERROR'
 
-            return {'status': 'ERROR',
-                    'message': 'Connection to host ' + monitor.get_host() + ' on port ' +
-                               kwargs['port'] + ' failed (' + str(err) +
-                               ')', 'host': monitor.get_host(),
-                    'service': service}
-
+        return {'error': error,
+                'host': monitor.get_host(),
+                'message': self.get_str(identifier, monitor.get_host(), service, status),
+                'service': service,
+                'status': status}

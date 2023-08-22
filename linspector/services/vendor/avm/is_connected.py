@@ -17,29 +17,22 @@ class IsConnectedService(Service):
 
     def execute(self, identifier, monitor, service, **kwargs):
 
-        self._log.debug('identifier=' + identifier +
-                        ' service=' + service +
-                        ' object=' + str(self) +
-                        ' kwargs=' + str(kwargs))
         try:
             fc = FritzStatus(address=monitor.get_host(),
                              password=kwargs['password'])
+            error = 'None'
+            if fc.is_connected:
+                status = 'OK'
+            else:
+                status = 'ERROR'
         except Exception as err:
-            self._log.error('identifier=' + identifier +
-                            ' host=' + monitor.get_host() +
-                            ' service=' + service +
-                            ' error=' + str(err))
-            return {"status": 'ERROR', "message": str(err)}
+            error = str(err)
+            status = 'ERROR'
 
-        self._log.info('identifier=' + identifier +
-                       ' host=' + monitor.get_host() +
-                       ' service=' + service +
-                       ' status=' + ('OK' if fc.is_connected else 'ERROR'))
-
-        result = {"host": monitor.get_host(),
-                  "message": "Uplink on host " + monitor.get_host() + " " +
-                             ('UP' if fc.is_connected else 'DOWN'),
-                  "service": service,
-                  "status": ('OK' if fc.is_connected else 'ERROR')}
+        result = {'error': error,
+                  'host': monitor.get_host(),
+                  'message': self.get_str(identifier, monitor.get_host(), service, status),
+                  'service': service,
+                  'status': status}
 
         return result

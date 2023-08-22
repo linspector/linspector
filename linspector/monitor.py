@@ -122,7 +122,7 @@ class Monitor:
             try:
                 self._result = self._services[self._service].execute(self._identifier, self,
                                                                      self._service, **self._args)
-
+                self._log.debug(self._result)
                 self._log.debug(self._databases)
                 for database in self._databases:
                     self._databases[database].insert(self._result['host'],
@@ -132,6 +132,7 @@ class Monitor:
                                                      self._result['service'],
                                                      self._result['status'],
                                                      int(time.time()))
+                    self._log.info(self._result['message'])
 
                 self._log.debug(self._tasks)
                 for task in self._tasks:
