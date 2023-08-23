@@ -37,8 +37,8 @@ class Linspector:
         self._scheduler = scheduler
 
         # load plugins
-        log.info('message=loading plugins')
         if configuration.get_option('linspector', 'plugins'):
+            log.info('loading plugins: ' + configuration.get_option('linspector', 'plugins'))
             plugin_list = configuration.get_option('linspector', 'plugins')
             self._plugin_list = plugin_list.split(',')
             for plugin_option in self._plugin_list:
