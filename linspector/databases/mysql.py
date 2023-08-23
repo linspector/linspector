@@ -71,12 +71,12 @@ class MySQLDatabase(Database):
                           'status, ' \
                           'timestamp ' \
                           ') VALUES (\"' + \
-                          str((host if host else "None")) + '\",\"' + \
-                          str((identifier if identifier else "None")) + '\",\"' + \
-                          str((json if json else "None")) + '\",\"' + \
-                          str((message if message else "None")) + '\",\"' + \
-                          str((service if service else "None")) + '\",\"' + \
-                          str((status if status else "Unknown")) + '\",\"' + \
+                          str((host if host else 'None')) + '\",\"' + \
+                          str((identifier if identifier else 'None')) + '\",\"' + \
+                          str((json if json else 'None')) + '\",\"' + \
+                          str((message if message else 'None')) + '\",\"' + \
+                          str((service if service else 'None')) + '\",\"' + \
+                          str((status if status else 'UNKNOWN')) + '\",\"' + \
                           str(timestamp) + '\")'
                     self._log.debug(sql)
                     cursor.execute(sql)
