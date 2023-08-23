@@ -41,13 +41,17 @@ class Linspector:
             log.info('loading plugins: ' + configuration.get_option('linspector', 'plugins'))
             plugin_list = configuration.get_option('linspector', 'plugins')
             self._plugin_list = plugin_list.split(',')
-            for plugin_option in self._plugin_list:
-                if plugin_option not in plugins:
-                    log.info('loading plugin: ' + plugin_option)
-                    plugin_package = 'linspector.plugins.' + plugin_option.lower()
-                    plugin_module = importlib.import_module(plugin_package)
-                    plugin = plugin_module.create(configuration, environment, log, self)
-                    plugins[plugin_option.lower()] = plugin
+            for plugin_name in self._plugin_list:
+                if plugin_name not in plugins:
+                    log.info('loading plugin: ' + plugin_name)
+                    plugin_package = 'linspector.plugins.' + plugin_name.lower()
+                    if importlib.util.find_spec(plugin_package) is not None:
+                        plugin_module = importlib.import_module(plugin_package)
+                        plugin = plugin_module.create(configuration, environment, log, self)
+                        plugins[plugin_name.lower()] = plugin
+                    else:
+                        log.warning('initialization of plugin: {0} failed! seems it does not '
+                                    'exist.'.format(plugin_name))
 
         jobstores = {
             'memory': MemoryJobStore()
