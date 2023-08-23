@@ -31,7 +31,7 @@ class IsConnectedService(Service):
 
         result = {'error': error,
                   'host': monitor.get_host(),
-                  'message': self.get_str(identifier, monitor.get_host(), service, status),
+                  'log': self.get_str(identifier, monitor.get_host(), service, status),
                   'service': service,
                   'status': status}
 

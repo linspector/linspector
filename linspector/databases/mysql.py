@@ -48,7 +48,7 @@ class MySQLDatabase(Database):
         except Exception as err:
             log.warning('database configuration error: {0}'.format(err))
 
-    def insert(self, host, identifier, json, message, service, status, timestamp):
+    def insert(self, host, identifier, json, log, service, status, timestamp):
         try:
             self._connection = pymysql.connect(cursorclass=pymysql.cursors.DictCursor,
                                                database=self._database,
@@ -66,7 +66,7 @@ class MySQLDatabase(Database):
                           'host, ' \
                           'identifier, ' \
                           'json, ' \
-                          'message, ' \
+                          'log, ' \
                           'service, ' \
                           'status, ' \
                           'timestamp ' \
@@ -74,7 +74,7 @@ class MySQLDatabase(Database):
                           str((host if host else 'None')) + '\",\"' + \
                           str((identifier if identifier else 'None')) + '\",\"' + \
                           str((json if json else 'None')) + '\",\"' + \
-                          str((message if message else 'None')) + '\",\"' + \
+                          str((log if log else 'None')) + '\",\"' + \
                           str((service if service else 'None')) + '\",\"' + \
                           str((status if status else 'UNKNOWN')) + '\",\"' + \
                           str(timestamp) + '\")'

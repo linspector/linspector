@@ -128,11 +128,11 @@ class Monitor:
                     self._databases[database].insert(self._result['host'],
                                                      self._identifier,
                                                      self._result,
-                                                     self._result['message'],
+                                                     self._result['log'],
                                                      self._result['service'],
                                                      self._result['status'],
                                                      int(time.time()))
-                    self._log.info(self._result['message'])
+                    self._log.info(self._result['log'])
 
                 self._log.debug(self._tasks)
                 for task in self._tasks:
@@ -141,7 +141,7 @@ class Monitor:
                     self._log.debug("identifier: " + self._identifier)
                     self._log.debug("service: " + self._service)
                     self._log.debug("status: " + self._result['status'])
-                    self._log.debug("message: " + self._result['message'])
+                    self._log.debug("log: " + self._result['log'])
                     self._log.debug("json: " + str(self._result))
 
             except Exception as err:
