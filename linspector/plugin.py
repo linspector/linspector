@@ -4,6 +4,7 @@ Copyright (c) 2013-2023 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
 See LICENSE.
 """
 
+
 class Plugin:
     def __init__(self, configuration, environment, linspector, log):
         self._configuration = configuration

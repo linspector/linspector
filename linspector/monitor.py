@@ -72,10 +72,9 @@ class Monitor:
         NONE     job was not executed: -1
         OK       when everything is fine: 0
         WARNING  when a job has errors but the threshold is not overridden: 1
-        RECOVER  when a job recovers e.g. the threshold decrements (not implemented): 2
+        RECOVER  when a job recovers e.g. the error count decrements: 2
         ERROR    when a jobs error threshold is overridden: 3
-        UNKNOWN  when a job throws an exception which is not handled by the job itself (not
-        implemented): 4
+        UNKNOWN  when a job throws an exception which is not handled by the job itself: 4
         """
         try:
             notification_list = None
