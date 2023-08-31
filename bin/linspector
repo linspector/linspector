@@ -20,7 +20,7 @@ from linspector.environment import Environment
 from linspector.linspector import Linspector
 from linspector.monitors import Monitors
 
-__version__ = '0.25.9'
+__version__ = '0.26.0'
 __author__ = 'Johannes Findeisen <you@hanez.org>'
 
 
@@ -49,7 +49,6 @@ def parse_args():
 
 def linspector():
     args = parse_args()
-    databases = {}
     monitors = {}
     notifications = {}
     plugins = {}
@@ -105,23 +104,6 @@ def linspector():
     environment = Environment(log)
 
     try:
-        if configuration.get_option('linspector', 'databases'):
-            log.info('loading databases: ' + configuration.get_option('linspector', 'databases'))
-            database_list = configuration.get_option('linspector', 'databases')
-            database_list = database_list.split(',')
-            for database_name in database_list:
-                database_package = 'linspector.databases.' + database_name
-                if importlib.util.find_spec(database_package) is not None:
-                    database_module = importlib.import_module(database_package)
-                    database_object = database_module.create(configuration, environment, log)
-                    databases[database_name] = database_object
-                else:
-                    log.warning('initialization of database: {0} failed! seems it does not exist.'.
-                                format(database_name))
-    except Exception as err:
-        log.warning('database initialization error: {0}'.format(err))
-
-    try:
         if configuration.get_option('linspector', 'tasks'):
             log.info('Loading tasks: ' + configuration.get_option('linspector', 'tasks'))
             task_list = configuration.get_option('linspector', 'tasks')
@@ -138,7 +120,7 @@ def linspector():
         log.warning('task initialization error: {0}'.format(err))
 
     try:
-        monitors = Monitors(configuration, databases, environment, log, notifications, services, tasks)
+        monitors = Monitors(configuration, environment, log, notifications, services, tasks)
     except Exception as err:
         log.warning('monitor initialization error: {0}'.format(err))
 

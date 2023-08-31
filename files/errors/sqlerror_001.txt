@@ -1,0 +1,39 @@
+[2023-08-29 14:55:06.350038 +0200] [0:46:32.576412] [INFO] [linspector]: identifier=remote1.port25 host=a.xw3.org service=net.port status=OK
+[2023-08-29 14:55:13.571002 +0200] [0:46:39.797376] [INFO] [linspector]: identifier=remote1.port995 host=a.xw3.org service=net.port status=OK
+[2023-08-29 14:55:14.394669 +0200] [0:46:40.621043] [INFO] [linspector]: identifier=remote1.port110 host=a.xw3.org service=net.port status=OK
+[2023-08-29 14:55:20.288968 +0200] [0:46:46.515342] [INFO] [linspector]: identifier=remote1.port22 host=a.xw3.org service=net.port status=OK
+Unable to get a connection: HTTPConnectionPool(host='192.168.23.1', port=49000): Max retries exceeded with url: /igddesc.xml (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f705d93dd90>: Failed to establish a new connection: [Errno 111] Connection refused'))
+[2023-08-29 14:55:24.912093 +0200] [0:46:51.138467] [WARNING] [linspector]: database query failed: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Unable to get a connection: HTTPConnectionPool(host='192.168.23.1', port=4900...' at line 1")
+[2023-08-29 14:55:24.912280 +0200] [0:46:51.138654] [INFO] [linspector]: identifier=network1.gateway_cable host=192.168.23.1 service=vendor.avm.is_connected status=ERROR
+[2023-08-29 14:55:28.801723 +0200] [0:46:55.028097] [INFO] [linspector]: identifier=remote1.port33 host=a.xw3.org service=net.port status=ERROR
+[2023-08-29 14:55:35.183450 +0200] [0:47:01.409824] [INFO] [linspector]: identifier=remote1.port80 host=a.xw3.org service=net.port status=OK
+[2023-08-29 14:55:38.292476 +0200] [0:47:04.518850] [INFO] [linspector]: identifier=remote1.port143 host=a.xw3.org service=net.port status=OK
+[2023-08-29 14:55:41.825874 +0200] [0:47:08.052248] [INFO] [linspector]: identifier=network2.gateway_dsl host=192.168.178.1 service=vendor.avm.is_connected status=OK
+[2023-08-29 14:55:44.313316 +0200] [0:47:10.539690] [INFO] [linspector]: identifier=remote1.port993 host=a.xw3.org service=net.port status=OK
+[2023-08-29 14:55:46.462124 +0200] [0:47:12.688498] [INFO] [linspector]: identifier=remote1.port465 host=a.xw3.org service=net.port status=OK
+[2023-08-29 14:55:49.422034 +0200] [0:47:15.648408] [INFO] [linspector]: identifier=remote1.port587 host=a.xw3.org service=net.port status=OK
+[2023-08-29 14:55:55.033569 +0200] [0:47:21.259943] [INFO] [linspector]: identifier=remote1.port443 host=a.xw3.org service=net.port status=OK
+[2023-08-29 14:55:57.316656 +0200] [0:47:23.543030] [INFO] [linspector]: identifier=remote1.port873 host=a.xw3.org service=net.port status=OK
+[2023-08-29 14:56:06.352516 +0200] [0:47:32.578890] [INFO] [linspector]: identifier=remote1.port25 host=a.xw3.org service=net.port status=OK
+[2023-08-29 14:56:13.568718 +0200] [0:47:39.795092] [INFO] [linspector]: identifier=remote1.port995 host=a.xw3.org service=net.port status=OK
+[2023-08-29 14:56:14.387458 +0200] [0:47:40.613832] [INFO] [linspector]: identifier=remote1.port110 host=a.xw3.org service=net.port status=OK
+[2023-08-29 14:56:20.287002 +0200] [0:47:46.513376] [INFO] [linspector]: identifier=remote1.port22 host=a.xw3.org service=net.port status=OK
+Unable to get a connection: HTTPConnectionPool(host='192.168.23.1', port=49000): Max retries exceeded with url: /igddesc.xml (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7f705daecd50>: Failed to establish a new connection: [Errno 101] Network is unreachable'))
+[2023-08-29 14:56:24.915253 +0200] [0:47:51.141627] [WARNING] [linspector]: database query failed: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'Unable to get a connection: HTTPConnectionPool(host='192.168.23.1', port=4900...' at line 1")
+[2023-08-29 14:56:24.915418 +0200] [0:47:51.141792] [INFO] [linspector]: identifier=network1.gateway_cable host=192.168.23.1 service=vendor.avm.is_connected status=ERROR
+[2023-08-29 14:56:28.804286 +0200] [0:47:55.030660] [INFO] [linspector]: identifier=remote1.port33 host=a.xw3.org service=net.port status=ERROR
+[2023-08-29 14:56:35.180972 +0200] [0:48:01.407346] [INFO] [linspector]: identifier=remote1.port80 host=a.xw3.org service=net.port status=OK
+[2023-08-29 14:56:38.293637 +0200] [0:48:04.520011] [INFO] [linspector]: identifier=remote1.port143 host=a.xw3.org service=net.port status=OK
+[2023-08-29 14:56:41.817739 +0200] [0:48:08.044113] [INFO] [linspector]: identifier=network2.gateway_dsl host=192.168.178.1 service=vendor.avm.is_connected status=OK
+[2023-08-29 14:56:44.311963 +0200] [0:48:10.538337] [INFO] [linspector]: identifier=remote1.port993 host=a.xw3.org service=net.port status=OK
+[2023-08-29 14:56:46.462092 +0200] [0:48:12.688466] [INFO] [linspector]: identifier=remote1.port465 host=a.xw3.org service=net.port status=OK
+[2023-08-29 14:56:49.423510 +0200] [0:48:15.649884] [INFO] [linspector]: identifier=remote1.port587 host=a.xw3.org service=net.port status=OK
+[2023-08-29 14:56:55.034231 +0200] [0:48:21.260605] [INFO] [linspector]: identifier=remote1.port443 host=a.xw3.org service=net.port status=OK
+[2023-08-29 14:56:57.320436 +0200] [0:48:23.546810] [INFO] [linspector]: identifier=remote1.port873 host=a.xw3.org service=net.port status=OK
+[2023-08-29 14:57:06.350833 +0200] [0:48:32.577207] [INFO] [linspector]: identifier=remote1.port25 host=a.xw3.org service=net.port status=OK
+[2023-08-29 14:57:13.569244 +0200] [0:48:39.795618] [INFO] [linspector]: identifier=remote1.port995 host=a.xw3.org service=net.port status=OK
+[2023-08-29 14:57:14.386164 +0200] [0:48:40.612538] [INFO] [linspector]: identifier=remote1.port110 host=a.xw3.org service=net.port status=OK
+[2023-08-29 14:57:20.286991 +0200] [0:48:46.513365] [INFO] [linspector]: identifier=remote1.port22 host=a.xw3.org service=net.port status=OK
+[2023-08-29 14:57:24.963430 +0200] [0:48:51.189804] [WARNING] [linspector]: database query failed: (1064, 'You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near \'Allow access for applications".\\n\', \'host\': \'192.168.23.1\', \'log\': \'identifie...\' at line 1')
+[2023-08-29 14:57:24.963601 +0200] [0:48:51.189975] [INFO] [linspector]: identifier=network1.gateway_cable host=192.168.23.1 service=vendor.avm.is_connected status=ERROR
+[2023-08-29 14:57:28.801155 +0200] [0:48:55.027529] [INFO] [linspector]: identifier=remote1.port33 host=a.xw3.org service=net.port status=ERROR

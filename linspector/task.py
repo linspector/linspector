@@ -4,6 +4,7 @@ Copyright (c) 2013-2023 Johannes Findeisen <you@hanez.org>. All Rights Reserved.
 See LICENSE.
 """
 
+
 class Task:
     def __init__(self, configuration, environment, log, **kwargs):
         self._args = {}

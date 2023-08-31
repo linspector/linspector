@@ -10,11 +10,10 @@ import time
 
 
 class Monitor:
-    def __init__(self, configuration, databases, environment, identifier, log,
-                 monitor_configuration, notifications, services, tasks, kwargs):
+    def __init__(self, configuration, environment, identifier, log, monitor_configuration,
+                 notifications, services, tasks, kwargs):
         self._args = kwargs
         self._configuration = configuration
-        self._databases = databases
         self._enabled = True
         self._environment = environment
         self._host = monitor_configuration.get('monitor', 'host')
@@ -122,26 +121,16 @@ class Monitor:
                 self._result = self._services[self._service].execute(self._identifier, self,
                                                                      self._service, **self._args)
                 self._log.debug(self._result)
-                self._log.debug(self._databases)
-                for database in self._databases:
-                    self._databases[database].insert(self._result['host'],
-                                                     self._identifier,
-                                                     self._result,
-                                                     self._result['log'],
-                                                     self._result['service'],
-                                                     self._result['status'],
-                                                     int(time.time()))
-                    self._log.info(self._result['log'])
-
                 self._log.debug(self._tasks)
                 for task in self._tasks:
-                    self._tasks[task].execute()
-                    self._log.debug("task: " + task)
-                    self._log.debug("identifier: " + self._identifier)
-                    self._log.debug("service: " + self._service)
-                    self._log.debug("status: " + self._result['status'])
-                    self._log.debug("log: " + self._result['log'])
-                    self._log.debug("json: " + str(self._result))
+                    self._tasks[task].execute(self._result['host'],
+                                              self._identifier,
+                                              self._result,
+                                              self._result['log'],
+                                              self._result['service'],
+                                              self._result['status'],
+                                              int(time.time()))
+                self._log.info(self._result['log'])
 
             except Exception as err:
                 self._log.error(err)
