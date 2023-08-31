@@ -1,3 +1,7 @@
+# This error is fixed by replacing "'" with "" in the error message of FritzStatus
+# in the vendor.avm.is_connected service. It breaks the SQL statement when there
+# is a "'" in the generated SQL string.
+
 [2023-08-29 14:55:06.350038 +0200] [0:46:32.576412] [INFO] [linspector]: identifier=remote1.port25 host=a.xw3.org service=net.port status=OK
 [2023-08-29 14:55:13.571002 +0200] [0:46:39.797376] [INFO] [linspector]: identifier=remote1.port995 host=a.xw3.org service=net.port status=OK
 [2023-08-29 14:55:14.394669 +0200] [0:46:40.621043] [INFO] [linspector]: identifier=remote1.port110 host=a.xw3.org service=net.port status=OK

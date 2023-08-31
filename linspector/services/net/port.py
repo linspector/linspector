@@ -28,7 +28,7 @@ class PortService(Service):
             error = str(err)
             status = 'ERROR'
 
-        return {'error': error,
+        return {'error': error.replace('\'', ''),
                 'host': monitor.get_host(),
                 'log': self.get_str(identifier, monitor.get_host(), service, status),
                 'service': service,

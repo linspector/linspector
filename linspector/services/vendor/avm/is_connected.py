@@ -19,7 +19,9 @@ class IsConnectedService(Service):
 
         try:
             fc = FritzStatus(address=monitor.get_host(),
-                             password=kwargs['password'])
+                             user=kwargs['user'],
+                             password=kwargs['password'],
+                             timeout=10)
             error = 'None'
             if fc.is_connected:
                 status = 'OK'
@@ -29,7 +31,7 @@ class IsConnectedService(Service):
             error = str(err)
             status = 'ERROR'
 
-        result = {'error': error,
+        result = {'error': error.replace('\'', ''),
                   'host': monitor.get_host(),
                   'log': self.get_str(identifier, monitor.get_host(), service, status),
                   'service': service,
