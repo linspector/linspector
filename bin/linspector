@@ -20,8 +20,10 @@ from linspector.environment import Environment
 from linspector.linspector import Linspector
 from linspector.monitors import Monitors
 
-__version__ = '0.26.1'
+__version__ = '0.27.0'
 __author__ = 'Johannes Findeisen <you@hanez.org>'
+
+sys.stderr = open('/dev/null', 'w')
 
 
 def parse_args():
@@ -58,28 +60,15 @@ def linspector():
     services = {}
     tasks = {}
 
+    try:
+        configuration = Configuration(args.configuration_path)
+    except Exception as err:
+        print('configuration error: {0}'.format(err))
+        sys.exit(1)
+
     log.remove()
     default_log_format = 'timestamp={time:YYYY-MM-DD HH:mm:ss.SSSSSS ZZ} uptime={elapsed} level={level} ' \
                          'name=linspector exec={name}:{function} line={line} {message}'
-    log_level = "INFO"
-    log.add(sys.stderr, backtrace=True, colorize=True, diagnose=True, format=default_log_format, level=log_level)
-
-    try:
-        configuration = Configuration(args.configuration_path, log)
-    except Exception as err:
-        log.error('configuration error: {0}'.format(err))
-        sys.exit(1)
-
-    if configuration.get_option('linspector', 'log_format') or configuration.get_option('linspector', 'log_level'):
-        log.remove()
-        log_format = default_log_format
-        if configuration.get_option('linspector', 'log_format'):
-            log_format = configuration.get_option('linspector', 'log_format')
-
-        if configuration.get_option('linspector', 'log_level'):
-            log_level = configuration.get_option('linspector', 'log_level')
-
-        log.add(sys.stderr, backtrace=True, colorize=True, diagnose=True, format=log_format, level=log_level)
 
     if configuration.get_option('linspector', 'logfile'):
         logfile_count = '10'
@@ -90,7 +79,7 @@ def linspector():
         if configuration.get_option('linspector', 'logfile_format'):
             logfile_format = configuration.get_option('linspector', 'logfile_format')
 
-        logfile_level = log_level
+        logfile_level = 'INFO'
         if configuration.get_option('linspector', 'logfile_level'):
             logfile_level = configuration.get_option('linspector', 'logfile_level')
 
@@ -105,7 +94,8 @@ def linspector():
 
     try:
         if configuration.get_option('linspector', 'tasks'):
-            log.info('Loading tasks: ' + configuration.get_option('linspector', 'tasks'))
+            log.info('loading tasks: ' + configuration.get_option('linspector', 'tasks'))
+            print('Loading tasks: ' + configuration.get_option('linspector', 'tasks'))
             task_list = configuration.get_option('linspector', 'tasks')
             task_list = task_list.split(',')
             for task_name in task_list:
@@ -155,6 +145,7 @@ def linspector():
             signal.pause()
         except KeyboardInterrupt:
             log.info('program terminated by user!')
+            print('Program terminated by user!')
 
 
 if __name__ == '__main__':

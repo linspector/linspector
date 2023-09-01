@@ -10,13 +10,11 @@ import os
 
 
 class Configuration:
-    def __init__(self, configuration_path, log):
+    def __init__(self, configuration_path):
         self._configuration = configparser.ConfigParser()
         self._configuration_path = configuration_path
-        self._log = log
 
-        log.info('message=reading configuration configfile=' + configuration_path +
-                 '/linspector.conf')
+        print('Reading configuration file: ' + configuration_path + '/linspector.conf')
         if os.path.isfile(configuration_path + '/linspector.conf'):
             try:
                 self._configuration.read(configuration_path + '/linspector.conf', 'utf-8')
