@@ -58,6 +58,8 @@ class Linspector:
         }
         if configuration.get_option('linspector', 'max_threads') and not \
                 configuration.get_option('linspector', 'scheduler_mode') == 'process':
+            print('Job execution mode: thread')
+            self._log.info('job execution mode: thread')
             executors = {
                 'default': ThreadPoolExecutor(int(configuration.get_option('linspector',
                                                                            'max_threads')))
@@ -68,6 +70,8 @@ class Linspector:
             }
         if configuration.get_option('linspector', 'scheduler_mode'):
             if configuration.get_option('linspector', 'scheduler_mode') == 'process':
+                print('Job execution mode: process')
+                self._log.info('Job execution mode: process')
                 executors = {
                     'default': ThreadPoolExecutor(
                         int(configuration.get_option('linspector', 'max_threads'))),
@@ -88,6 +92,7 @@ class Linspector:
         start_date = datetime.datetime.now()
         log.debug(monitors.get_monitors())
         monitors = self._monitors.get_monitors()
+        monitor_count = 0
         for monitor in monitors:
             log.debug(monitor)
             if configuration.get_option('linspector', 'delta_range'):
@@ -135,6 +140,10 @@ class Linspector:
                      ' delta=' + str(time_delta) +
                      ' next=' + str(new_start_date) +
                      ' message=scheduling job')
+
+            monitor_count += 1
+
+        print('Number of monitors scheduled: ' + str(monitor_count))
 
         if configuration.get_option('linspector', 'start_scheduler') == 'true':
             self._scheduler['linspector'].start()

@@ -16,6 +16,7 @@ class Monitor:
         self._configuration = configuration
         self._enabled = True
         self._environment = environment
+        self._error_count = 0
         self._host = monitor_configuration.get('monitor', 'host')
 
         try:
@@ -24,7 +25,6 @@ class Monitor:
             self._hostgroups = "None"
 
         self._identifier = identifier
-        self._job_threshold = 0
 
         try:
             self._interval = int(monitor_configuration.get('monitor', 'interval'))
@@ -120,6 +120,10 @@ class Monitor:
             try:
                 self._result = self._services[self._service].execute(self._identifier, self,
                                                                      self._service, **self._args)
+
+                if self._result['status'] == 'ERROR':
+                    self._error_count += 1
+
                 self._log.debug(self._result)
                 self._log.debug(self._tasks)
                 for task in self._tasks:
