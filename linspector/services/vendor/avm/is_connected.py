@@ -22,6 +22,7 @@ class IsConnectedService(Service):
                              user=kwargs['user'],
                              password=kwargs['password'],
                              timeout=10)
+
             error = 'None'
             if fc.is_connected:
                 status = 'OK'
@@ -30,11 +31,11 @@ class IsConnectedService(Service):
         except Exception as err:
             error = str(err)
             status = 'ERROR'
+            self._log.error(self.get_str(identifier, monitor.get_host(), service, status))
+            self._log.error(error)
 
-        result = {'error': error.replace('\'', ''),
-                  'host': monitor.get_host(),
-                  'log': self.get_str(identifier, monitor.get_host(), service, status),
-                  'service': service,
-                  'status': status}
-
-        return result
+        return {'error': error.replace('\'', ''),
+                'host': monitor.get_host(),
+                'log': self.get_str(identifier, monitor.get_host(), service, status),
+                'service': service,
+                'status': status}

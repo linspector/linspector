@@ -46,7 +46,7 @@ class MySQLTask(Task):
                 self._user = self._configuration.get_option('tasks', 'mysql_user')
 
         except Exception as err:
-            log.warning('task configuration error: {0}'.format(err))
+            log.error('task mysql configuration error: {0}'.format(err))
 
     def execute(self, host, identifier, json, log, service, status, timestamp):
         try:
@@ -57,7 +57,7 @@ class MySQLTask(Task):
                                                user=self._user)
             self._log.debug(self._connection)
         except Exception as err:
-            self._log.warning('task mysql connection failed: {0}'.format(err))
+            self._log.error('task mysql connection failed: {0}'.format(err))
 
         try:
             with (self._connection):
@@ -82,4 +82,4 @@ class MySQLTask(Task):
                     cursor.execute(sql)
                 self._connection.commit()
         except Exception as err:
-            self._log.warning('task mysql query failed: {0}'.format(err))
+            self._log.error('task mysql query failed: {0}'.format(err))

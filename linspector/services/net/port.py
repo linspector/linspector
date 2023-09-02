@@ -23,10 +23,11 @@ class PortService(Service):
             sock.close()
             error = 'None'
             status = 'OK'
-
         except Exception as err:
             error = str(err)
             status = 'ERROR'
+            self._log.error(self.get_str(identifier, monitor.get_host(), service, status))
+            self._log.error(error)
 
         return {'error': error.replace('\'', ''),
                 'host': monitor.get_host(),
