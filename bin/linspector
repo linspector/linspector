@@ -20,7 +20,7 @@ from linspector.environment import Environment
 from linspector.linspector import Linspector
 from linspector.monitors import Monitors
 
-__version__ = '0.27.0'
+__version__ = '0.27.1'
 __author__ = 'Johannes Findeisen <you@hanez.org>'
 
 sys.stderr = open('/dev/null', 'w')
@@ -89,6 +89,11 @@ def linspector():
 
         log.add(configuration.get_option('linspector', 'logfile'), backtrace=True, diagnose=True, enqueue=True,
                 format=logfile_format, level=logfile_level, retention=int(logfile_count), rotation=logfile_size)
+
+        if configuration.get_option('linspector', 'logfile_error'):
+            log.add(configuration.get_option('linspector', 'logfile_error'), backtrace=True, diagnose=True,
+                    enqueue=True, format=logfile_format, level='ERROR', retention=int(logfile_count),
+                    rotation=logfile_size)
 
     environment = Environment(log)
 
