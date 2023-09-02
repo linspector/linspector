@@ -20,7 +20,7 @@ from linspector.environment import Environment
 from linspector.linspector import Linspector
 from linspector.monitors import Monitors
 
-__version__ = '0.28.0'
+__version__ = '0.28.1'
 __author__ = 'Johannes Findeisen <you@hanez.org>'
 
 sys.stderr = open('/dev/null', 'w')
@@ -82,6 +82,9 @@ def linspector():
         logfile_level = 'INFO'
         if configuration.get_option('linspector', 'logfile_level'):
             logfile_level = configuration.get_option('linspector', 'logfile_level')
+            if logfile_level == 'DEBUG':
+                logfile_format = 'timestamp={time:YYYY-MM-DD HH:mm:ss.SSSSSS ZZ} uptime={elapsed} level={level} ' \
+                                  'name=linspector exec={name}:{function} line={line} {message}'
 
         logfile_size = '1MB'
         if configuration.get_option('linspector', 'logfile_size'):
