@@ -50,6 +50,10 @@ def parse_args():
 
 
 def linspector():
+    print('Starting Linspector...')
+    print('This software is free software licensed under the terms of the MIT license. (c) 2013 - 2023 by '
+          'Johannes Findeisen <you@hanez.org>')
+
     args = parse_args()
     monitors = {}
     notifications = {}
@@ -63,7 +67,7 @@ def linspector():
     try:
         configuration = Configuration(args.configuration_path)
     except Exception as err:
-        print('configuration error: {0}'.format(err))
+        print('Configuration error: {0}'.format(err))
         sys.exit(1)
 
     log.remove()
