@@ -51,7 +51,7 @@ def parse_args():
 
 def linspector():
     print('Starting Linspector...')
-    print('This software is free software licensed under the terms of the MIT license. (c) 2013 - 2023 by '
+    print('This software is free software licensed under the terms of the MIT license. (c) 2013-2023 by '
           'Johannes Findeisen <you@hanez.org>')
 
     args = parse_args()
