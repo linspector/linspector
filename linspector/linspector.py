@@ -143,7 +143,7 @@ class Linspector:
 
             monitor_count += 1
 
-        print('Number of monitors scheduled: ' + str(monitor_count))
+        print('Number of scheduled monitors: ' + str(monitor_count))
 
         if configuration.get_option('linspector', 'start_scheduler') == 'true':
             self._scheduler['linspector'].start()

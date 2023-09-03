@@ -114,7 +114,8 @@ class Monitor:
 
     def execute(self):
         self._log.debug('identifier=' + self._identifier + ' object=' + str(self))
-        self._log.debug('identifier=' + self._identifier + ' message=handle call to service')
+        self._log.debug('identifier=' + self._identifier + ' kwargs=' + str(self._args) +
+                        ' message=handle call to service')
 
         if self._enabled:
             try:
@@ -124,10 +125,12 @@ class Monitor:
                 if self._result['status'] == 'ERROR':
                     self._error_count += 1
 
+                self._log.debug('error count: ' + str(self._error_count))
                 self._log.debug(self._result)
                 self._log.debug(self._tasks)
                 for task in self._tasks:
-                    self._tasks[task].execute(self._result['host'],
+                    self._tasks[task].execute(self._error_count,
+                                              self._result['host'],
                                               self._identifier,
                                               self._result,
                                               self._result['log'],

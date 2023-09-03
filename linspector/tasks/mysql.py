@@ -48,7 +48,7 @@ class MySQLTask(Task):
         except Exception as err:
             log.error('task mysql configuration error: {0}'.format(err))
 
-    def execute(self, host, identifier, json, log, service, status, timestamp):
+    def execute(self, error_count, host, identifier, json, log, service, status, timestamp):
         try:
             self._connection = pymysql.connect(cursorclass=pymysql.cursors.DictCursor,
                                                database=self._database,
@@ -63,6 +63,7 @@ class MySQLTask(Task):
             with (self._connection):
                 with self._connection.cursor() as cursor:
                     sql = 'INSERT INTO ' + self._table + ' (' \
+                          'error_count, ' \
                           'host, ' \
                           'identifier, ' \
                           'json, ' \
@@ -71,6 +72,7 @@ class MySQLTask(Task):
                           'status, ' \
                           'timestamp ' \
                           ') VALUES (\"' + \
+                          str((error_count if error_count else '0')) + '\",\"' + \
                           str((host if host else 'None')) + '\",\"' + \
                           str((identifier if identifier else 'None')) + '\",\"' + \
                           str((json if json else 'None')) + '\",\"' + \
