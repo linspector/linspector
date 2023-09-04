@@ -23,7 +23,7 @@ class MySQLTask(Task):
         try:
             self._database = None
             if self._configuration.get_option('tasks', 'mysql_database'):
-                self._database = self._configuration.get_option('databases', 'mysql_database')
+                self._database = self._configuration.get_option('tasks', 'mysql_database')
 
             self._host = None
             if self._configuration.get_option('tasks', 'mysql_host'):

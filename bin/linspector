@@ -20,7 +20,7 @@ from linspector.environment import Environment
 from linspector.linspector import Linspector
 from linspector.monitors import Monitors
 
-__version__ = '0.28.3'
+__version__ = '0.28.4'
 __author__ = 'Johannes Findeisen <you@hanez.org>'
 
 sys.stderr = open('/dev/null', 'w')
@@ -50,9 +50,9 @@ def parse_args():
 
 
 def linspector():
-    print('Starting Linspector...')
-    print('This software is free software licensed under the terms of the MIT license. (c) 2013-2023 by '
-          'Johannes Findeisen <you@hanez.org>')
+    print('Starting Linspector ' + __version__ + '...')
+    print('This software is free software licensed under the terms of the MIT license. Copyright (c) 2013-2023 by ' +
+          __author__)
 
     args = parse_args()
     monitors = {}
