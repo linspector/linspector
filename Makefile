@@ -1,4 +1,4 @@
-PYTHON_VERSION=3.10
+PYTHON_VERSION=3.11
 #PYTHON_VERSION = $(shell python -V | awk -F ' ' '{print $2}' | awk -F '.' '{print $1 "." $2}')
 
 help:
@@ -34,13 +34,19 @@ help:
 	#  make daemon
 
 daemon:
-	PYTHONPATH=$(shell pwd):$(shell pwd)/venv/lib/python$(PYTHON_VRESION)/site-packages/ bin/linspector -d ./etc
+	PYTHONPATH=$(shell pwd):$(shell pwd)/venv/lib/python$(PYTHON_VRESION)/site-packages/ ./bin/linspector -d ./etc
 
 follow:
 	tail -F ./log/linspector.log
 
 run:
-	PYTHONPATH=$(shell pwd):$(shell pwd)/venv/lib/python$(PYTHON_VERSION)/site-packages/ bin/linspector ./etc
+	PYTHONPATH=$(shell pwd):$(shell pwd)/venv/lib/python$(PYTHON_VERSION)/site-packages/ ./bin/linspector ./etc
 
 rundev:
-	PYTHONPATH=$(shell pwd):$(shell pwd)/venv/lib/python$(PYTHON_VERSION)/site-packages/ bin/linspector ./etc.local
+	PYTHONPATH=$(shell pwd):$(shell pwd)/venv/lib/python$(PYTHON_VERSION)/site-packages/ ./bin/linspector ./etc.dev
+
+runlocal:
+	PYTHONPATH=$(shell pwd):$(shell pwd)/venv/lib/python$(PYTHON_VERSION)/site-packages/ ./bin/linspector ./etc.local
+
+runpvt:
+	PYTHONPATH=$(shell pwd):$(shell pwd)/venv/lib/python$(PYTHON_VERSION)/site-packages/ ./bin/linspector ./etc.pvt
