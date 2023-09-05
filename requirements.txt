@@ -7,7 +7,7 @@ fabric==3.2.2
 fastapi==0.103.1
 fritzconnection==1.13.1
 invoke==2.2.0
-loguru==0.7.0
+loguru==0.7.1
 mysql-connector-python==8.1.0
 netmiko==4.2.0
 parallel-ssh==2.12.0
@@ -16,7 +16,7 @@ pydantic==2.3.0
 pymysql==1.1.0
 pysnmp==4.4.12
 python-gammu==3.2.4
-pytz==2023.3
+pytz==2023.3.post1
 requests==2.31.0
 rich==13.5.2
 scrapli==2023.7.30
