@@ -26,7 +26,7 @@ class Configuration:
                                     "root path!")
 
         # add keys and values defined in sub dirs and configuration ini files.
-        for target_section in ['databases', 'notifications', 'plugins', 'services', 'tasks']:
+        for target_section in ['notifications', 'plugins', 'services', 'tasks']:
             # check if section exists before adding content. if not exists add the section.
             if not self._configuration.has_section(target_section):
                 self._configuration.add_section(target_section)
