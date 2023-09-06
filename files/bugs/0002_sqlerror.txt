@@ -1,0 +1,9 @@
+[2023-09-07 00:53:57.794240 +0200] [0:07:07.535255] [ERROR] [linspector]: identifier=network2.gateway_dsl host=192.168.178.1 service=vendor.avm.is_connected status=ERROR
+[2023-09-07 00:53:57.794646 +0200] [0:07:07.535661] [ERROR] [linspector]:
+
+    FRITZ!Box: access for applications disabled.
+    Check: Home Network -> Network -> Network Settings
+    for "Allow access for applications".
+
+[2023-09-07 00:53:57.800175 +0200] [0:07:07.541190] [ERROR] [linspector]: task mysql query failed: (1064, 'You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near \'Allow access for applications".\\n\', \'host\': \'192.168.178.1\', \'log\': \'identifi...\' at line 1')
+[2023-09-07 00:53:57.800478 +0200] [0:07:07.541493] [INFO] [linspector]: identifier=network2.gateway_dsl host=192.168.178.1 service=vendor.avm.is_connected status=ERROR

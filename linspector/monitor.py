@@ -122,8 +122,26 @@ class Monitor:
                 self._result = self._services[self._service].execute(self._identifier, self,
                                                                      self._service, **self._args)
 
+                notification_error_mode = 'decrease'
                 if self._result['status'] == 'ERROR':
                     self._error_count += 1
+                elif self._result['status'] == 'OK':
+                    if self._configuration.get_option('linspector', 'notification_error_mode'):
+                        configuration_notification_error_mode = (
+                            self._configuration.get_option('linspector', 'notification_error_mode'))
+                        if (configuration_notification_error_mode == 'decrease' or
+                                configuration_notification_error_mode == 'reset'):
+                            notification_error_mode = (
+                                self._configuration.get_option('linspector',
+                                                               'notification_error_mode'))
+
+                    if notification_error_mode == 'decrease':
+                        if self._error_count > 0:
+                            self._error_count -= 1
+                    elif notification_error_mode == 'reset':
+                        self._error_count = 0
+
+                self._log.debug('notification error mode: ' + notification_error_mode)
 
                 self._log.debug('error count: ' + str(self._error_count))
                 self._log.debug(self._result)
