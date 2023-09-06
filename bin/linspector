@@ -20,16 +20,18 @@ from linspector.environment import Environment
 from linspector.linspector import Linspector
 from linspector.monitors import Monitors
 
+__author__ = 'Johannes Findeisen'
+__author_email__ = 'you@hanez.org'
+__description__ = 'linspector is a infrastructure and system monitoring daemon and toolchain.'
 __version__ = '0.29.0'
-__author__ = 'Johannes Findeisen <you@hanez.org>'
 
 sys.stderr = open('/dev/null', 'w')
 
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description='linspector is a infrastructure and system monitoring daemon and toolchain.',
-        epilog='author: ' + __author__,
+        description=__description__,
+        epilog='author: ' + __author__ + ' <' + __author_email__ + '>',
         prog='linspector')
 
     parser.add_argument('configuration_path', metavar='CONFIGURATION_PATH',
@@ -52,7 +54,7 @@ def parse_args():
 def linspector():
     print('Starting Linspector ' + __version__ + '...')
     print('This software is free software licensed under the terms of the MIT license. Copyright (c) 2013-2023 by ' +
-          __author__)
+          __author__ + ' <' + __author_email__ + '>')
 
     args = parse_args()
     monitors = {}
