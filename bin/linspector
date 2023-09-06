@@ -23,7 +23,7 @@ from linspector.monitors import Monitors
 __author__ = 'Johannes Findeisen'
 __author_email__ = 'you@hanez.org'
 __description__ = 'linspector is a infrastructure and system monitoring daemon and toolchain.'
-__version__ = '0.29.0'
+__version__ = '0.30.0'
 
 sys.stderr = open('/dev/null', 'w')
 

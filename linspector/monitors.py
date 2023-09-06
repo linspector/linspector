@@ -5,6 +5,7 @@ See LICENSE.
 """
 
 import configparser
+import copy
 import glob
 import os
 
@@ -16,7 +17,7 @@ from linspector.monitor import Monitor
 # when changed dynamically. better: add a hash of the config file of each monitor to each monitor
 # object and if it has changed reload the monitor. e.g. delete it from the scheduler and reschedule.
 # if a new monitor is added at runtime it needs to be checked manually by running a "reload" command
-# to lish which walks thrue all scheduled jobs and when an unknown monitor is found, schedule it.
+# to lish which walks through all scheduled jobs and when an unknown monitor is found, schedule it.
 class Monitors:
     def __init__(self, configuration, environment, log, notifications, services, tasks):
         self._configuration = configuration
