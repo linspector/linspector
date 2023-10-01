@@ -32,7 +32,7 @@ class IsConnectedService(Service):
             error = str(err)
             status = 'ERROR'
             self._log.error(self.get_str(identifier, monitor.get_host(), service, status))
-            self._log.error(error)
+            self._log.error('identifier=' + identifier + ' error=' + error)
 
         return {'error': error.replace('\'', ''),
                 'host': monitor.get_host(),
