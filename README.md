@@ -5,8 +5,8 @@
 ## *IMPORTANT:*
 
 **Linspector is currently not process safe because of the GIL! I am refactoring a lot of stuff
-at the moment. When running the scheduler in thread-mode everything is fine but I really wann to
-make it possible to use the process-mode of APScheduler...**
+at the moment. When running the scheduler in thread-mode everything is fine, but I really want to
+make it possible to run Linspector using the process-mode of APScheduler...**
 
 ## About
 
