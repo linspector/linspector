@@ -1,6 +1,12 @@
 # Linspector System Monitoring
 
-#### Linspector is not some program expecting computers to obviously run...
+*Linspector is not some program expecting computers to obviously run...*
+
+## *IMPORTANT:*
+
+**Linspector is currently not process safe because of the GIL! I am refactoring a lot of stuff
+at the moment. When running the scheduler in thread-mode everything is fine but I really wann to
+make it possible to use the process-mode of APScheduler...**
 
 ## About
 
@@ -42,29 +48,29 @@ development environment.
 ### To do
 
 - **Everything!** But the progress is fast and after some few days I am not far
-away to get a first working codebase. If the core is running I believe adding features
-will happen from day to day... ;)
+  away to get a first working codebase. If the core is running I believe adding features
+  will happen from day to day... ;)
 
 See TODO for internal tasks.
 
 ### Ideas
 
 - **Thousands!** For now the goal is to implement most features from the old version
-of Linspector. :)
+  of Linspector. :)
 
 ### Manifest
 
 - All of this project **must be MIT licensed**. When using 3rd party libraries make
-sure the license is compatible.
-- The core of Linspector should not use 3rd party libraries if possible. Only notifications, 
-plugins, services and tasks may use other libraries. Copying code into the
-source tree is ok when respecting the license. Not using 3rd party libraries
-should always be preferred though.
+  sure the license is compatible.
+- The core of Linspector should not use 3rd party libraries if possible. Only notifications,
+  plugins, services and tasks may use other libraries. Copying code into the
+  source tree is ok when respecting the license. Not using 3rd party libraries
+  should always be preferred though.
 - Inline comments can all be lowercase. Descriptions and documentation comments
-must be natural language.
+  must be natural language.
 - Arguments to functions must always be in alphabetical order.
 - Class member variables must always be in alphabetical order in "\__init__()" or any
-function / method.
+  function / method.
 - Functions must always be in alphabetical order in classes.
 - Every commit must be working code without errors even if not being a working version of Linspector.
 
@@ -72,13 +78,13 @@ function / method.
 
 Currently, the Linspector core requires the following 3rd party libraries:
 
-- [APScheduler](https://pypi.org/project/APScheduler/) - APScheduler is a Python library that lets you 
-schedule your Python code to be executed later, either just once or periodically. This is the heart of Linspector for
-executing scheduled jobs in intervals.
-- [Loguru](https://pypi.org/project/loguru/) - Loguru is a library which aims to bring enjoyable logging in Python. 
-Linspector uses Loguru for all logging stuff. 
-- [urwid](https://pypi.org/project/urwid/) - Urwid is a console user interface library for Python. urwid will 
-become the UI library used for the management TUI of Linspector. CURRENTLY, NOT REQUIRED!
+- [APScheduler](https://pypi.org/project/APScheduler/) - APScheduler is a Python library that lets you
+  schedule your Python code to be executed later, either just once or periodically. This is the heart of Linspector for
+  executing scheduled jobs in intervals.
+- [Loguru](https://pypi.org/project/loguru/) - Loguru is a library which aims to bring enjoyable logging in Python.
+  Linspector uses Loguru for all logging stuff.
+- [urwid](https://pypi.org/project/urwid/) - Urwid is a console user interface library for Python. urwid will
+  become the UI library used for the management TUI of Linspector. CURRENTLY, NOT REQUIRED!
 
 ### Other used libraries
 
@@ -87,22 +93,22 @@ databases, monitors, notifications, services or plugins sometimes need to make u
 them may only affect parts of Linspector. Currently used libraries are:
 
 - [CherryPy](https://cherrypy.dev/) - CherryPy is a pythonic, object-oriented HTTP framework.
-Used by the HTTPServer plugin.
+  Used by the HTTPServer plugin.
 - [fritzconnection](https://github.com/kbr/fritzconnection) - A Python-Tool to communicate with
-the AVM Fritz!Box. Uses the TR-064 protocol over UPnP. Used by the FritzboxPhoneStatus and
-FritzBoxUplink service.
+  the AVM Fritz!Box. Uses the TR-064 protocol over UPnP. Used by the FritzboxPhoneStatus and
+  FritzBoxUplink service.
 - [Paramiko](https://www.paramiko.org/) - Paramiko is a pure-Python (2.7, 3.4+) implementation
-of the SSHv2 protocol, providing both client and server functionality. Used by the SSH service.
-- [PyMySQL](https://pypi.org/project/pymysql/) - This package contains a pure-Python MySQL client library, 
-based on PEP 249. Used by the MySQL connection module.
+  of the SSHv2 protocol, providing both client and server functionality. Used by the SSH service.
+- [PyMySQL](https://pypi.org/project/pymysql/) - This package contains a pure-Python MySQL client library,
+  based on PEP 249. Used by the MySQL connection module.
 - [python-gammu](https://wammu.eu/python-gammu/) - Python bindings for the Gammu library. Used by the
-SMS notification.
+  SMS notification.
 - [PySNMP](https://pysnmp.readthedocs.io/en/latest/) - PySNMP is a cross-platform, pure-Python
-SNMP engine implementation. It features fully-functional SNMP engine capable to act in
-Agent/Manager/Proxy roles, talking SNMP v1/v2c/v3 protocol versions over IPv4/IPv6 and other
-network transports. Used by the SNMP services (get).
+  SNMP engine implementation. It features fully-functional SNMP engine capable to act in
+  Agent/Manager/Proxy roles, talking SNMP v1/v2c/v3 protocol versions over IPv4/IPv6 and other
+  network transports. Used by the SNMP services (get).
 - [requests](https://requests.readthedocs.io/en/latest/) - Requests is an elegant and simple
-HTTP library for Python, built for human beings. Used by the Speedtest service.
+  HTTP library for Python, built for human beings. Used by the Speedtest service.
 - [xmpp2](https://pypi.org/project/xmpp2/) - A XMPP client for Python. Used by the XMPP notification.
 
 These libraries are not being delivered with the Linspector source code and maybe have
