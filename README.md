@@ -2,11 +2,14 @@
 
 *Linspector is not some program expecting computers to obviously run...*
 
-## *IMPORTANT:*
+# *IMPORTANT:*
 
 **Linspector is currently not process safe because of the GIL! I am refactoring a lot of stuff
 at the moment. When running the scheduler in thread-mode everything is fine, but I really want to
 make it possible to run Linspector using the process-mode of APScheduler...**
+
+**THE CORE NEEDS A REDESIGN AND PARTLY REWRITE TO BE FULLY PROCESS SAFE! I AM WORKING ON THIS 
+NOW. THE CONFIGURATION INTERFACE WILL NOT BE CHANGED! (2023.10.22)**
 
 ## About
 
