@@ -4,7 +4,7 @@
 
 # *IMPORTANT:*
 
-**Because people are asking (2023.11.29)... Linspector is actually more some kind of a research project for evaluating stuff, but a lot of the code is used in some private projects. I am working on the API definition mostly and there is a lot of code that must be refactored/rewrited ASAP.**
+**Because people are asking... Linspector is actually more some kind of a research project for evaluating stuff, but a lot of the code is used in some private projects. I am working on the API definition mostly and there is a lot of code that must be refactored/rewrited ASAP. (2023.11.29)**
 
 **Linspector is currently not process safe because of the GIL! I am refactoring a lot of stuff
 at the moment. When running the scheduler in thread-mode everything is fine, but I really want to make it possible to run Linspector using the process-mode of APScheduler...**
